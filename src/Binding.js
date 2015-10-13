@@ -1,4 +1,5 @@
 import React, { cloneElement, PropTypes } from 'react';
+import Bridge from './ChildBridge'
 import chain from 'chain-function';
 
 function mapValue(props, propValue, componentName){
@@ -115,6 +116,7 @@ class Binding extends React.Component {
 
   constructor(...args){
     super(...args)
+    this._inject = this._inject.bind(this)
     this._change = this._change.bind(this)
   }
 
@@ -136,15 +138,28 @@ class Binding extends React.Component {
     let { changeProp, valueProp, children } = this.props
     let child = React.Children.only(children);
 
-    return cloneElement(child, {
-      [valueProp]: this._value,
-      [changeProp]: chain(child.props[changeProp], this._change)
-    })
+    return (
+      <Bridge
+        inject={this._inject}
+        events={changeProp}
+        onEvent={this._change}
+      >
+        {child}
+      </Bridge>
+    )
   }
 
-  _change(...args){
+  _inject(){
+    let { valueProp } = this.props;
+
+    return { [valueProp]: this._value }
+  }
+
+  _change(event, childHandler, ...args){
     let bindTo = this.props.bindTo;
     let mapValue = this.props.mapValue;
+
+    childHandler && childHandler(...args)
 
     if (typeof bindTo === 'string') {
       if (typeof mapValue !== 'object')
