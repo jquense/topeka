@@ -7,7 +7,8 @@ export default {
   entry: './example/example.js',
   output: {
     path: path.join(__dirname, './example'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/example/'
   },
   resolve: {
     alias: {

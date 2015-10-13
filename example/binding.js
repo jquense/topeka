@@ -19,65 +19,60 @@ let Names = props => {
   )
 }
 
-class App extends React.Component {
+let App = ()=> {
+  return (
+    <BindingContext
+      defaultValue={{}}
+    >
+      <section>
+        <Binding bindTo='name'>
+          <Names />
+        </Binding>
 
-  state = {
-    value: {}
-  }
-
-  render(){
-    return (
-      <div>
-        <BindingContext
-          value={this.state.value}
-          onChange={value => this.setState({ value }) }
-        >
-          <section>
-            <Binding bindTo='name'>
-              <Names />
-            </Binding>
-
-            <div className='form-group'>
-              <Binding
-                bindTo='age'
-                mapValue={e => +eventValue(e)}
-              >
-                <input type='number' placeholder='age' className='form-control'/>
-              </Binding>
-            </div>
-            <div className='form-group'>
-              <Binding
-                bindTo='colors[0].name'
-                mapValue={eventValue}
-              >
-                <select className='form-control'>
-                  <option>Red</option>
-                  <option>Blue</option>
-                  <option>Yellow</option>
-                </select>
-              </Binding>
-            </div>
-            <div className='form-group'>
-              <Binding
-                bindTo='colors[1].name'
-                mapValue={eventValue}
-              >
-                <select className='form-control'>
-                  <option>Red</option>
-                  <option>Blue</option>
-                  <option>Yellow</option>
-                </select>
-              </Binding>
-            </div>
-          </section>
-        </BindingContext>
+        <div className='form-group'>
+          <Binding
+            bindTo='age'
+            mapValue={e => +eventValue(e)}
+          >
+            <input type='number' placeholder='age' className='form-control'/>
+          </Binding>
+        </div>
+        <div className='form-group'>
+          <Binding
+            bindTo='colors[0].name'
+            mapValue={eventValue}
+          >
+            <select className='form-control'>
+              <option>Red</option>
+              <option>Blue</option>
+              <option>Yellow</option>
+            </select>
+          </Binding>
+        </div>
+        <div className='form-group'>
+          <Binding
+            bindTo='colors[1].name'
+            mapValue={eventValue}
+          >
+            <select className='form-control'>
+              <option>Red</option>
+              <option>Blue</option>
+              <option>Yellow</option>
+            </select>
+          </Binding>
+        </div>
         <div>
           <h5>current value: </h5>
-          <pre>{JSON.stringify(this.state.value, null, 2) }</pre>
+          <Binding
+            bindTo={model => JSON.stringify(model, null, 2)}
+            valueProp='children'
+          >
+          	<pre/>
+          </Binding>
         </div>
-      </div>
-    )
-  }
+      </section>
+    </BindingContext>
+  )
 }
 
 render(<App/>, mountNode)
