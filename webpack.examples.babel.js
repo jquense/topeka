@@ -4,14 +4,14 @@ import HtmlPlugin from 'html-webpack-plugin';
 export default {
   devtool: 'source-map',
 
-  entry: './example/example.jsx',
+  entry: './example/example.js',
   output: {
-    path: path.join(__dirname, '../example'),
-    filename: 'example.js'
+    path: path.join(__dirname, './example'),
+    filename: 'bundle.js'
   },
   resolve: {
     alias: {
-      topeka: path.resolve(__dirname, 'src/index.js')
+      topeka: path.resolve(__dirname, 'src')
     }
   },
   module: {
