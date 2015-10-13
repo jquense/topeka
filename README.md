@@ -22,16 +22,16 @@ class App extends React.Component {
           onChange={value => this.setState({ value }) }
         >
           <section>
-            <Binding accessor='name.first' mapValue={eventValue}>
+            <Binding bindTo='name.first' mapValue={eventValue}>
               <input type='text' placeholder='first name'/>
             </Binding>
 
-            <Binding accessor='name.surname' mapValue={eventValue}>
+            <Binding bindTo='name.surname' mapValue={eventValue}>
               <input type='text' placeholder='surname'/>
             </Binding>
 
             <Binding
-              accessor='age'
+              bindTo='age'
               mapValue={e => parseInt(eventValue(e), 10)}
             >
               <input type='number' placeholder='age'/>
@@ -53,7 +53,7 @@ ie. [_controllable_](https://facebook.github.io/react/docs/forms.html#controlled
 Bindings inject a `value` prop and an `onChange` callback to into their child. They then take care of updating
 with their surrounding BindingContext.
 
-### composition
+### Composition
 
 Bindings work with anything that accept a value and report a desired change in that value. Since BindingContext
 accept a value and fire `onChange` you can easily nest BindingContexts! Take the above example but with the `name`
@@ -66,10 +66,10 @@ let Names = props => {
   return (
     <BindingContext {...props}>
       <div>
-        <Binding accessor='first' mapValue={eventValue}>
+        <Binding bindTo='first' mapValue={eventValue}>
           <input type='text' placeholder='first name' className='form-control'/>
         </Binding>
-        <Binding accessor='surname' mapValue={eventValue}>
+        <Binding bindTo='surname' mapValue={eventValue}>
           <input type='text' placeholder='surname' className='form-control'/>
         </Binding>
       </div>
@@ -94,12 +94,12 @@ class App extends React.Component {
           onChange={value => this.setState({ value }) }
         >
           <section>
-            <Binding accessor='name' mapValue={eventValue}>
+            <Binding bindTo='name' mapValue={eventValue}>
               <Names/>
             </Binding>
 
             <Binding
-              accessor='age'
+              bindTo='age'
               mapValue={e => parseInt(eventValue(e), 10)}
             >
               <input type='number' placeholder='age'/>

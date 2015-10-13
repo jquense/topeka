@@ -2,14 +2,14 @@ import React, { cloneElement, PropTypes } from 'react';
 import chain from 'chain-function';
 
 function mapValue(props, propValue, componentName){
-  let isOpaqueAccessor = typeof props.updates === 'function';
+  let isOpaqueAccessor = typeof props.bindTo === 'function';
 
   if (isOpaqueAccessor) {
     if (!props[propName])
-      return new Error(propName + ' is required when `updates` is a function')
+      return new Error(propName + ' is required when `bindTo` is a function')
 
     if (typeof props[propName] === 'function')
-      return new Error(propName + ' must be an Object or a String, when `updates` is a function')
+      return new Error(propName + ' must be an Object or a String, when `bindTo` is a function')
   }
 
   return PropTypes.oneOfType([
@@ -48,12 +48,12 @@ class Binding extends React.Component {
      * BindingContext value
      *
      * ```js
-     * <Binding updates='name'>
+     * <Binding bindTo='name'>
      *  <input />
      * </Binding>
      *
      * <Binding
-     *   updates={model => {
+     *   bindTo={model => {
      * 	   let [first, last] = model.name.split(' ')
      * 	   return { first, last }
      * 	 }}
@@ -62,7 +62,7 @@ class Binding extends React.Component {
      * </Binding>
      * ```
      */
-    updates: PropTypes.oneOfType([
+    bindTo: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func
     ]).isRequired,
@@ -70,11 +70,11 @@ class Binding extends React.Component {
     /**
      * Customize how the Binding return value maps to the overall BindingContext `value`.
      * `mapValue` can be a a string property name or a function that returns a
-     * value to be set to the `updates` field.
+     * value to be set to the `bindTo` field.
      *
      * ```js
      * <Binding
-     * 	 updates='name'
+     * 	 bindTo='name'
      *   mapValue={dropdownValue =>
      *   	dropdownValue.first + ' ' + dropdownValue.last
      *   }
@@ -88,7 +88,7 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding
-     * 	 updates={model => {
+     * 	 bindTo={model => {
      * 	   let [first, last] = model.name.split(' ')
      * 	   return { first, last }
      * 	 }}
@@ -123,7 +123,7 @@ class Binding extends React.Component {
 
     this.bindingContext = this.context.registerWithBindingContext(context => {
       let last = this._value;
-      this._value = context.value(this.props.updates)
+      this._value = context.value(this.props.bindTo)
 
       if (!first && last !== this._value)
         this.forceUpdate()
@@ -136,19 +136,19 @@ class Binding extends React.Component {
     let { changeProp, valueProp, children } = this.props
     let child = React.Children.only(children);
 
-    return cloneElement(input, {
+    return cloneElement(child, {
       [valueProp]: this._value,
       [changeProp]: chain(child.props[changeProp], this._change)
     })
   }
 
   _change(...args){
-    let updates = this.props.updates;
+    let bindTo = this.props.bindTo;
     let mapValue = this.props.mapValue;
 
-    if (typeof updates === 'string') {
+    if (typeof bindTo === 'string') {
       if (typeof mapValue !== 'object')
-        mapValue = { [updates]: mapValue }
+        mapValue = { [bindTo]: mapValue }
     }
 
     this.bindingContext.onChange(mapValue, args)
