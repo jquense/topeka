@@ -26,7 +26,7 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding changeProp='onSelect'>
-     *  <MyDropDown />
+     *   <MyDropDown />
      * </Binding>
      * ```
      */
@@ -37,7 +37,7 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding valueProp='selectedValue'>
-     *  <MyDropDown />
+     *   <MyDropDown />
      * </Binding>
      * ```
      */
@@ -49,14 +49,14 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding bindTo='name'>
-     *  <input />
+     *   <input />
      * </Binding>
      *
      * <Binding
      *   bindTo={model => {
-     * 	   let [first, last] = model.name.split(' ')
-     * 	   return { first, last }
-     * 	 }}
+     *     let [first, last] = model.name.split(' ')
+     *     return { first, last }
+     *   }}
      * >
      *  <MyDropdown />
      * </Binding>
@@ -74,9 +74,9 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding
-     * 	 bindTo='name'
+     *   bindTo='name'
      *   mapValue={dropdownValue =>
-     *   	dropdownValue.first + ' ' + dropdownValue.last
+     *     dropdownValue.first + ' ' + dropdownValue.last
      *   }
      * >
      *  <MyDropdown />
@@ -88,16 +88,16 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding
-     * 	 bindTo={model => {
-     * 	   let [first, last] = model.name.split(' ')
-     * 	   return { first, last }
-     * 	 }}
+     *   bindTo={model => {
+     *     let [first, last] = model.name.split(' ')
+     *     return { first, last }
+     *   }}
      *   mapValue={{
      *    name: dropdownValue =>
-     *    	dropdownValue.first + ' ' + dropdownValue.last
+     *      dropdownValue.first + ' ' + dropdownValue.last
      *   }}
      * >
-     *  <MyDropdown />
+     *   <MyDropdown />
      * </Binding>
      * ```
      */

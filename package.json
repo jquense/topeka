@@ -1,12 +1,13 @@
 {
   "name": "topeka",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run",
-    "example": "webpack-dev-server --config webpack.examples.babel.js",
-    "build": "npm run test && babel src --out-dir lib && lessc src/less/styles.less lib/css/react-formal.css",
+    "example": "rimraf ./example/bundle.js && webpack-dev-server --config webpack.examples.babel.js",
+    "build:example": "webpack --config webpack.examples.babel.js",
+    "build": "npm run test && npm run build:example && babel src --out-dir lib && lessc src/less/styles.less lib/css/react-formal.css",
     "release": "release"
   },
   "repository": {
@@ -18,7 +19,7 @@
     "binding",
     "input",
     "form",
-    "valuelink"
+    "valueLink"
   ],
   "author": "Jason Quense <monastic.panic@gmail.com>",
   "license": "MIT",
@@ -35,8 +36,12 @@
     "html-webpack-plugin": "^1.6.2",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
+    "lodash": "^3.10.1",
+    "marked": "^0.3.5",
     "raw-loader": "^0.5.1",
     "react": "^0.14.0",
+    "react-bootstrap": "^0.27.1",
+    "react-component-metadata": "^1.3.1",
     "react-dom": "^0.14.0",
     "style-loader": "^0.12.4",
     "webpack": "^1.12.2",
