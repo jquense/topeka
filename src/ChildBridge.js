@@ -25,8 +25,9 @@ class ChildBridge extends React.Component {
   events(child){
     let { events, onEvent } = this.props;
     events = events == null ? [] : [].concat(events);
-    return events.reduce((map, evt) => {
-      map[evt] = onEvent.bind(this, evt, child.props[event])
+
+    return events.reduce((map, event) => {
+      map[event] = onEvent.bind(this, event, child.props[event])
       return map
     }, {})
   }
