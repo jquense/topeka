@@ -2,6 +2,8 @@
 
 topeka leverages react context, to create low friction input bindings for complex or nested values.
 
+[__docs and demo__](http://jquense.github.io/topeka/example/index.html)
+
 ```js
 let eventValue = e => e.target.value;
 
