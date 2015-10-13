@@ -1,0 +1,158 @@
+import React, { cloneElement, PropTypes } from 'react';
+import chain from 'chain-function';
+
+function mapValue(props, propValue, componentName){
+  let isOpaqueAccessor = typeof props.updates === 'function';
+
+  if (isOpaqueAccessor) {
+    if (!props[propName])
+      return new Error(propName + ' is required when `updates` is a function')
+
+    if (typeof props[propName] === 'function')
+      return new Error(propName + ' must be an Object or a String, when `updates` is a function')
+  }
+
+  return PropTypes.oneOfType([
+    PropTypes.object, PropTypes.string, PropTypes.func
+  ])(props, propValue, componentName)
+}
+
+
+class Binding extends React.Component {
+
+  static propTypes = {
+    /**
+     * A callback prop name that the Binding should listen for changes on.
+     *
+     * ```js
+     * <Binding changeProp='onSelect'>
+     *  <MyDropDown />
+     * </Binding>
+     * ```
+     */
+    changeProp: PropTypes.string.isRequired,
+
+    /**
+     * A prop name for the Binding to set from the BindingContext.
+     *
+     * ```js
+     * <Binding valueProp='selectedValue'>
+     *  <MyDropDown />
+     * </Binding>
+     * ```
+     */
+    valueProp: PropTypes.string.isRequired,
+
+    /**
+     * An field name or accessor function, extracting the Binding value from the overall
+     * BindingContext value
+     *
+     * ```js
+     * <Binding updates='name'>
+     *  <input />
+     * </Binding>
+     *
+     * <Binding
+     *   updates={model => {
+     * 	   let [first, last] = model.name.split(' ')
+     * 	   return { first, last }
+     * 	 }}
+     * >
+     *  <MyDropdown />
+     * </Binding>
+     * ```
+     */
+    updates: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func
+    ]).isRequired,
+
+    /**
+     * Customize how the Binding return value maps to the overall BindingContext `value`.
+     * `mapValue` can be a a string property name or a function that returns a
+     * value to be set to the `updates` field.
+     *
+     * ```js
+     * <Binding
+     * 	 updates='name'
+     *   mapValue={dropdownValue =>
+     *   	dropdownValue.first + ' ' + dropdownValue.last
+     *   }
+     * >
+     *  <MyDropdown />
+     * </Binding>
+     * ```
+     *
+     * You can also provide an object hash, mapping paths of the BindingContext `value`
+     * to fields in the Binding value using a string field name, or a function accessor.
+     *
+     * ```js
+     * <Binding
+     * 	 updates={model => {
+     * 	   let [first, last] = model.name.split(' ')
+     * 	   return { first, last }
+     * 	 }}
+     *   mapValue={{
+     *    name: dropdownValue =>
+     *    	dropdownValue.first + ' ' + dropdownValue.last
+     *   }}
+     * >
+     *  <MyDropdown />
+     * </Binding>
+     * ```
+     */
+    mapValue
+  }
+
+  static defaultProps = {
+    changeProp: 'onChange',
+    valueProp: 'value',
+  }
+
+  static contextTypes = {
+    registerWithBindingContext: PropTypes.func,
+  }
+
+  constructor(...args){
+    super(...args)
+    this._change = this._change.bind(this)
+  }
+
+  componentWillMount() {
+    let first = true;
+
+    this.bindingContext = this.context.registerWithBindingContext(context => {
+      let last = this._value;
+      this._value = context.value(this.props.updates)
+
+      if (!first && last !== this._value)
+        this.forceUpdate()
+
+      first = false;
+    })
+  }
+
+  render(){
+    let { changeProp, valueProp, children } = this.props
+    let child = React.Children.only(children);
+
+    return cloneElement(input, {
+      [valueProp]: this._value,
+      [changeProp]: chain(child.props[changeProp], this._change)
+    })
+  }
+
+  _change(...args){
+    let updates = this.props.updates;
+    let mapValue = this.props.mapValue;
+
+    if (typeof updates === 'string') {
+      if (typeof mapValue !== 'object')
+        mapValue = { [updates]: mapValue }
+    }
+
+    this.bindingContext.onChange(mapValue, args)
+  }
+}
+
+export default Binding;
