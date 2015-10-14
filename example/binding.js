@@ -19,6 +19,8 @@ let Names = props => {
   )
 }
 
+let Surround = (props) => <div {...props}>{props.children}</div>
+
 let App = ()=> {
   return (
     <BindingContext
@@ -42,11 +44,17 @@ let App = ()=> {
             bindTo='colors[0].name'
             mapValue={eventValue}
           >
-            <select className='form-control'>
-              <option>Red</option>
-              <option>Blue</option>
-              <option>Yellow</option>
-            </select>
+            { bind =>
+              <Surround>
+                {bind(
+                  <select className='form-control'>
+                    <option>Red</option>
+                    <option>Blue</option>
+                    <option>Yellow</option>
+                  </select>
+                )}
+              </Surround>
+            }
           </Binding>
         </div>
         <div className='form-group'>

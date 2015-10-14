@@ -102,12 +102,40 @@ class Binding extends React.Component {
      * </Binding>
      * ```
      */
-    mapValue
+    mapValue,
+
+    /**
+     * The element to be bound. You can also specify a function child for components
+     * that nest and alter children. Or need more nuanced control over the injection process.
+     *
+     * ```js
+     * let Surround = (props) => <div {...props}>{props.children}</div>
+     *
+     * <Binding>
+     * {(bind)=>
+     *   <Surround>
+     *     {bind(<input type='text'/>)}
+     *   </Surround>
+     * }
+     * </Binding>
+     * ```
+     */
+    children: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.func
+    ]).isRequired,
+
+    /**
+     * Configures the change callback to fire _after_ the child's change handler,
+     * if there is one.
+     */
+    updateAfterChild: PropTypes.bool,
   }
 
   static defaultProps = {
     changeProp: 'onChange',
     valueProp: 'value',
+    updateAfterChild: false,
   }
 
   static contextTypes = {
@@ -136,7 +164,6 @@ class Binding extends React.Component {
 
   render(){
     let { changeProp, valueProp, children } = this.props
-    let child = React.Children.only(children);
 
     return (
       <Bridge
@@ -144,7 +171,7 @@ class Binding extends React.Component {
         events={changeProp}
         onEvent={this._change}
       >
-        {child}
+        {children}
       </Bridge>
     )
   }
@@ -156,17 +183,20 @@ class Binding extends React.Component {
   }
 
   _change(event, childHandler, ...args){
-    let bindTo = this.props.bindTo;
-    let mapValue = this.props.mapValue;
-
-    childHandler && childHandler(...args)
+    let { bindTo, mapValue, updateAfterChild } = this.props;
 
     if (typeof bindTo === 'string') {
       if (typeof mapValue !== 'object')
         mapValue = { [bindTo]: mapValue }
     }
 
+    if (updateAfterChild && childHandler)
+      childHandler(...args)
+
     this.bindingContext.onChange(mapValue, args)
+
+    if (!updateAfterChild && childHandler)
+      childHandler(...args)
   }
 }
 

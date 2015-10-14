@@ -13,13 +13,17 @@ class ChildBridge extends React.Component {
   }
 
   render(){
-    let { inject, children } = this.props
-    let child = React.Children.only(children);
+    let { inject, children: child } = this.props
 
-    return cloneElement(child, {
-      ...inject(child),
-      ...this.events(child)
+    let create = element => cloneElement(React.Children.only(element), {
+      ...inject(element),
+      ...this.events(element)
     })
+
+    if (typeof child === 'function')
+      return child(create)
+
+    return create(child)
   }
 
   events(child){
