@@ -21392,8 +21392,9 @@
 	    var onEvent = _props2.onEvent;
 	
 	    events = events == null ? [] : [].concat(events);
-	    return events.reduce(function (map, evt) {
-	      map[evt] = onEvent.bind(_this, evt, child.props[event]);
+	
+	    return events.reduce(function (map, event) {
+	      map[event] = onEvent.bind(_this, event, child.props[event]);
 	      return map;
 	    }, {});
 	  };
