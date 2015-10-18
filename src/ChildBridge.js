@@ -1,5 +1,4 @@
 import React, { cloneElement, PropTypes } from 'react';
-import chain from 'chain-function';
 
 class ChildBridge extends React.Component {
 
