@@ -20488,7 +20488,6 @@
 	  BindingContext.prototype._update = function _update(mapValue, args) {
 	    var model = this.props.value,
 	        updater = this.props.setter,
-	        widgetValue = args[0],
 	        paths = [];
 	
 	    if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater);
@@ -21315,7 +21314,6 @@
 	  Binding.prototype.render = function render() {
 	    var _props = this.props;
 	    var changeProp = _props.changeProp;
-	    var valueProp = _props.valueProp;
 	    var children = _props.children;
 	
 	    return _react2['default'].createElement(
@@ -21387,10 +21385,6 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
-	
-	var _chainFunction = __webpack_require__(172);
-	
-	var _chainFunction2 = _interopRequireDefault(_chainFunction);
 	
 	var ChildBridge = (function (_React$Component) {
 	  _inherits(ChildBridge, _React$Component);
