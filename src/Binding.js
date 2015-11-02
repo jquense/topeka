@@ -1,8 +1,7 @@
-import React, { cloneElement, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Bridge from './ChildBridge'
-import chain from 'chain-function';
 
-function mapValue(props, propValue, componentName){
+function mapValue(props, propName, componentName){
   let isOpaqueAccessor = typeof props.bindTo === 'function';
 
   if (isOpaqueAccessor) {
@@ -15,7 +14,7 @@ function mapValue(props, propValue, componentName){
 
   return PropTypes.oneOfType([
     PropTypes.object, PropTypes.string, PropTypes.func
-  ])(props, propValue, componentName)
+  ])(props, propName, componentName)
 }
 
 
