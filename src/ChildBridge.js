@@ -8,7 +8,7 @@ class ChildBridge extends React.Component {
       PropTypes.string
     ]).isRequired,
     onEvent: PropTypes.func.isRequired,
-    inject: PropTypes.func.isRequired,
+    inject: PropTypes.func.isRequired
   }
 
   render(){

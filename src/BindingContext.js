@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import uncontrollable from 'uncontrollable/batching';
 import invariant from 'invariant';
 import updateIn from './updateIn';
@@ -54,7 +54,7 @@ class BindingContext extends React.Component {
      * ) -> object
      * ```
      */
-    setter: React.PropTypes.func,
+    setter: React.PropTypes.func
   }
 
   static childContextTypes = {
@@ -82,7 +82,7 @@ class BindingContext extends React.Component {
 
         return {
           remove,
-          onChange: (mapValue, args) => this._update(mapValue, args),
+          onChange: (mapValue, args) => this._update(mapValue, args)
         }
       }
     })
@@ -100,7 +100,6 @@ class BindingContext extends React.Component {
   _update(mapValue, args){
     var model = this.props.value
       , updater = this.props.setter
-      , widgetValue = args[0]
       , paths = [];
 
     if (process.env.NODE_ENV !== 'production')
@@ -135,7 +134,7 @@ class BindingContext extends React.Component {
     return {
       value: pathOrAccessor => typeof pathOrAccessor === 'function'
         ? pathOrAccessor(props.value)
-        : props.getter(pathOrAccessor, props.value),
+        : props.getter(pathOrAccessor, props.value)
     }
   }
 }

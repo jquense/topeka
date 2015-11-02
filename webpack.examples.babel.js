@@ -1,5 +1,4 @@
 import path from 'path'
-import HtmlPlugin from 'html-webpack-plugin';
 
 export default {
   devtool: 'source-map',

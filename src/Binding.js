@@ -129,17 +129,17 @@ class Binding extends React.Component {
      * Configures the change callback to fire _after_ the child's change handler,
      * if there is one.
      */
-    updateAfterChild: PropTypes.bool,
+    updateAfterChild: PropTypes.bool
   }
 
   static defaultProps = {
     changeProp: 'onChange',
     valueProp: 'value',
-    updateAfterChild: false,
+    updateAfterChild: false
   }
 
   static contextTypes = {
-    registerWithBindingContext: PropTypes.func,
+    registerWithBindingContext: PropTypes.func
   }
 
   constructor(...args){
@@ -163,7 +163,7 @@ class Binding extends React.Component {
   }
 
   render(){
-    let { changeProp, valueProp, children } = this.props
+    let { changeProp, children } = this.props
 
     return (
       <Bridge
