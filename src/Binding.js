@@ -154,11 +154,15 @@ class Binding extends React.Component {
       let last = this._value;
       this._value = context.value(this.props.bindTo)
 
-      if (!first && last !== this._value)
+      if (!first && last !== this._value && !this.unmounted)
         this.forceUpdate()
 
       first = false;
     })
+  }
+
+  componentWillUnmount(){
+    this.unmounted = true
   }
 
   render(){
