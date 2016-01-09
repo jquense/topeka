@@ -11,7 +11,7 @@ module.exports = function (config) {
     reporters: ['mocha'],
 
     files: [
-      'test.js'
+      './test/*.js'
     ],
 
     port: 9876,
@@ -24,7 +24,7 @@ module.exports = function (config) {
     browsers: ['jsdom'],
 
     preprocessors: {
-      'test.js': ['webpack', 'sourcemap']
+      './test/*.js': ['webpack', 'sourcemap']
     },
 
     webpack: {

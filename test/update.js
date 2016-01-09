@@ -19,7 +19,7 @@ describe('immutable setter', ()=>{
   })
 
   it('should safely set missing branches', ()=>{
-    var objA 5 = { baz: { quuz: 10 } }
+    var objA = { baz: { quuz: 10 } }
     var objB = update(objA, 'foo[0].bar.quuz', 5)
 
     assert(objA !== objB)

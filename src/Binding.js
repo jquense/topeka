@@ -5,9 +5,6 @@ function mapValue(props, propName, componentName){
   let isOpaqueAccessor = typeof props.bindTo === 'function';
 
   if (isOpaqueAccessor) {
-    if (!props[propName])
-      return new Error(propName + ' is required when `bindTo` is a function')
-
     if (typeof props[propName] === 'function')
       return new Error(propName + ' must be an Object or a String, when `bindTo` is a function')
   }
@@ -16,7 +13,6 @@ function mapValue(props, propName, componentName){
     PropTypes.object, PropTypes.string, PropTypes.func
   ])(props, propName, componentName)
 }
-
 
 class Binding extends React.Component {
 
@@ -148,21 +144,18 @@ class Binding extends React.Component {
   }
 
   componentWillMount() {
-    let first = true;
-
-    this.bindingContext = this.context.registerWithBindingContext(context => {
-      let last = this._value;
-      this._value = context.value(this.props.bindTo)
-
-      if (!first && last !== this._value && !this.unmounted)
-        this.forceUpdate()
-
-      first = false;
-    })
+    this.registerWithBindingContext()
   }
 
-  componentWillUnmount(){
+  componentWillReceiveProps(nextProps, _, nextContext) {
+    this.registerWithBindingContext(nextProps, nextContext)
+  }
+
+  componentWillUnmount() {
     this.unmounted = true
+    if (this.bindingContext) {
+      this.bindingContext.remove()
+    }
   }
 
   render(){
@@ -179,18 +172,46 @@ class Binding extends React.Component {
     )
   }
 
-  _inject(){
-    let { valueProp } = this.props;
+  registerWithBindingContext(props = this.props, context = this.context) {
+    let register = context.registerWithBindingContext
+      , first = true;
 
-    return { [valueProp]: this._value }
+    if (register && !this.bindingContext)
+      this.bindingContext = register(bindingContext => {
+        let last = this._value;
+        this._value = bindingContext.value(props.bindTo)
+
+        if (!first && last !== this._value && !this.unmounted)
+          this.forceUpdate()
+
+        first = false;
+      })
   }
 
-  _change(event, childHandler, ...args){
+  _inject() {
+    let { valueProp } = this.props
+      , isRegistered = !!this.bindingContext;
+
+    // let the underlying child prop "shine"
+    // through in cases where we have nothing to override with
+    if (isRegistered)
+      return { [valueProp]: this._value }
+
+    return {}
+  }
+
+  _change(event, childHandler, ...args) {
     let { bindTo, mapValue, updateAfterChild } = this.props;
 
     if (typeof bindTo === 'string') {
       if (typeof mapValue !== 'object')
         mapValue = { [bindTo]: mapValue }
+    }
+
+    if (!this.bindingContext || !mapValue) {
+      if (childHandler)
+        childHandler(...args)
+      return
     }
 
     if (updateAfterChild && childHandler)
