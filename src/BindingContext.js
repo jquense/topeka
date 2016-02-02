@@ -1,5 +1,5 @@
 import React from 'react';
-import uncontrollable from 'uncontrollable/batching';
+import uncontrollable from 'uncontrollable';
 import invariant from 'invariant';
 import updateIn from './updateIn';
 import expr from 'property-expr';
