@@ -114,7 +114,7 @@ class BindingContext extends React.Component {
       else if (field === '.' || field == null)
         value = args[0]
       else
-        value = args[0][field]
+        value = expr.getter(field, true)(args[0] || {})
 
       if (paths.indexOf(key) === -1)
         paths.push(key)
