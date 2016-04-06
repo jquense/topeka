@@ -6,7 +6,7 @@ class ChildBridge extends React.Component {
     events: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.string
-    ]).isRequired,
+    ]),
     onEvent: PropTypes.func.isRequired,
     inject: PropTypes.func.isRequired
   }
@@ -27,7 +27,11 @@ class ChildBridge extends React.Component {
 
   events(child){
     let { events, onEvent } = this.props;
-    events = events == null ? [] : [].concat(events);
+    if (events == null) {
+      return null
+    }
+
+    events = [].concat(events);
 
     return events.reduce((map, event) => {
       map[event] = onEvent.bind(this, event, child.props[event])
