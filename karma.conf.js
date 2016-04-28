@@ -24,14 +24,16 @@ module.exports = function (config) {
     browsers: ['jsdom'],
 
     preprocessors: {
-      './test/*.js': ['webpack', 'sourcemap']
+      './test/*.js': ['webpack']
     },
 
     webpack: {
       devtool: 'inline-source-map',
       cache: true,
       module: {
-        loader: { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }
+        loaders: [
+          { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }
+        ]
       }
     },
 
