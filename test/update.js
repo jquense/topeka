@@ -1,4 +1,4 @@
-import update from '../src/util/updateIn';
+import update from '../src/updateIn';
 
 var assert = chai.assert
 
@@ -27,6 +27,18 @@ describe('immutable setter', ()=>{
 
     assert(objA.foo === undefined)
     assert.deepEqual(objB.foo,  [ { bar: { quuz: 5 } } ])
+  })
+
+  it('should not try to copy null', ()=>{
+    chai.expect(
+      update({ foo: null }, 'foo.bar', 5)).to.not.throw
+  })
+
+  it('should consider null', ()=>{
+    chai.expect(
+      update({ foo: null }, 'foo.bar', 5)).to.eql({
+        foo: { bar: 5 }
+      })
   })
 
   it('should work when input is undefined', ()=>{

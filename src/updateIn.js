@@ -2,14 +2,12 @@ import prop from 'property-expr'
 
 const IS_ARRAY = /^\d+$/;
 
-let has = Function.prototype.bind.call(Function.prototype.call, ({}).hasOwnProperty)
-
 export default function update(model, path, value) {
   var parts = prop.split(path)
     , newModel = copy(model)
     , part, islast;
 
-  if ( newModel === undefined )
+  if (newModel == null)
     newModel = IS_ARRAY.test(parts[0]) ? [] : {}
 
   var current = newModel
@@ -18,11 +16,11 @@ export default function update(model, path, value) {
     islast = idx === (parts.length - 1)
     part = clean(parts[idx])
 
-    if ( islast )
+    if (islast)
       current[part] = value
 
     else {
-      current = (current[part] = !has(current, part)
+      current = (current[part] = current[part] == null
         ? IS_ARRAY.test(parts[idx + 1]) ? [] : {}
         : copy(current[part]))
     }
@@ -44,7 +42,7 @@ function isQuoted(str){
 function copy(value) {
   return Array.isArray(value)
     ? value.concat()
-    : typeof value === 'object'
+    : value !== null && typeof value === 'object'
       ? Object.assign(new value.constructor(), value)
       : value
 }
