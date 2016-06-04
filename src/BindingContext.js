@@ -134,7 +134,7 @@ class BindingContext extends React.Component {
   _listenerContext(props){
     return {
       value: pathOrAccessor => typeof pathOrAccessor === 'function'
-        ? pathOrAccessor(props.value)
+        ? pathOrAccessor(props.value, props.getter)
         : props.getter(pathOrAccessor, props.value)
     }
   }
