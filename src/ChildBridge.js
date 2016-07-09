@@ -9,34 +9,51 @@ class ChildBridge extends React.Component {
     ]),
     onEvent: PropTypes.func.isRequired,
     inject: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    events: []
+  };
+
+  componentWillMount() {
+    this.events = {};
+    this.processEvents(this.props.events)
   }
 
-  render(){
-    let { inject, children: child } = this.props
+  componentWillReceiveProps(nextProps) {
+    this.processEvents(nextProps.events)
+  }
 
-    let create = element => cloneElement(React.Children.only(element), {
+  processEvents(events) {
+    [].concat(events).forEach(event => {
+      this.events[event] =
+        this.events[event] || ((...args) => this.handleEvent(event, args))
+    });
+  }
+
+  handleEvent(event, args) {
+    let handler = this.currentChild.props[event];
+    this.props.onEvent(event, handler, ...args)
+  }
+
+  createChild = (element) => {
+    let { inject } = this.props;
+
+    this.currentChild = element;
+
+    return cloneElement(React.Children.only(element), {
       ...inject(element),
-      ...this.events(element)
+      ...this.events
     })
+  }
+
+  render() {
+    let { children: child } = this.props
 
     if (typeof child === 'function')
-      return child(create)
+      return child(this.createChild)
 
-    return create(child)
-  }
-
-  events(child){
-    let { events, onEvent } = this.props;
-    if (events == null) {
-      return null
-    }
-
-    events = [].concat(events);
-
-    return events.reduce((map, event) => {
-      map[event] = onEvent.bind(this, event, child.props[event])
-      return map
-    }, {})
+    return this.createChild(child)
   }
 }
 
