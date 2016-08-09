@@ -1,4 +1,4 @@
-import React, { cloneElement, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 class ChildBridge extends React.Component {
 
@@ -7,8 +7,8 @@ class ChildBridge extends React.Component {
       PropTypes.array,
       PropTypes.string
     ]),
-    onEvent: PropTypes.func.isRequired,
-    inject: PropTypes.func.isRequired
+    children: PropTypes.func,
+    onEvent: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -32,28 +32,16 @@ class ChildBridge extends React.Component {
   }
 
   handleEvent(event, args) {
-    let handler = this.currentChild.props[event];
-    this.props.onEvent(event, handler, ...args)
-  }
-
-  createChild = (element) => {
-    let { inject } = this.props;
-
-    this.currentChild = element;
-
-    return cloneElement(React.Children.only(element), {
-      ...inject(element),
-      ...this.events
-    })
+    this.props.onEvent(event, ...args)
   }
 
   render() {
     let { children: child } = this.props
 
-    if (typeof child === 'function')
-      return child(this.createChild)
+    if (!child)
+      return null
 
-    return this.createChild(child)
+    return child({ ...this.events })
   }
 }
 

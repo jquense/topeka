@@ -4,6 +4,8 @@ import invariant from 'invariant';
 import updateIn from './updateIn';
 import expr from 'property-expr';
 
+let defaultSetter = (path, model, val) => updateIn(model, path, val);
+
 class BindingContext extends React.Component {
 
   static propTypes = {
@@ -63,7 +65,7 @@ class BindingContext extends React.Component {
 
   static defaultProps = {
     getter: (path, model) => path ? expr.getter(path, true)(model || {}) : model,
-    setter: (path, model, val) => updateIn(model, path, val)
+    setter: defaultSetter
   }
 
   constructor(props, context){
@@ -105,7 +107,7 @@ class BindingContext extends React.Component {
     if (process.env.NODE_ENV !== 'production')
       updater = wrapSetter(updater)
 
-    for (var key in mapValue ) if (mapValue.hasOwnProperty(key)) {
+    Object.keys(mapValue).forEach(key => {
       let field = mapValue[key]
         , value;
 
@@ -120,8 +122,8 @@ class BindingContext extends React.Component {
       if (paths.indexOf(key) === -1)
         paths.push(key)
 
-      model = updater(key, model, value)
-    }
+      model = updater(key, model, value, defaultSetter)
+    })
 
     this.props.onChange(model, paths)
   }

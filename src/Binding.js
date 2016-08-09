@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Bridge from './ChildBridge'
 
-function mapValue(props, propName, componentName){
+function mapValue(props, propName, componentName, ...args){
   let isOpaqueAccessor = typeof props.bindTo === 'function';
 
   if (isOpaqueAccessor) {
@@ -10,8 +10,10 @@ function mapValue(props, propName, componentName){
   }
 
   return PropTypes.oneOfType([
-    PropTypes.object, PropTypes.string, PropTypes.func
-  ])(props, propName, componentName)
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.func
+  ])(props, propName, componentName,  ...args)
 }
 
 class Binding extends React.Component {
@@ -108,16 +110,16 @@ class Binding extends React.Component {
      * let Surround = (props) => <div {...props}>{props.children}</div>
      *
      * <Binding>
-     * {(bind)=>
+     * {(props)=>
      *   <Surround>
-     *     {bind(<input type='text'/>)}
+     *     <input type='text' {...props} />
      *   </Surround>
      * }
      * </Binding>
      * ```
      */
     children: PropTypes.oneOfType([
-      PropTypes.node,
+      PropTypes.element,
       PropTypes.func
     ]).isRequired,
 
@@ -138,12 +140,6 @@ class Binding extends React.Component {
     registerWithBindingContext: PropTypes.func
   }
 
-  constructor(...args){
-    super(...args)
-    this._inject = this._inject.bind(this)
-    this._change = this._change.bind(this)
-  }
-
   componentWillMount() {
     this.registerWithBindingContext()
   }
@@ -154,21 +150,57 @@ class Binding extends React.Component {
 
   componentWillUnmount() {
     this.unmounted = true
+
     if (this.bindingContext) {
       this.bindingContext.remove()
     }
   }
 
+  handleEvent = (event, ...args) => {
+    let {
+        bindTo
+      , children
+      , mapValue
+      , updateAfterChild } = this.props;
+
+    let childHandler = React.isValidElement(children) && children.props[event]
+
+    if (typeof bindTo === 'string') {
+      if (typeof mapValue !== 'object')
+        mapValue = { [bindTo]: mapValue }
+    }
+
+    if (updateAfterChild && childHandler)
+      childHandler(...args)
+
+    if (this.bindingContext && mapValue)
+      this.bindingContext.onChange(mapValue, args)
+
+    if (!updateAfterChild && childHandler)
+      childHandler(...args)
+  }
+
+  inject = (props) => {
+    let { valueProp, children } = this.props
+
+    if (this.bindingContext)
+      props[valueProp] = this._value
+
+    if (typeof children === 'function')
+      return children(props)
+
+    return React.cloneElement(children, props)
+  }
+
   render(){
-    let { changeProp, children } = this.props
+    let { changeProp } = this.props
 
     return (
       <Bridge
-        inject={this._inject}
         events={changeProp}
-        onEvent={this._change}
+        onEvent={this.handleEvent}
       >
-        {children}
+        {this.inject}
       </Bridge>
     )
   }
@@ -187,41 +219,6 @@ class Binding extends React.Component {
 
         first = false;
       })
-  }
-
-  _inject() {
-    let { valueProp } = this.props
-      , isRegistered = !!this.bindingContext;
-
-    // let the underlying child prop "shine"
-    // through in cases where we have nothing to override with
-    if (isRegistered)
-      return { [valueProp]: this._value }
-
-    return {}
-  }
-
-  _change(event, childHandler, ...args) {
-    let { bindTo, mapValue, updateAfterChild } = this.props;
-
-    if (typeof bindTo === 'string') {
-      if (typeof mapValue !== 'object')
-        mapValue = { [bindTo]: mapValue }
-    }
-
-    if (!this.bindingContext || !mapValue) {
-      if (childHandler)
-        childHandler(...args)
-      return
-    }
-
-    if (updateAfterChild && childHandler)
-      childHandler(...args)
-
-    this.bindingContext.onChange(mapValue, args)
-
-    if (!updateAfterChild && childHandler)
-      childHandler(...args)
   }
 }
 
