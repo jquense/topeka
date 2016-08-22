@@ -21796,7 +21796,7 @@
 	  ChildBridge.prototype.processEvents = function processEvents(events) {
 	    var _this = this;
 	
-	    [].concat(events).forEach(function (event) {
+	    if (events) [].concat(events).forEach(function (event) {
 	      _this.events[event] = _this.events[event] || function () {
 	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	          args[_key] = arguments[_key];
