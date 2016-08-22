@@ -13,7 +13,7 @@ function mapValue(props, propName, componentName, ...args){
     PropTypes.object,
     PropTypes.string,
     PropTypes.func
-  ])(props, propName, componentName,  ...args)
+  ])(props, propName, componentName, ...args)
 }
 
 class Binding extends React.Component {

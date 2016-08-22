@@ -25,10 +25,11 @@ class ChildBridge extends React.Component {
   }
 
   processEvents(events) {
-    [].concat(events).forEach(event => {
-      this.events[event] =
-        this.events[event] || ((...args) => this.handleEvent(event, args))
-    });
+    if (events)
+      [].concat(events).forEach(event => {
+        this.events[event] =
+          this.events[event] || ((...args) => this.handleEvent(event, args))
+      });
   }
 
   handleEvent(event, args) {

@@ -20780,6 +20780,10 @@
 	
 	var _propertyExpr2 = _interopRequireDefault(_propertyExpr);
 	
+	var defaultSetter = function defaultSetter(path, model, val) {
+	  return _updateIn2['default'](model, path, val);
+	};
+	
 	var BindingContext = (function (_React$Component) {
 	  _inherits(BindingContext, _React$Component);
 	
@@ -20848,9 +20852,7 @@
 	      getter: function getter(path, model) {
 	        return path ? _propertyExpr2['default'].getter(path, true)(model || {}) : model;
 	      },
-	      setter: function setter(path, model, val) {
-	        return _updateIn2['default'](model, path, val);
-	      }
+	      setter: defaultSetter
 	    },
 	    enumerable: true
 	  }]);
@@ -20900,7 +20902,7 @@
 	
 	    if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater);
 	
-	    for (var key in mapValue) if (mapValue.hasOwnProperty(key)) {
+	    Object.keys(mapValue).forEach(function (key) {
 	      var field = mapValue[key],
 	          value = undefined;
 	
@@ -20910,8 +20912,8 @@
 	
 	      if (paths.indexOf(key) === -1) paths.push(key);
 	
-	      model = updater(key, model, value);
-	    }
+	      model = updater(key, model, value, defaultSetter);
+	    });
 	
 	    this.props.onChange(model, paths);
 	  };
@@ -21517,11 +21519,109 @@
 	    if (typeof props[propName] === 'function') return new Error(propName + ' must be an Object or a String, when `bindTo` is a function');
 	  }
 	
-	  return _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.string, _react.PropTypes.func])(props, propName, componentName);
+	  for (var _len = arguments.length, args = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+	    args[_key - 3] = arguments[_key];
+	  }
+	
+	  return _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.string, _react.PropTypes.func]).apply(undefined, [props, propName, componentName].concat(args));
 	}
 	
 	var Binding = (function (_React$Component) {
 	  _inherits(Binding, _React$Component);
+	
+	  function Binding() {
+	    var _this = this;
+	
+	    _classCallCheck(this, Binding);
+	
+	    _React$Component.apply(this, arguments);
+	
+	    this.handleEvent = function (event) {
+	      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+	        args[_key2 - 1] = arguments[_key2];
+	      }
+	
+	      var _props = _this.props;
+	      var bindTo = _props.bindTo;
+	      var children = _props.children;
+	      var mapValue = _props.mapValue;
+	      var updateAfterChild = _props.updateAfterChild;
+	
+	      var childHandler = _react2['default'].isValidElement(children) && children.props[event];
+	
+	      if (typeof bindTo === 'string') {
+	        var _mapValue;
+	
+	        if (typeof mapValue !== 'object') mapValue = (_mapValue = {}, _mapValue[bindTo] = mapValue, _mapValue);
+	      }
+	
+	      if (updateAfterChild && childHandler) childHandler.apply(undefined, args);
+	
+	      if (_this.bindingContext && mapValue) _this.bindingContext.onChange(mapValue, args);
+	
+	      if (!updateAfterChild && childHandler) childHandler.apply(undefined, args);
+	    };
+	
+	    this.inject = function (props) {
+	      var _props2 = _this.props;
+	      var valueProp = _props2.valueProp;
+	      var children = _props2.children;
+	
+	      if (_this.bindingContext) props[valueProp] = _this._value;
+	
+	      if (typeof children === 'function') return children(props);
+	
+	      return _react2['default'].cloneElement(children, props);
+	    };
+	  }
+	
+	  Binding.prototype.componentWillMount = function componentWillMount() {
+	    this.registerWithBindingContext();
+	  };
+	
+	  Binding.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps, _, nextContext) {
+	    this.registerWithBindingContext(nextProps, nextContext);
+	  };
+	
+	  Binding.prototype.componentWillUnmount = function componentWillUnmount() {
+	    this.unmounted = true;
+	
+	    if (this.bindingContext) {
+	      this.bindingContext.remove();
+	    }
+	  };
+	
+	  Binding.prototype.render = function render() {
+	    var changeProp = this.props.changeProp;
+	
+	    return _react2['default'].createElement(
+	      _ChildBridge2['default'],
+	      {
+	        events: changeProp,
+	        onEvent: this.handleEvent
+	      },
+	      this.inject
+	    );
+	  };
+	
+	  Binding.prototype.registerWithBindingContext = function registerWithBindingContext() {
+	    var _this2 = this;
+	
+	    var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
+	    var context = arguments.length <= 1 || arguments[1] === undefined ? this.context : arguments[1];
+	
+	    var register = context.registerWithBindingContext,
+	        first = true;
+	
+	    if (register && !this.bindingContext) this.bindingContext = register(function (bindingContext) {
+	      var last = _this2._value;
+	      _this2._value = bindingContext.value(props.bindTo);
+	
+	      if (!first && last !== _this2._value && !_this2.unmounted) _this2.forceUpdate();
+	
+	      first = false;
+	    });
+	  };
 	
 	  _createClass(Binding, null, [{
 	    key: 'propTypes',
@@ -21614,15 +21714,15 @@
 	       * let Surround = (props) => <div {...props}>{props.children}</div>
 	       *
 	       * <Binding>
-	       * {(bind)=>
+	       * {(props)=>
 	       *   <Surround>
-	       *     {bind(<input type='text'/>)}
+	       *     <input type='text' {...props} />
 	       *   </Surround>
 	       * }
 	       * </Binding>
 	       * ```
 	       */
-	      children: _react.PropTypes.oneOfType([_react.PropTypes.node, _react.PropTypes.func]).isRequired,
+	      children: _react.PropTypes.oneOfType([_react.PropTypes.element, _react.PropTypes.func]).isRequired,
 	
 	      /**
 	       * Configures the change callback to fire _after_ the child's change handler,
@@ -21646,109 +21746,6 @@
 	    },
 	    enumerable: true
 	  }]);
-	
-	  function Binding() {
-	    _classCallCheck(this, Binding);
-	
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-	
-	    _React$Component.call.apply(_React$Component, [this].concat(args));
-	    this._inject = this._inject.bind(this);
-	    this._change = this._change.bind(this);
-	  }
-	
-	  Binding.prototype.componentWillMount = function componentWillMount() {
-	    this.registerWithBindingContext();
-	  };
-	
-	  Binding.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps, _, nextContext) {
-	    this.registerWithBindingContext(nextProps, nextContext);
-	  };
-	
-	  Binding.prototype.componentWillUnmount = function componentWillUnmount() {
-	    this.unmounted = true;
-	    if (this.bindingContext) {
-	      this.bindingContext.remove();
-	    }
-	  };
-	
-	  Binding.prototype.render = function render() {
-	    var _props = this.props;
-	    var changeProp = _props.changeProp;
-	    var children = _props.children;
-	
-	    return _react2['default'].createElement(
-	      _ChildBridge2['default'],
-	      {
-	        inject: this._inject,
-	        events: changeProp,
-	        onEvent: this._change
-	      },
-	      children
-	    );
-	  };
-	
-	  Binding.prototype.registerWithBindingContext = function registerWithBindingContext() {
-	    var _this = this;
-	
-	    var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
-	    var context = arguments.length <= 1 || arguments[1] === undefined ? this.context : arguments[1];
-	
-	    var register = context.registerWithBindingContext,
-	        first = true;
-	
-	    if (register && !this.bindingContext) this.bindingContext = register(function (bindingContext) {
-	      var last = _this._value;
-	      _this._value = bindingContext.value(props.bindTo);
-	
-	      if (!first && last !== _this._value && !_this.unmounted) _this.forceUpdate();
-	
-	      first = false;
-	    });
-	  };
-	
-	  Binding.prototype._inject = function _inject() {
-	    var _ref;
-	
-	    var valueProp = this.props.valueProp;
-	    var isRegistered = !!this.bindingContext;
-	
-	    // let the underlying child prop "shine"
-	    // through in cases where we have nothing to override with
-	    if (isRegistered) return _ref = {}, _ref[valueProp] = this._value, _ref;
-	
-	    return {};
-	  };
-	
-	  Binding.prototype._change = function _change(event, childHandler) {
-	    var _props2 = this.props;
-	    var bindTo = _props2.bindTo;
-	    var mapValue = _props2.mapValue;
-	    var updateAfterChild = _props2.updateAfterChild;
-	
-	    if (typeof bindTo === 'string') {
-	      var _mapValue;
-	
-	      if (typeof mapValue !== 'object') mapValue = (_mapValue = {}, _mapValue[bindTo] = mapValue, _mapValue);
-	    }
-	
-	    for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-	      args[_key2 - 2] = arguments[_key2];
-	    }
-	
-	    if (!this.bindingContext || !mapValue) {
-	      if (childHandler) childHandler.apply(undefined, args);
-	      return;
-	    }
-	
-	    if (updateAfterChild && childHandler) childHandler.apply(undefined, args);
-	
-	    this.bindingContext.onChange(mapValue, args);
-	
-	    if (!updateAfterChild && childHandler) childHandler.apply(undefined, args);
-	  };
 	
 	  return Binding;
 	})(_react2['default'].Component);
@@ -21787,47 +21784,55 @@
 	    _React$Component.apply(this, arguments);
 	  }
 	
-	  ChildBridge.prototype.render = function render() {
-	    var _this = this;
-	
-	    var _props = this.props;
-	    var inject = _props.inject;
-	    var child = _props.children;
-	
-	    var create = function create(element) {
-	      return _react.cloneElement(_react2['default'].Children.only(element), _extends({}, inject(element), _this.events(element)));
-	    };
-	
-	    if (typeof child === 'function') return child(create);
-	
-	    return create(child);
+	  ChildBridge.prototype.componentWillMount = function componentWillMount() {
+	    this.events = {};
+	    this.processEvents(this.props.events);
 	  };
 	
-	  ChildBridge.prototype.events = function events(child) {
-	    var _this2 = this;
+	  ChildBridge.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	    this.processEvents(nextProps.events);
+	  };
 	
-	    var _props2 = this.props;
-	    var events = _props2.events;
-	    var onEvent = _props2.onEvent;
+	  ChildBridge.prototype.processEvents = function processEvents(events) {
+	    var _this = this;
 	
-	    if (events == null) {
-	      return null;
-	    }
+	    [].concat(events).forEach(function (event) {
+	      _this.events[event] = _this.events[event] || function () {
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	          args[_key] = arguments[_key];
+	        }
 	
-	    events = [].concat(events);
+	        return _this.handleEvent(event, args);
+	      };
+	    });
+	  };
 	
-	    return events.reduce(function (map, event) {
-	      map[event] = onEvent.bind(_this2, event, child.props[event]);
-	      return map;
-	    }, {});
+	  ChildBridge.prototype.handleEvent = function handleEvent(event, args) {
+	    var _props;
+	
+	    (_props = this.props).onEvent.apply(_props, [event].concat(args));
+	  };
+	
+	  ChildBridge.prototype.render = function render() {
+	    var child = this.props.children;
+	
+	    if (!child) return null;
+	
+	    return child(_extends({}, this.events));
 	  };
 	
 	  _createClass(ChildBridge, null, [{
 	    key: 'propTypes',
 	    value: {
 	      events: _react.PropTypes.oneOfType([_react.PropTypes.array, _react.PropTypes.string]),
-	      onEvent: _react.PropTypes.func.isRequired,
-	      inject: _react.PropTypes.func.isRequired
+	      children: _react.PropTypes.func,
+	      onEvent: _react.PropTypes.func.isRequired
+	    },
+	    enumerable: true
+	  }, {
+	    key: 'defaultProps',
+	    value: {
+	      events: []
 	    },
 	    enumerable: true
 	  }]);
@@ -24311,13 +24316,13 @@
 /* 249 */
 /***/ function(module, exports) {
 
-	module.exports = {"Binding":{"props":{"changeProp":{"type":{"name":"string"},"required":true,"desc":"A callback prop name that the Binding should listen for changes on.\n\n```js\n<Binding changeProp='onSelect'>\n  <MyDropDown />\n</Binding>\n```","defaultValue":"'onChange'","computed":false,"doclets":{},"descHtml":"<p>A callback prop name that the Binding should listen for changes on.</p>\n<pre><code class=\"lang-js\">&lt;Binding changeProp=&#39;onSelect&#39;&gt;\n  &lt;MyDropDown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"valueProp":{"type":{"name":"string"},"required":true,"desc":"A prop name for the Binding to set from the BindingContext.\n\n```js\n<Binding valueProp='selectedValue'>\n  <MyDropDown />\n</Binding>\n```","defaultValue":"'value'","computed":false,"doclets":{},"descHtml":"<p>A prop name for the Binding to set from the BindingContext.</p>\n<pre><code class=\"lang-js\">&lt;Binding valueProp=&#39;selectedValue&#39;&gt;\n  &lt;MyDropDown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"bindTo":{"type":{"name":"union","value":[{"name":"string"},{"name":"func"}]},"required":true,"desc":"An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it's called\nwith the form value, and the current Form `getter`.\n\n```js\n<Binding bindTo='details.name'>\n  <input />\n</Binding>\n\n<Binding\n  bindTo={(model, getter) => {\n    let [first, last] = getter(model, 'details.name').split(' ')\n    return { first, last }\n  }}\n>\n <MyDropdown />\n</Binding>\n```","doclets":{},"descHtml":"<p>An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it&#39;s called\nwith the form value, and the current Form <code>getter</code>.</p>\n<pre><code class=\"lang-js\">&lt;Binding bindTo=&#39;details.name&#39;&gt;\n  &lt;input /&gt;\n&lt;/Binding&gt;\n\n&lt;Binding\n  bindTo={(model, getter) =&gt; {\n    let [first, last] = getter(model, &#39;details.name&#39;).split(&#39; &#39;)\n    return { first, last }\n  }}\n&gt;\n &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"mapValue":{"type":{"name":"mapValue"},"required":false,"desc":"Customize how the Binding return value maps to the overall BindingContext `value`.\n`mapValue` can be a a string property name or a function that returns a\nvalue to be set to the `bindTo` field.\n\n```js\n<Binding\n  bindTo='name'\n  mapValue={dropdownValue =>\n    dropdownValue.first + ' ' + dropdownValue.last\n  }\n>\n <MyDropdown />\n</Binding>\n```\n\nYou can also provide an object hash, mapping paths of the BindingContext `value`\nto fields in the Binding value using a string field name, or a function accessor.\n\n```js\n<Binding\n  bindTo={model => {\n    let [first, last] = model.name.split(' ')\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =>\n     dropdownValue.first + ' ' + dropdownValue.last\n  }}\n>\n  <MyDropdown />\n</Binding>\n```","doclets":{},"descHtml":"<p>Customize how the Binding return value maps to the overall BindingContext <code>value</code>.\n<code>mapValue</code> can be a a string property name or a function that returns a\nvalue to be set to the <code>bindTo</code> field.</p>\n<pre><code class=\"lang-js\">&lt;Binding\n  bindTo=&#39;name&#39;\n  mapValue={dropdownValue =&gt;\n    dropdownValue.first + &#39; &#39; + dropdownValue.last\n  }\n&gt;\n &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n<p>You can also provide an object hash, mapping paths of the BindingContext <code>value</code>\nto fields in the Binding value using a string field name, or a function accessor.</p>\n<pre><code class=\"lang-js\">&lt;Binding\n  bindTo={model =&gt; {\n    let [first, last] = model.name.split(&#39; &#39;)\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =&gt;\n     dropdownValue.first + &#39; &#39; + dropdownValue.last\n  }}\n&gt;\n  &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"children":{"type":{"name":"union","value":[{"name":"node"},{"name":"func"}]},"required":true,"desc":"The element to be bound. You can also specify a function child for components\nthat nest and alter children. Or need more nuanced control over the injection process.\n\n```js\nlet Surround = (props) => <div {...props}>{props.children}</div>\n\n<Binding>\n{(bind)=>\n  <Surround>\n    {bind(<input type='text'/>)}\n  </Surround>\n}\n</Binding>\n```","doclets":{},"descHtml":"<p>The element to be bound. You can also specify a function child for components\nthat nest and alter children. Or need more nuanced control over the injection process.</p>\n<pre><code class=\"lang-js\">let Surround = (props) =&gt; &lt;div {...props}&gt;{props.children}&lt;/div&gt;\n\n&lt;Binding&gt;\n{(bind)=&gt;\n  &lt;Surround&gt;\n    {bind(&lt;input type=&#39;text&#39;/&gt;)}\n  &lt;/Surround&gt;\n}\n&lt;/Binding&gt;\n</code></pre>\n"},"updateAfterChild":{"type":{"name":"bool"},"required":false,"desc":"Configures the change callback to fire _after_ the child's change handler,\nif there is one.","defaultValue":"false","computed":false,"doclets":{},"descHtml":"<p>Configures the change callback to fire <em>after</em> the child&#39;s change handler,\nif there is one.</p>\n"}},"composes":[],"desc":"","doclets":{},"descHtml":""}}
+	module.exports = {"Binding":{"props":{"changeProp":{"type":{"name":"string"},"required":true,"desc":"A callback prop name that the Binding should listen for changes on.\n\n```js\n<Binding changeProp='onSelect'>\n  <MyDropDown />\n</Binding>\n```","defaultValue":"'onChange'","computed":false,"doclets":{},"descHtml":"<p>A callback prop name that the Binding should listen for changes on.</p>\n<pre><code class=\"lang-js\">&lt;Binding changeProp=&#39;onSelect&#39;&gt;\n  &lt;MyDropDown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"valueProp":{"type":{"name":"string"},"required":true,"desc":"A prop name for the Binding to set from the BindingContext.\n\n```js\n<Binding valueProp='selectedValue'>\n  <MyDropDown />\n</Binding>\n```","defaultValue":"'value'","computed":false,"doclets":{},"descHtml":"<p>A prop name for the Binding to set from the BindingContext.</p>\n<pre><code class=\"lang-js\">&lt;Binding valueProp=&#39;selectedValue&#39;&gt;\n  &lt;MyDropDown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"bindTo":{"type":{"name":"union","value":[{"name":"string"},{"name":"func"}]},"required":true,"desc":"An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it's called\nwith the form value, and the current Form `getter`.\n\n```js\n<Binding bindTo='details.name'>\n  <input />\n</Binding>\n\n<Binding\n  bindTo={(model, getter) => {\n    let [first, last] = getter(model, 'details.name').split(' ')\n    return { first, last }\n  }}\n>\n <MyDropdown />\n</Binding>\n```","doclets":{},"descHtml":"<p>An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it&#39;s called\nwith the form value, and the current Form <code>getter</code>.</p>\n<pre><code class=\"lang-js\">&lt;Binding bindTo=&#39;details.name&#39;&gt;\n  &lt;input /&gt;\n&lt;/Binding&gt;\n\n&lt;Binding\n  bindTo={(model, getter) =&gt; {\n    let [first, last] = getter(model, &#39;details.name&#39;).split(&#39; &#39;)\n    return { first, last }\n  }}\n&gt;\n &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"mapValue":{"type":{"name":"mapValue"},"required":false,"desc":"Customize how the Binding return value maps to the overall BindingContext `value`.\n`mapValue` can be a a string property name or a function that returns a\nvalue to be set to the `bindTo` field.\n\n```js\n<Binding\n  bindTo='name'\n  mapValue={dropdownValue =>\n    dropdownValue.first + ' ' + dropdownValue.last\n  }\n>\n <MyDropdown />\n</Binding>\n```\n\nYou can also provide an object hash, mapping paths of the BindingContext `value`\nto fields in the Binding value using a string field name, or a function accessor.\n\n```js\n<Binding\n  bindTo={model => {\n    let [first, last] = model.name.split(' ')\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =>\n     dropdownValue.first + ' ' + dropdownValue.last\n  }}\n>\n  <MyDropdown />\n</Binding>\n```","doclets":{},"descHtml":"<p>Customize how the Binding return value maps to the overall BindingContext <code>value</code>.\n<code>mapValue</code> can be a a string property name or a function that returns a\nvalue to be set to the <code>bindTo</code> field.</p>\n<pre><code class=\"lang-js\">&lt;Binding\n  bindTo=&#39;name&#39;\n  mapValue={dropdownValue =&gt;\n    dropdownValue.first + &#39; &#39; + dropdownValue.last\n  }\n&gt;\n &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n<p>You can also provide an object hash, mapping paths of the BindingContext <code>value</code>\nto fields in the Binding value using a string field name, or a function accessor.</p>\n<pre><code class=\"lang-js\">&lt;Binding\n  bindTo={model =&gt; {\n    let [first, last] = model.name.split(&#39; &#39;)\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =&gt;\n     dropdownValue.first + &#39; &#39; + dropdownValue.last\n  }}\n&gt;\n  &lt;MyDropdown /&gt;\n&lt;/Binding&gt;\n</code></pre>\n"},"children":{"type":{"name":"union","value":[{"name":"element"},{"name":"func"}]},"required":true,"desc":"The element to be bound. You can also specify a function child for components\nthat nest and alter children. Or need more nuanced control over the injection process.\n\n```js\nlet Surround = (props) => <div {...props}>{props.children}</div>\n\n<Binding>\n{(props)=>\n  <Surround>\n    <input type='text' {...props} />\n  </Surround>\n}\n</Binding>\n```","doclets":{},"descHtml":"<p>The element to be bound. You can also specify a function child for components\nthat nest and alter children. Or need more nuanced control over the injection process.</p>\n<pre><code class=\"lang-js\">let Surround = (props) =&gt; &lt;div {...props}&gt;{props.children}&lt;/div&gt;\n\n&lt;Binding&gt;\n{(props)=&gt;\n  &lt;Surround&gt;\n    &lt;input type=&#39;text&#39; {...props} /&gt;\n  &lt;/Surround&gt;\n}\n&lt;/Binding&gt;\n</code></pre>\n"},"updateAfterChild":{"type":{"name":"bool"},"required":false,"desc":"Configures the change callback to fire _after_ the child's change handler,\nif there is one.","defaultValue":"false","computed":false,"doclets":{},"descHtml":"<p>Configures the change callback to fire <em>after</em> the child&#39;s change handler,\nif there is one.</p>\n"}},"composes":[],"desc":"","doclets":{},"descHtml":""}}
 
 /***/ },
 /* 250 */
 /***/ function(module, exports) {
 
-	module.exports = {"BindingContext":{"props":{"value":{"type":{"name":"object"},"required":false,"desc":"BindingContext value object, can be left uncontrolled;\nuse the `defaultValue` prop to initialize an uncontrolled BindingContext.\n\nBindingContext assumes that `value` is immutable so you must provide a _new_ value\nobject to trigger an update. The `<Binding/>` components do this by default.","doclets":{},"descHtml":"<p>BindingContext value object, can be left uncontrolled;\nuse the <code>defaultValue</code> prop to initialize an uncontrolled BindingContext.</p>\n<p>BindingContext assumes that <code>value</code> is immutable so you must provide a <em>new</em> value\nobject to trigger an update. The <code>&lt;Binding/&gt;</code> components do this by default.</p>\n"},"onChange":{"type":{"name":"func"},"required":false,"desc":"Callback that is called when the `value` prop changes.\n\n```js\nfunction(\n\tvalue: object,\n\tupdatedPaths: array<string>\n)\n```","doclets":{},"descHtml":"<p>Callback that is called when the <code>value</code> prop changes.</p>\n<pre><code class=\"lang-js\">function(\n    value: object,\n    updatedPaths: array&lt;string&gt;\n)\n</code></pre>\n"},"getter":{"type":{"name":"func"},"required":false,"desc":"A function used to extract value paths from the Context value.\n`getter` is called with `path` and `value` and should return the value at that path.\n`getter()` is used when a `<Binding/>` provides a string `accessor`.\n\n```js\nfunction(\n path: string,\n value: any,\n) -> object\n```","defaultValue":"(path, model) => path ? expr.getter(path, true)(model || {}) : model","computed":true,"doclets":{},"descHtml":"<p>A function used to extract value paths from the Context value.\n<code>getter</code> is called with <code>path</code> and <code>value</code> and should return the value at that path.\n<code>getter()</code> is used when a <code>&lt;Binding/&gt;</code> provides a string <code>accessor</code>.</p>\n<pre><code class=\"lang-js\">function(\n path: string,\n value: any,\n) -&gt; object\n</code></pre>\n"},"setter":{"type":{"name":"func"},"required":false,"desc":"A value setter function. `setter` is called with `path`, the context `value` and the path `value`.\nThe `setter` must return updated form `value`, which allows you to leave the original value unmutated.\n\n```js\nfunction(\n path: string,\n formValue: object,\n pathValue: any\n) -> object\n```","defaultValue":"(path, model, val) => updateIn(model, path, val)","computed":true,"doclets":{},"descHtml":"<p>A value setter function. <code>setter</code> is called with <code>path</code>, the context <code>value</code> and the path <code>value</code>.\nThe <code>setter</code> must return updated form <code>value</code>, which allows you to leave the original value unmutated.</p>\n<pre><code class=\"lang-js\">function(\n path: string,\n formValue: object,\n pathValue: any\n) -&gt; object\n</code></pre>\n"}},"composes":[],"desc":"","doclets":{},"descHtml":""}}
+	module.exports = {"BindingContext":{"props":{"value":{"type":{"name":"object"},"required":false,"desc":"BindingContext value object, can be left uncontrolled;\nuse the `defaultValue` prop to initialize an uncontrolled BindingContext.\n\nBindingContext assumes that `value` is immutable so you must provide a _new_ value\nobject to trigger an update. The `<Binding/>` components do this by default.","doclets":{},"descHtml":"<p>BindingContext value object, can be left uncontrolled;\nuse the <code>defaultValue</code> prop to initialize an uncontrolled BindingContext.</p>\n<p>BindingContext assumes that <code>value</code> is immutable so you must provide a <em>new</em> value\nobject to trigger an update. The <code>&lt;Binding/&gt;</code> components do this by default.</p>\n"},"onChange":{"type":{"name":"func"},"required":false,"desc":"Callback that is called when the `value` prop changes.\n\n```js\nfunction(\n\tvalue: object,\n\tupdatedPaths: array<string>\n)\n```","doclets":{},"descHtml":"<p>Callback that is called when the <code>value</code> prop changes.</p>\n<pre><code class=\"lang-js\">function(\n    value: object,\n    updatedPaths: array&lt;string&gt;\n)\n</code></pre>\n"},"getter":{"type":{"name":"func"},"required":false,"desc":"A function used to extract value paths from the Context value.\n`getter` is called with `path` and `value` and should return the value at that path.\n`getter()` is used when a `<Binding/>` provides a string `accessor`.\n\n```js\nfunction(\n path: string,\n value: any,\n) -> object\n```","defaultValue":"(path, model) => path ? expr.getter(path, true)(model || {}) : model","computed":true,"doclets":{},"descHtml":"<p>A function used to extract value paths from the Context value.\n<code>getter</code> is called with <code>path</code> and <code>value</code> and should return the value at that path.\n<code>getter()</code> is used when a <code>&lt;Binding/&gt;</code> provides a string <code>accessor</code>.</p>\n<pre><code class=\"lang-js\">function(\n path: string,\n value: any,\n) -&gt; object\n</code></pre>\n"},"setter":{"type":{"name":"func"},"required":false,"desc":"A value setter function. `setter` is called with `path`, the context `value` and the path `value`.\nThe `setter` must return updated form `value`, which allows you to leave the original value unmutated.\n\n```js\nfunction(\n path: string,\n formValue: object,\n pathValue: any\n) -> object\n```","defaultValue":"defaultSetter","computed":true,"doclets":{},"descHtml":"<p>A value setter function. <code>setter</code> is called with <code>path</code>, the context <code>value</code> and the path <code>value</code>.\nThe <code>setter</code> must return updated form <code>value</code>, which allows you to leave the original value unmutated.</p>\n<pre><code class=\"lang-js\">function(\n path: string,\n formValue: object,\n pathValue: any\n) -&gt; object\n</code></pre>\n"}},"composes":[],"desc":"","doclets":{},"descHtml":""}}
 
 /***/ },
 /* 251 */
