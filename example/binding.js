@@ -1,16 +1,15 @@
-let eventValue = e => e.target.value;
 
 let Names = props => {
   return (
     <BindingContext {...props}>
       <div>
         <div className='form-group'>
-          <Binding bindTo='first' mapValue={eventValue}>
+          <Binding bindTo='first'>
             <input type='text' placeholder='first name' className='form-control'/>
           </Binding>
         </div>
         <div className='form-group'>
-          <Binding bindTo='surname' mapValue={eventValue}>
+          <Binding bindTo='surname'>
             <input type='text' placeholder='surname' className='form-control'/>
           </Binding>
         </div>
@@ -19,7 +18,9 @@ let Names = props => {
   )
 }
 
-let Surround = (props) => <div {...props}>{props.children}</div>
+let Surround = (props) => (
+  <div {...props}>{props.children}</div>
+)
 
 let App = ()=> {
   return (
@@ -34,7 +35,7 @@ let App = ()=> {
         <div className='form-group'>
           <Binding
             bindTo='age'
-            mapValue={e => +eventValue(e)}
+            mapValue={e => parseFloat(e.target.value)}
           >
             <input type='number' placeholder='age' className='form-control'/>
           </Binding>
@@ -42,25 +43,21 @@ let App = ()=> {
         <div className='form-group'>
           <Binding
             bindTo='colors[0].name'
-            mapValue={eventValue}
           >
-            { bind =>
+            {props => (
               <Surround>
-                {bind(
-                  <select className='form-control'>
-                    <option>Red</option>
-                    <option>Blue</option>
-                    <option>Yellow</option>
-                  </select>
-                )}
+                <select {...props} className='form-control'>
+                  <option>Red</option>
+                  <option>Blue</option>
+                  <option>Yellow</option>
+                </select>
               </Surround>
-            }
+            )}
           </Binding>
         </div>
         <div className='form-group'>
           <Binding
             bindTo='colors[1].name'
-            mapValue={eventValue}
           >
             <select className='form-control'>
               <option>Red</option>
@@ -75,7 +72,7 @@ let App = ()=> {
             bindTo={model => JSON.stringify(model, null, 2)}
             valueProp='children'
           >
-          	<pre/>
+          	<pre />
           </Binding>
         </div>
       </section>

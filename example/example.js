@@ -2,11 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import { inspect } from 'util'
 import { Binding, BindingContext } from 'topeka';
-import Playground from '@jquense/component-playground';
+import Playground from '@monastic.panic/component-playground';
 import PropTable from './PropTable';
 import BindingMetadata from '../metadata-loader!topeka/Binding';
 import BindingContextMetadata from '../metadata-loader!topeka/BindingContext';
 
+import '@monastic.panic/component-playground/codemirror.css';
 import './styles.less';
 
 class App extends React.Component {
@@ -20,13 +21,10 @@ class App extends React.Component {
       <div className='container'>
         <h2>Example</h2>
         <Playground
-          babelConfig={{ stage: 0 }}
           scope={{ React, render, Binding, BindingContext, inspect }}
-          codeText={require('!!raw!./binding')}
+          code={require('!!raw!./binding')}
           className='overlay-example'
-          lineNumbers={false}
-          lang="js"
-          theme="neo"
+          editorOptions={{ theme: 'neo', viewportMargin: Infinity }}
         />
         <h2>API</h2>
         <PropTable

@@ -1,6 +1,13 @@
 import React, { PropTypes } from 'react';
 import Bridge from './ChildBridge'
 
+function extractTargetValue(arg) {
+  if (arg && arg.target && arg.target.tagName) {
+    return arg.target.value
+  }
+  return arg
+}
+
 function mapValue(props, propName, componentName, ...args){
   let isOpaqueAccessor = typeof props.bindTo === 'function';
 
@@ -71,6 +78,9 @@ class Binding extends React.Component {
      * `mapValue` can be a a string property name or a function that returns a
      * value to be set to the `bindTo` field.
      *
+     * **note:** the default value will attempt to extract the value from `target.value`
+     * so that native inputs will just work as expected.
+     * 
      * ```js
      * <Binding
      *   bindTo='name'
@@ -160,7 +170,7 @@ class Binding extends React.Component {
     let {
         bindTo
       , children
-      , mapValue
+      , mapValue = extractTargetValue
       , updateAfterChild } = this.props;
 
     let childHandler = React.isValidElement(children) && children.props[event]

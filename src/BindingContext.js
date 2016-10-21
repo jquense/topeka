@@ -99,7 +99,7 @@ class BindingContext extends React.Component {
     return React.Children.only(this.props.children)
   }
 
-  _update(mapValue, args){
+  _update(mapValue, args) {
     var model = this.props.value
       , updater = this.props.setter
       , paths = [];

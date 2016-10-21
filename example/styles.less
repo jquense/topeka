@@ -11,16 +11,15 @@ code {
   background-color: rgba(0,0,0,0.04);
 }
 
-.playgroundStage,
+.playground-stage,
 .cm-s-neo.CodeMirror {
   background-color: #F4F4F4;
-  height: auto;
   min-height: 75px;
 }
 
 .CodeMirror {
   font-size: 12px;
-
+  height: auto;
 }
 
 .cm-s-neo div.CodeMirror-cursor {
@@ -41,30 +40,16 @@ code {
   font-size: 14 px;
 }
 
-.playgroundStage {
+.playground-stage {
   padding: 15px 0 15px 15px;
-  //border-bottom: 1px solid #ddd;
 }
 
-.playground.collapsableCode .playgroundCode {
-  height: 0;
-  overflow: hidden;
-}
-
-.playground.collapsableCode .playgroundCode.expandedCode {
-  height: auto;
-}
-
-
-
-.playgroundPreview {
+.playground-preview {
   position: relative;
   padding: 40px 15px 15px 15px;
 }
 
-
-
-.playgroundPreview:before {
+.playground-preview:before {
   position: absolute;
   top: 3px;
   left: 7px;
@@ -74,38 +59,10 @@ code {
   content: 'Result';
 }
 
-
-.playground  {
+.playground {
   position: relative;
   margin:  0;
   margin-bottom: 20px;
-  border-top: 1px solid #ccc;
-}
-
-.playgroundCode,
-.playgroundPreview {
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-}
-
-.playgroundToggleCodeBar {
-  padding: 1px;
-  border-top: 1px solid #ccc;
-}
-
-.playgroundToggleCodeLink {
-  color: #333;
-  background-color: #ccc;
-  margin-top: 1px;
-  margin-left: -1px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  padding: 3px 5px;
-
-  &:hover,
-  &:focus {
-    color: black;
-  }
 }
 
 .playground {
@@ -113,10 +70,12 @@ code {
   flex-direction: row-reverse;
 }
 
-.playgroundPreview {
+.playground-preview {
   flex: 1 1 0;
 }
 
-.playgroundCode {
+.playground-editor {
   flex: 2 1 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }

@@ -95,7 +95,7 @@ const PropTable = React.createClass({
             <td>
               <div>{this.getType(propData)}</div>
             </td>
-            <td>{propData.defaultValue}</td>
+            <td><code>{propData.defaultValue}</code></td>
 
             <td>
               { propData.doclets.deprecated
