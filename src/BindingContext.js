@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import uncontrollable from 'uncontrollable';
 import invariant from 'invariant';
 import updateIn from './updateIn';
@@ -16,7 +17,7 @@ class BindingContext extends React.Component {
      * BindingContext assumes that `value` is immutable so you must provide a _new_ value
      * object to trigger an update. The `<Binding/>` components do this by default.
      */
-    value: React.PropTypes.object,
+    value: PropTypes.object,
 
     /**
      * Callback that is called when the `value` prop changes.
@@ -28,7 +29,7 @@ class BindingContext extends React.Component {
      * )
      * ```
      */
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
 
     /**
      * A function used to extract value paths from the Context value.
@@ -42,7 +43,7 @@ class BindingContext extends React.Component {
      * ) -> object
      * ```
      */
-    getter: React.PropTypes.func,
+    getter: PropTypes.func,
 
     /**
      * A value setter function. `setter` is called with `path`, the context `value` and the path `value`.
@@ -56,11 +57,11 @@ class BindingContext extends React.Component {
      * ) -> object
      * ```
      */
-    setter: React.PropTypes.func
+    setter: PropTypes.func
   }
 
   static childContextTypes = {
-    registerWithBindingContext: React.PropTypes.func
+    registerWithBindingContext: PropTypes.func
   }
 
   static defaultProps = {
