@@ -1,0 +1,81 @@
+pre {
+  border-radius: 0;
+  border: none;
+  border-left: 4px solid #ccc;
+}
+
+code {
+  color: #555;
+  margin: -.05rem -.15em;
+  padding: .05rem .35em;
+  background-color: rgba(0,0,0,0.04);
+}
+
+.playground-stage,
+.cm-s-neo.CodeMirror {
+  background-color: #F4F4F4;
+  min-height: 75px;
+}
+
+.CodeMirror {
+  font-size: 12px;
+  height: auto;
+}
+
+.cm-s-neo div.CodeMirror-cursor {
+  border-left: 1px solid #9b9da2;
+}
+
+.cm-s-neo .CodeMirror-linenumber {
+  color: #ccc;
+}
+
+.cm-s-neo .cm-atom,
+.cm-s-neo .cm-number {
+  color: #905;
+}
+
+
+.prop-table {
+  font-size: 14 px;
+}
+
+.playground-stage {
+  padding: 15px 0 15px 15px;
+}
+
+.playground-preview {
+  position: relative;
+  padding: 40px 15px 15px 15px;
+}
+
+.playground-preview:before {
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  color: #959595;
+  border-bottom: 1px solid  #eee;
+  padding: 0 3px;
+  content: 'Result';
+}
+
+.playground {
+  position: relative;
+  margin:  0;
+  margin-bottom: 20px;
+}
+
+.playground {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.playground-preview {
+  flex: 1 1 0;
+}
+
+.playground-editor {
+  flex: 2 1 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}

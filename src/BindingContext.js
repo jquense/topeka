@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import uncontrollable from 'uncontrollable';
-import invariant from 'invariant';
-import updateIn from './updateIn';
-import expr from 'property-expr';
+import React from 'react'
+import PropTypes from 'prop-types'
+import uncontrollable from 'uncontrollable'
+import invariant from 'invariant'
+import expr from 'property-expr'
 
-let defaultSetter = (path, model, val) => updateIn(model, path, val);
+import updateIn from './updateIn'
+
+let defaultSetter = (path, model, val) => updateIn(model, path, val)
 
 class BindingContext extends React.Component {
-
   static propTypes = {
     /**
      * BindingContext value object, can be left uncontrolled;
@@ -57,43 +57,46 @@ class BindingContext extends React.Component {
      * ) -> object
      * ```
      */
-    setter: PropTypes.func
+    setter: PropTypes.func,
   }
 
   static childContextTypes = {
-    registerWithBindingContext: PropTypes.func
+    registerWithBindingContext: PropTypes.func,
   }
 
   static defaultProps = {
-    getter: (path, model) => path ? expr.getter(path, true)(model || {}) : model,
-    setter: defaultSetter
+    getter: (path, model) =>
+      (path ? expr.getter(path, true)(model || {}) : model),
+    setter: defaultSetter,
   }
 
-  constructor(props, context){
+  constructor(props, context) {
     super(props, context)
     this._handlers = []
   }
 
   getChildContext() {
-    return this._context || (this._context = {
+    return (
+      this._context ||
+      (this._context = {
+        registerWithBindingContext: listener => {
+          let remove = () =>
+            this._handlers.splice(this._handlers.indexOf(listener), 1)
 
-      registerWithBindingContext: listener => {
-        let remove = () => this._handlers.splice(this._handlers.indexOf(listener), 1)
+          this._handlers.push(listener)
+          listener(this._listenerContext(this.props))
 
-        this._handlers.push(listener)
-        listener(this._listenerContext(this.props))
-
-        return {
-          remove,
-          onChange: (mapValue, args) => this._update(mapValue, args)
-        }
-      }
-    })
+          return {
+            remove,
+            onChange: (mapValue, args) => this._update(mapValue, args),
+          }
+        },
+      })
+    )
   }
 
-  componentWillReceiveProps(nextProps){
-    if (nextProps.value !== this.props.value)
-      this._emit(nextProps);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) this._emit(nextProps)
   }
 
   render() {
@@ -101,27 +104,21 @@ class BindingContext extends React.Component {
   }
 
   _update(mapValue, args) {
-    var model = this.props.value
-      , updater = this.props.setter
-      , paths = [];
+    var model = this.props.value, updater = this.props.setter, paths = []
 
-    if (process.env.NODE_ENV !== 'production')
-      updater = wrapSetter(updater)
+    if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater)
 
     Object.keys(mapValue).forEach(key => {
-      let field = mapValue[key]
-        , value;
+      let field = mapValue[key], value
 
-      if (typeof field === 'function')
-        value = field(...args)
+      if (typeof field === 'function') value = field(...args)
       else if (field === '.' || field == null || args[0] == null)
         value = args[0]
       else {
         value = expr.getter(field, true)(args[0])
       }
 
-      if (paths.indexOf(key) === -1)
-        paths.push(key)
+      if (paths.indexOf(key) === -1) paths.push(key)
 
       model = updater(key, model, value, defaultSetter)
     })
@@ -130,27 +127,29 @@ class BindingContext extends React.Component {
   }
 
   _emit(props) {
-    let context = this._listenerContext(props);
+    let context = this._listenerContext(props)
     this._handlers.forEach(fn => fn(context))
   }
 
-  _listenerContext(props){
+  _listenerContext(props) {
     return {
-      value: pathOrAccessor => typeof pathOrAccessor === 'function'
-        ? pathOrAccessor(props.value, props.getter)
-        : props.getter(pathOrAccessor, props.value)
+      value: pathOrAccessor =>
+        (typeof pathOrAccessor === 'function'
+          ? pathOrAccessor(props.value, props.getter)
+          : props.getter(pathOrAccessor, props.value)),
     }
   }
 }
 
-function wrapSetter(setter){
+function wrapSetter(setter) {
   return (...args) => {
     var result = setter(...args)
-    invariant(result && typeof result === 'object',
-      '`setter(..)` props must return the form value object after updating a value.')
+    invariant(
+      result && typeof result === 'object',
+      '`setter(..)` props must return the form value object after updating a value.'
+    )
     return result
   }
 }
 
-
-export default uncontrollable(BindingContext, { value: 'onChange' });
+export default uncontrollable(BindingContext, { value: 'onChange' })

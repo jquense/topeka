@@ -1,7 +1,9 @@
 import BindingContext from './BindingContext';
 import Binding from './Binding';
+import updateIn from './updateIn';
 
-module.exports = {
+export {
   Binding,
-  BindingContext
+  BindingContext,
+  updateIn
 }

@@ -1,5 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+
 import Bridge from './ChildBridge'
 
 function extractTargetValue(arg) {
@@ -9,23 +10,24 @@ function extractTargetValue(arg) {
   return arg
 }
 
-function mapValue(props, propName, componentName, ...args){
-  let isOpaqueAccessor = typeof props.bindTo === 'function';
+function mapValue(props, propName, componentName, ...args) {
+  let isOpaqueAccessor = typeof props.bindTo === 'function'
 
   if (isOpaqueAccessor) {
     if (typeof props[propName] === 'function')
-      return new Error(propName + ' must be an Object or a String, when `bindTo` is a function')
+      return new Error(
+        propName + ' must be an Object or a String, when `bindTo` is a function'
+      )
   }
 
   return PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ])(props, propName, componentName, ...args)
 }
 
 class Binding extends React.Component {
-
   static propTypes = {
     /**
      * A callback prop name that the Binding should listen for changes on.
@@ -69,10 +71,7 @@ class Binding extends React.Component {
      * </Binding>
      * ```
      */
-    bindTo: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func
-    ]).isRequired,
+    bindTo: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
 
     /**
      * Customize how the Binding return value maps to the overall BindingContext `value`.
@@ -81,7 +80,7 @@ class Binding extends React.Component {
      *
      * **note:** the default value will attempt to extract the value from `target.value`
      * so that native inputs will just work as expected.
-     * 
+     *
      * ```js
      * <Binding
      *   bindTo='name'
@@ -129,26 +128,24 @@ class Binding extends React.Component {
      * </Binding>
      * ```
      */
-    children: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.func
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+      .isRequired,
 
     /**
      * Configures the change callback to fire _after_ the child's change handler,
      * if there is one.
      */
-    updateAfterChild: PropTypes.bool
+    updateAfterChild: PropTypes.bool,
   }
 
   static defaultProps = {
     changeProp: 'onChange',
     valueProp: 'value',
-    updateAfterChild: false
+    updateAfterChild: false,
   }
 
   static contextTypes = {
-    registerWithBindingContext: PropTypes.func
+    registerWithBindingContext: PropTypes.func,
   }
 
   componentWillMount() {
@@ -169,68 +166,60 @@ class Binding extends React.Component {
 
   handleEvent = (event, ...args) => {
     let {
-        bindTo
-      , children
-      , mapValue = extractTargetValue
-      , updateAfterChild } = this.props;
+      bindTo,
+      children,
+      mapValue = extractTargetValue,
+      updateAfterChild,
+    } = this.props
 
     let childHandler = React.isValidElement(children) && children.props[event]
 
     if (typeof bindTo === 'string') {
-      if (typeof mapValue !== 'object')
-        mapValue = { [bindTo]: mapValue }
+      if (typeof mapValue !== 'object') mapValue = { [bindTo]: mapValue }
     }
 
-    if (updateAfterChild && childHandler)
-      childHandler(...args)
+    if (updateAfterChild && childHandler) childHandler(...args)
 
     if (this.bindingContext && mapValue)
       this.bindingContext.onChange(mapValue, args)
 
-    if (!updateAfterChild && childHandler)
-      childHandler(...args)
+    if (!updateAfterChild && childHandler) childHandler(...args)
   }
 
-  inject = (props) => {
+  inject = props => {
     let { valueProp, children } = this.props
 
-    if (this.bindingContext)
-      props[valueProp] = this._value
+    if (this.bindingContext) props[valueProp] = this._value
 
-    if (typeof children === 'function')
-      return children(props)
+    if (typeof children === 'function') return children(props)
 
     return React.cloneElement(children, props)
   }
 
-  render(){
+  render() {
     let { changeProp } = this.props
 
     return (
-      <Bridge
-        events={changeProp}
-        onEvent={this.handleEvent}
-      >
+      <Bridge events={changeProp} onEvent={this.handleEvent}>
         {this.inject}
       </Bridge>
     )
   }
 
   registerWithBindingContext(props = this.props, context = this.context) {
-    let register = context.registerWithBindingContext
-      , first = true;
+    let register = context.registerWithBindingContext, first = true
 
     if (register && !this.bindingContext)
       this.bindingContext = register(bindingContext => {
-        let last = this._value;
+        let last = this._value
         this._value = bindingContext.value(props.bindTo)
 
         if (!first && last !== this._value && !this.unmounted)
           this.forceUpdate()
 
-        first = false;
+        first = false
       })
   }
 }
 
-export default Binding;
+export default Binding
