@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
   "repository": {
@@ -24,7 +24,6 @@
     "react": "^0.14.9 || >=15.3.0"
   },
   "dependencies": {
-    "babel-eslint": "^7.2.3",
     "classnames": "^2.2.5",
     "invariant": "^2.2.2",
     "property-expr": "^1.3.1",
