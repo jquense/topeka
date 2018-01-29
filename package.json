@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
   "scripts": {
