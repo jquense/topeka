@@ -1,9 +1,14 @@
-import merge from 'lodash/object/merge'
+import merge from 'lodash/merge'
+import PropTypes from 'prop-types'
 import React from 'react'
 import Label from 'react-bootstrap/lib/Label'
 import Table from 'react-bootstrap/lib/Table'
 
-let cleanDocletValue = str => str.trim().replace(/^\{/, '').replace(/\}$/, '')
+let cleanDocletValue = str =>
+  str
+    .trim()
+    .replace(/^\{/, '')
+    .replace(/\}$/, '')
 
 function getPropsData(componentData, metadata) {
   let props = componentData.props || {}
@@ -25,15 +30,11 @@ function getPropsData(componentData, metadata) {
   return props
 }
 
-const PropTable = React.createClass({
-  contextTypes: {
-    metadata: React.PropTypes.object,
-  },
-
+class PropTable extends React.Component {
   componentWillMount() {
     let componentData = this.props.metadata[this.props.component] || {}
     this.propsData = getPropsData(componentData, this.props.metadata)
-  },
+  }
 
   render() {
     let propsData = this.propsData
@@ -70,13 +71,11 @@ const PropTable = React.createClass({
               <th>Description</th>
             </tr>
           </thead>
-          <tbody>
-            {this._renderRows(propsData)}
-          </tbody>
+          <tbody>{this._renderRows(propsData)}</tbody>
         </Table>
       </div>
     )
-  },
+  }
 
   _renderRows(propsData) {
     return Object.keys(propsData)
@@ -96,21 +95,24 @@ const PropTable = React.createClass({
             <td>
               <div>{this.getType(propData)}</div>
             </td>
-            <td><code>{propData.defaultValue}</code></td>
+            <td>
+              <code>{propData.defaultValue}</code>
+            </td>
 
             <td>
-              {propData.doclets.deprecated &&
+              {propData.doclets.deprecated && (
                 <div>
                   <strong className="text-danger">
                     {'Deprecated: ' + propData.doclets.deprecated + ' '}
                   </strong>
-                </div>}
+                </div>
+              )}
               <div dangerouslySetInnerHTML={{ __html: propData.descHtml }} />
             </td>
           </tr>
         )
       })
-  },
+  }
 
   renderRequiredLabel(prop) {
     if (!prop.required) {
@@ -118,7 +120,7 @@ const PropTable = React.createClass({
     }
 
     return <Label>required</Label>
-  },
+  }
 
   getType(prop) {
     let type = prop.type || {}
@@ -141,7 +143,13 @@ const PropTable = React.createClass({
       case 'array': {
         let child = this.getType({ type: type.value })
 
-        return <span>{'array<'}{child}{'>'}</span>
+        return (
+          <span>
+            {'array<'}
+            {child}
+            {'>'}
+          </span>
+        )
       }
       case 'enum':
         return this.renderEnum(type)
@@ -150,7 +158,7 @@ const PropTable = React.createClass({
       default:
         return name
     }
-  },
+  }
 
   getDisplayTypeName(typeName) {
     if (typeName === 'func') {
@@ -160,7 +168,7 @@ const PropTable = React.createClass({
     } else {
       return typeName
     }
-  },
+  }
 
   renderEnum(enumType) {
     const enumValues = enumType.value || []
@@ -175,7 +183,7 @@ const PropTable = React.createClass({
     })
 
     return <span>one of: {renderedEnumValues}</span>
-  },
-})
+  }
+}
 
 export default PropTable

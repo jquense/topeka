@@ -1,5 +1,5 @@
 const path = require('path')
-const { plugins, rules } = require('webpack-atoms');
+const { plugins, rules } = require('webpack-atoms')
 
 module.exports = {
   devtool: 'source-map',
@@ -8,21 +8,15 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../docs/'),
     filename: 'bundle.js',
-    publicPath: '/docs'
+    publicPath: '/docs',
   },
   resolve: {
     alias: {
-      topeka: path.resolve(__dirname, '../src')
-    }
+      topeka: path.resolve(__dirname, '../src'),
+    },
   },
   module: {
-    rules: [
-      rules.js({}),
-      rules.css(),
-      rules.less(),
-    ]
+    rules: [rules.js(), rules.css(), rules.less()],
   },
-  plugins: [
-    plugins.extractText(),
-  ]
+  plugins: [plugins.extractText()],
 }

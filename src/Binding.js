@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Bridge from './ChildBridge'
+import createBridge from './createChildBridge'
 
 function extractTargetValue(arg) {
   if (arg && arg.target && arg.target.tagName) {
@@ -148,6 +148,11 @@ class Binding extends React.Component {
     registerWithBindingContext: PropTypes.func,
   }
 
+  constructor(props, context) {
+    super(props, context)
+
+    this.renderChild = createBridge(this.inject, this.handleEvent)
+  }
   componentWillMount() {
     this.registerWithBindingContext()
   }
@@ -199,15 +204,12 @@ class Binding extends React.Component {
   render() {
     let { changeProp } = this.props
 
-    return (
-      <Bridge events={changeProp} onEvent={this.handleEvent}>
-        {this.inject}
-      </Bridge>
-    )
+    return this.renderChild(changeProp)
   }
 
   registerWithBindingContext(props = this.props, context = this.context) {
-    let register = context.registerWithBindingContext, first = true
+    let register = context.registerWithBindingContext,
+      first = true
 
     if (register && !this.bindingContext)
       this.bindingContext = register(bindingContext => {
