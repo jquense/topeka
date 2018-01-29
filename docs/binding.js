@@ -1,16 +1,29 @@
-
 let Names = props => {
   return (
     <BindingContext {...props}>
       <div>
-        <div className='form-group'>
-          <Binding bindTo='first'>
-            <input type='text' placeholder='first name' className='form-control'/>
+        <div className="form-group">
+          <Binding bindTo="first">
+            {props => (
+              <input
+                type="text"
+                placeholder="first name"
+                className="form-control"
+                {...props}
+              />
+            )}
           </Binding>
         </div>
-        <div className='form-group'>
-          <Binding bindTo='surname'>
-            <input type='text' placeholder='surname' className='form-control'/>
+        <div className="form-group">
+          <Binding bindTo="surname">
+            {props => (
+              <input
+                type="text"
+                placeholder="surname"
+                className="form-control"
+                {...props}
+              />
+            )}
           </Binding>
         </div>
       </div>
@@ -18,35 +31,31 @@ let Names = props => {
   )
 }
 
-let Surround = (props) => (
-  <div {...props}>{props.children}</div>
-)
+let Surround = props => <div {...props}>{props.children}</div>
 
-let App = ()=> {
+let App = () => {
   return (
-    <BindingContext
-      defaultValue={{}}
-    >
+    <BindingContext defaultValue={{}}>
       <section>
-        <Binding bindTo='name'>
-          <Names />
-        </Binding>
+        <Binding bindTo="name">{props => <Names {...props} />}</Binding>
 
-        <div className='form-group'>
-          <Binding
-            bindTo='age'
-            mapValue={e => parseFloat(e.target.value)}
-          >
-            <input type='number' placeholder='age' className='form-control'/>
+        <div className="form-group">
+          <Binding bindTo="age" mapValue={e => parseFloat(e.target.value)}>
+            {props => (
+              <input
+                type="number"
+                placeholder="age"
+                className="form-control"
+                {...props}
+              />
+            )}
           </Binding>
         </div>
-        <div className='form-group'>
-          <Binding
-            bindTo='colors[0].name'
-          >
+        <div className="form-group">
+          <Binding bindTo="colors[0].name">
             {props => (
               <Surround>
-                <select {...props} className='form-control'>
+                <select {...props} className="form-control">
                   <option>Red</option>
                   <option>Blue</option>
                   <option>Yellow</option>
@@ -55,24 +64,21 @@ let App = ()=> {
             )}
           </Binding>
         </div>
-        <div className='form-group'>
-          <Binding
-            bindTo='colors[1].name'
-          >
-            <select className='form-control'>
-              <option>Red</option>
-              <option>Blue</option>
-              <option>Yellow</option>
-            </select>
+        <div className="form-group">
+          <Binding bindTo="colors[1].name">
+            {props => (
+              <select {...props} className="form-control">
+                <option>Red</option>
+                <option>Blue</option>
+                <option>Yellow</option>
+              </select>
+            )}
           </Binding>
         </div>
         <div>
           <h5>current value: </h5>
-          <Binding
-            bindTo={model => JSON.stringify(model, null, 2)}
-            valueProp='children'
-          >
-          	<pre />
+          <Binding bindTo={model => JSON.stringify(model, null, 2)}>
+            {({ value }) => <pre>{value}</pre>}
           </Binding>
         </div>
       </section>
@@ -80,4 +86,4 @@ let App = ()=> {
   )
 }
 
-render(<App/>, mountNode)
+render(<App />, mountNode)

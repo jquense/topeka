@@ -25,18 +25,18 @@ class App extends React.Component {
         >
           <section>
             <Binding bindTo='name.first' mapValue={eventValue}>
-              <input type='text' placeholder='first name'/>
+              {events => <input type='text' placeholder='first name' {...events}/>}
             </Binding>
 
             <Binding bindTo='name.surname' mapValue={eventValue}>
-              <input type='text' placeholder='surname'/>
+              {events => <input type='text' placeholder='surname'{...events}/>}
             </Binding>
 
             <Binding
               bindTo='age'
               mapValue={e => parseInt(eventValue(e), 10)}
             >
-              <input type='number' placeholder='age'/>
+              {events => <input type='number' placeholder='age' {...events}/>}
             </Binding>
           </section>
         </BindingContext>

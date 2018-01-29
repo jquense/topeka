@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Consumer } from './BindingContext'
 import createBridge from './createChildBridge'
+import StaticContainer from './StaticContainer'
 
 function extractTargetValue(arg) {
   if (arg && arg.target && arg.target.tagName) {
@@ -10,31 +12,14 @@ function extractTargetValue(arg) {
   return arg
 }
 
-function mapValue(props, propName, componentName, ...args) {
-  let isOpaqueAccessor = typeof props.bindTo === 'function'
-
-  if (isOpaqueAccessor) {
-    if (typeof props[propName] === 'function')
-      return new Error(
-        propName + ' must be an Object or a String, when `bindTo` is a function'
-      )
-  }
-
-  return PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string,
-    PropTypes.func,
-  ])(props, propName, componentName, ...args)
-}
-
-class Binding extends React.Component {
+class Binding extends React.PureComponent {
   static propTypes = {
     /**
      * A callback prop name that the Binding should listen for changes on.
      *
      * ```js
      * <Binding changeProp='onSelect'>
-     *   <MyDropDown />
+     *   {props => <MyDropDown {...props} />}
      * </Binding>
      * ```
      */
@@ -45,7 +30,7 @@ class Binding extends React.Component {
      *
      * ```js
      * <Binding valueProp='selectedValue'>
-     *   <MyDropDown />
+     *   {props => <MyDropDown {...props} />}
      * </Binding>
      * ```
      */
@@ -67,7 +52,7 @@ class Binding extends React.Component {
      *     return { first, last }
      *   }}
      * >
-     *  <MyDropdown />
+     *  {props => <MyDropDown {...props} />}
      * </Binding>
      * ```
      */
@@ -88,7 +73,7 @@ class Binding extends React.Component {
      *     dropdownValue.first + ' ' + dropdownValue.last
      *   }
      * >
-     *  <MyDropdown />
+     *  {props => <MyDropDown {...props} />}
      * </Binding>
      * ```
      *
@@ -106,15 +91,31 @@ class Binding extends React.Component {
      *      dropdownValue.first + ' ' + dropdownValue.last
      *   }}
      * >
-     *   <MyDropdown />
+     *   {props => <MyDropDown {...props} />}
      * </Binding>
      * ```
+     *
+     * @type func | string | object
      */
-    mapValue,
+    mapValue(props, propName, componentName, ...args) {
+      if (
+        typeof props.bindTo === 'function' &&
+        typeof props[propName] === 'function'
+      )
+        return new Error(
+          `${propName} must be an Object or a string, when \`bindTo\` is a function`
+        )
+
+      return PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string,
+        PropTypes.func,
+      ])(props, propName, componentName, ...args)
+    },
 
     /**
-     * The element to be bound. You can also specify a function child for components
-     * that nest and alter children. Or need more nuanced control over the injection process.
+     * A render function that returns a react element and is
+     * passed the binding callbacks and value.
      *
      * ```js
      * let Surround = (props) => <div {...props}>{props.children}</div>
@@ -128,99 +129,70 @@ class Binding extends React.Component {
      * </Binding>
      * ```
      */
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-      .isRequired,
-
-    /**
-     * Configures the change callback to fire _after_ the child's change handler,
-     * if there is one.
-     */
-    updateAfterChild: PropTypes.bool,
+    children: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     changeProp: 'onChange',
     valueProp: 'value',
-    updateAfterChild: false,
-  }
-
-  static contextTypes = {
-    registerWithBindingContext: PropTypes.func,
   }
 
   constructor(props, context) {
     super(props, context)
 
-    this.renderChild = createBridge(this.inject, this.handleEvent)
-  }
-  componentWillMount() {
-    this.registerWithBindingContext()
+    this.renderChild = createBridge(this.handleEvent, props => {
+      let { valueProp, children, bindTo } = this.props
+      let valueChanged = true
+
+      if (this.bindingContext) {
+        let lastValue = this.bindingValue
+        props[valueProp] = this.bindingValue = this.bindingContext.getValue(
+          bindTo
+        )
+        valueChanged = lastValue !== this.bindingValue
+      }
+
+      return (
+        <StaticContainer
+          props={props}
+          shouldUpdate={this.propsUpdated || valueChanged}
+        >
+          {children}
+        </StaticContainer>
+      )
+    })
   }
 
-  componentWillReceiveProps(nextProps, _, nextContext) {
-    this.registerWithBindingContext(nextProps, nextContext)
+  componentWillReceiveProps(nextProps) {
+    this.propsUpdated = nextProps !== this.props
   }
 
-  componentWillUnmount() {
-    this.unmounted = true
-
-    if (this.bindingContext) {
-      this.bindingContext.remove()
-    }
+  componentDidUpdate() {
+    this.propsUpdated = false
   }
 
   handleEvent = (event, ...args) => {
-    let {
-      bindTo,
-      children,
-      mapValue = extractTargetValue,
-      updateAfterChild,
-    } = this.props
-
-    let childHandler = React.isValidElement(children) && children.props[event]
+    let { bindTo, mapValue = extractTargetValue } = this.props
 
     if (typeof bindTo === 'string') {
       if (typeof mapValue !== 'object') mapValue = { [bindTo]: mapValue }
     }
 
-    if (updateAfterChild && childHandler) childHandler(...args)
-
     if (this.bindingContext && mapValue)
-      this.bindingContext.onChange(mapValue, args)
-
-    if (!updateAfterChild && childHandler) childHandler(...args)
-  }
-
-  inject = props => {
-    let { valueProp, children } = this.props
-
-    if (this.bindingContext) props[valueProp] = this._value
-
-    if (typeof children === 'function') return children(props)
-
-    return React.cloneElement(children, props)
+      this.bindingContext.updateBindingValue(mapValue, args)
   }
 
   render() {
     let { changeProp } = this.props
 
-    return this.renderChild(changeProp)
-  }
-
-  registerWithBindingContext(props = this.props, context = this.context) {
-    let register = context.registerWithBindingContext,
-      first = true
-
-    if (register && !this.bindingContext)
-      this.bindingContext = register(bindingContext => {
-        let last = this._value
-        this._value = bindingContext.value(props.bindTo)
-
-        if (!first && last !== this._value && !this.unmounted)
-          this.forceUpdate()
-
-        first = false
-      })
+    return (
+      <Consumer>
+        {bindingContext => {
+          this.bindingContext = bindingContext
+          return this.renderChild(changeProp)
+        }}
+      </Consumer>
+    )
   }
 }
 

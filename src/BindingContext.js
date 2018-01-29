@@ -3,10 +3,27 @@ import PropTypes from 'prop-types'
 import uncontrollable from 'uncontrollable'
 import invariant from 'invariant'
 import expr from 'property-expr'
+import createContext from 'create-react-context'
 
 import updateIn from './updateIn'
 
 let defaultSetter = (path, model, val) => updateIn(model, path, val)
+
+function wrapSetter(setter) {
+  return (...args) => {
+    var result = setter(...args)
+    invariant(
+      result && typeof result === 'object',
+      '`setter(..)` props must return the form value object after updating a value.'
+    )
+    return result
+  }
+}
+
+export const { Provider, Consumer } = createContext({
+  getValue() {},
+  updateBindingValue() {},
+})
 
 class BindingContext extends React.Component {
   static propTypes = {
@@ -36,7 +53,7 @@ class BindingContext extends React.Component {
      * `getter` is called with `path` and `value` and should return the value at that path.
      * `getter()` is used when a `<Binding/>` provides a string `accessor`.
      *
-      * ```js
+     * ```js
      * function(
      *  path: string,
      *  value: any,
@@ -60,56 +77,46 @@ class BindingContext extends React.Component {
     setter: PropTypes.func,
   }
 
-  static childContextTypes = {
-    registerWithBindingContext: PropTypes.func,
-  }
-
   static defaultProps = {
     getter: (path, model) =>
-      (path ? expr.getter(path, true)(model || {}) : model),
+      path ? expr.getter(path, true)(model || {}) : model,
     setter: defaultSetter,
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this._handlers = []
-  }
+  constructor(...args) {
+    super(...args)
 
-  getChildContext() {
-    return (
-      this._context ||
-      (this._context = {
-        registerWithBindingContext: listener => {
-          let remove = () =>
-            this._handlers.splice(this._handlers.indexOf(listener), 1)
-
-          this._handlers.push(listener)
-          listener(this._listenerContext(this.props))
-
-          return {
-            remove,
-            onChange: (mapValue, args) => this._update(mapValue, args),
-          }
-        },
-      })
+    this.bindingContext = this.getBindingContext(
+      this.props.value,
+      this.props.getter
     )
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) this._emit(nextProps)
+  componentWillReceiveProps({ value, getter }) {
+    if (value === this.props.value && getter === this.props.getter) return
+
+    this.bindingContext = this.getBindingContext(value, getter)
   }
 
-  render() {
-    return React.Children.only(this.props.children)
+  getBindingContext(value, getter) {
+    return {
+      updateBindingValue: this.updateBindingValue,
+      getValue: pathOrAccessor =>
+        typeof pathOrAccessor === 'function'
+          ? pathOrAccessor(value, getter)
+          : getter(pathOrAccessor, value),
+    }
   }
 
-  _update(mapValue, args) {
-    var model = this.props.value, updater = this.props.setter, paths = []
+  updateBindingValue = (mapValue, args) => {
+    let { value: model, setter: updater, onChange } = this.props
+    let paths = []
 
     if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater)
 
     Object.keys(mapValue).forEach(key => {
-      let field = mapValue[key], value
+      let field = mapValue[key],
+        value
 
       if (typeof field === 'function') value = field(...args)
       else if (field === '.' || field == null || args[0] == null)
@@ -123,32 +130,13 @@ class BindingContext extends React.Component {
       model = updater(key, model, value, defaultSetter)
     })
 
-    this.props.onChange(model, paths)
+    onChange(model, paths)
   }
 
-  _emit(props) {
-    let context = this._listenerContext(props)
-    this._handlers.forEach(fn => fn(context))
-  }
-
-  _listenerContext(props) {
-    return {
-      value: pathOrAccessor =>
-        (typeof pathOrAccessor === 'function'
-          ? pathOrAccessor(props.value, props.getter)
-          : props.getter(pathOrAccessor, props.value)),
-    }
-  }
-}
-
-function wrapSetter(setter) {
-  return (...args) => {
-    var result = setter(...args)
-    invariant(
-      result && typeof result === 'object',
-      '`setter(..)` props must return the form value object after updating a value.'
+  render() {
+    return (
+      <Provider value={this.bindingContext}>{this.props.children}</Provider>
     )
-    return result
   }
 }
 

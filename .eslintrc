@@ -1,4 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": "jason/react"
+  "extends": "jason/react",
+  "globals": {
+    "__DEV__": false
+  }
 }

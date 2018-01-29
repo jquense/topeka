@@ -1,40 +1,37 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from 'react'
+import { render } from 'react-dom'
 import { inspect } from 'util'
-import { Binding, BindingContext } from 'topeka';
-import Playground from '@monastic.panic/component-playground';
-import PropTable from './PropTable';
-import BindingMetadata from 'component-metadata-loader!topeka/Binding';
-import BindingContextMetadata from 'component-metadata-loader!topeka/BindingContext';
+import { Binding, BindingContext } from 'topeka'
+import Playground from '@monastic.panic/component-playground'
+import PropTable from './PropTable'
+import BindingMetadata from 'component-metadata-loader!topeka/Binding'
+import BindingContextMetadata from 'component-metadata-loader!topeka/BindingContext'
 
-import '@monastic.panic/component-playground/codemirror.css';
-import './styles.less';
+import '@monastic.panic/component-playground/codemirror.css'
+import '@monastic.panic/component-playground/themes/neo.css'
+import './styles.less'
 
 class App extends React.Component {
-
   state = {
-    value: {}
+    value: {},
   }
 
-  render(){
+  render() {
     return (
-      <div className='container'>
+      <div className="container">
         <h2>Example</h2>
         <Playground
           scope={{ React, render, Binding, BindingContext, inspect }}
           code={require('!!raw-loader!./binding')}
-          className='overlay-example'
+          className="overlay-example"
           editorOptions={{ theme: 'neo', viewportMargin: Infinity }}
         />
         <h2>API</h2>
         <PropTable
-          component='BindingContext'
+          component="BindingContext"
           metadata={BindingContextMetadata}
         />
-        <PropTable
-          component='Binding'
-          metadata={BindingMetadata}
-        />
+        <PropTable component="Binding" metadata={BindingMetadata} />
       </div>
     )
   }
@@ -43,4 +40,4 @@ class App extends React.Component {
 let mount = document.createElement('div')
 document.body.appendChild(mount)
 
-render(<App/>, mount)
+render(<App />, mount)

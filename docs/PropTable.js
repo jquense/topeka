@@ -1,5 +1,4 @@
 import merge from 'lodash/merge'
-import PropTypes from 'prop-types'
 import React from 'react'
 import Label from 'react-bootstrap/lib/Label'
 import Table from 'react-bootstrap/lib/Table'
@@ -71,13 +70,13 @@ class PropTable extends React.Component {
               <th>Description</th>
             </tr>
           </thead>
-          <tbody>{this._renderRows(propsData)}</tbody>
+          <tbody>{this.renderRows(propsData)}</tbody>
         </Table>
       </div>
     )
   }
 
-  _renderRows(propsData) {
+  renderRows(propsData) {
     return Object.keys(propsData)
       .sort()
       .filter(
@@ -96,7 +95,9 @@ class PropTable extends React.Component {
               <div>{this.getType(propData)}</div>
             </td>
             <td>
-              <code>{propData.defaultValue}</code>
+              <code>
+                {propData.defaultValue && propData.defaultValue.value}
+              </code>
             </td>
 
             <td>
@@ -107,7 +108,9 @@ class PropTable extends React.Component {
                   </strong>
                 </div>
               )}
-              <div dangerouslySetInnerHTML={{ __html: propData.descHtml }} />
+              <div
+                dangerouslySetInnerHTML={{ __html: propData.descriptionHtml }}
+              />
             </td>
           </tr>
         )
@@ -154,7 +157,7 @@ class PropTable extends React.Component {
       case 'enum':
         return this.renderEnum(type)
       case 'custom':
-        return cleanDocletValue(doclets.type || name)
+        return cleanDocletValue(doclets.type || type.raw)
       default:
         return name
     }
@@ -174,12 +177,12 @@ class PropTable extends React.Component {
     const enumValues = enumType.value || []
 
     const renderedEnumValues = []
-    enumValues.forEach(function renderEnumValue(enumValue, i) {
+    enumValues.forEach(({ value }, i) => {
       if (i > 0) {
         renderedEnumValues.push(<span key={`${i}c`}>, </span>)
       }
 
-      renderedEnumValues.push(<code key={i}>{enumValue}</code>)
+      renderedEnumValues.push(<code key={i}>{value}</code>)
     })
 
     return <span>one of: {renderedEnumValues}</span>

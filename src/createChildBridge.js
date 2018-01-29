@@ -1,4 +1,4 @@
-export default function createChildBridge(render, handleEvent) {
+export default function createChildBridge(handleEvent, render) {
   let eventMap = {}
 
   const getEvents = events => {
