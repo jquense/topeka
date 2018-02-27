@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
   "modules": "es/index.js",
@@ -32,7 +32,9 @@
   },
   "homepage": "https://github.com/jquense/topeka#readme",
   "jest": {
-    "roots": ["test"],
+    "roots": [
+      "test"
+    ],
     "setupTestFrameworkScriptFile": "./test/setup.js"
   },
   "devDependencies": {
