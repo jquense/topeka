@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import uncontrollable from 'uncontrollable'
 import invariant from 'invariant'
 import expr from 'property-expr'
+import polyfill from 'react-lifecycles-compat'
 import createContext from 'create-react-context'
 
 import updateIn from './updateIn'
@@ -83,28 +84,31 @@ class BindingContext extends React.Component {
     setter: defaultSetter,
   }
 
+  static getDerivedStateFromProps({ value, getter }, prevState) {
+    if (value === prevState.value && getter === prevState.getter) {
+      return null
+    }
+
+    return {
+      value,
+      getter,
+      bindingContext: {
+        updateBindingValue: prevState.bindingContext.updateBindingValue,
+        getValue: pathOrAccessor =>
+          typeof pathOrAccessor === 'function'
+            ? pathOrAccessor(value, getter)
+            : getter(pathOrAccessor, value),
+      },
+    }
+  }
+
   constructor(...args) {
     super(...args)
 
-    this.bindingContext = this.getBindingContext(
-      this.props.value,
-      this.props.getter
-    )
-  }
-
-  componentWillReceiveProps({ value, getter }) {
-    if (value === this.props.value && getter === this.props.getter) return
-
-    this.bindingContext = this.getBindingContext(value, getter)
-  }
-
-  getBindingContext(value, getter) {
-    return {
-      updateBindingValue: this.updateBindingValue,
-      getValue: pathOrAccessor =>
-        typeof pathOrAccessor === 'function'
-          ? pathOrAccessor(value, getter)
-          : getter(pathOrAccessor, value),
+    this.state = {
+      bindingContext: {
+        updateBindingValue: this.updateBindingValue,
+      },
     }
   }
 
@@ -135,9 +139,11 @@ class BindingContext extends React.Component {
 
   render() {
     return (
-      <Provider value={this.bindingContext}>{this.props.children}</Provider>
+      <Provider value={this.state.bindingContext}>
+        {this.props.children}
+      </Provider>
     )
   }
 }
 
-export default uncontrollable(BindingContext, { value: 'onChange' })
+export default uncontrollable(polyfill(BindingContext), { value: 'onChange' })

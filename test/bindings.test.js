@@ -7,7 +7,7 @@ import { Binding, BindingContext } from '../src'
 describe('Bindings', () => {
   class StaticContainer extends React.Component {
     shouldComponentUpdate(props) {
-      return !!props.shouldUpdate
+      return !!props.shouldUpdate // eslint-disable-line
     }
     render() {
       return this.props.children
@@ -49,7 +49,7 @@ describe('Bindings', () => {
     change.should.have.been.calledOnce.and.calledWith({ name: 'Jill' })
   })
 
-  it('should only update if binding value changed', function() {
+  it.only('should always update if binding value changed', function() {
     let change = sinon.spy()
     let value = { name: 'sally', eyes: 'hazel' }
     let count = 0
@@ -76,6 +76,26 @@ describe('Bindings', () => {
     count.should.equal(0)
 
     wrapper.setProps({ value: { ...value, name: 'Sallie' } })
+
+    count.should.equal(1)
+  })
+
+  it.only('should update if props change', function() {
+    let count = 0
+    class Input extends React.Component {
+      componentDidUpdate() {
+        count++
+      }
+      render = () => <input type="text" {...this.props} />
+    }
+
+    let wrapper = mount(
+      <Binding bindTo="name">{props => <Input {...props} />}</Binding>
+    )
+
+    count.should.equal(0)
+
+    wrapper.setProps({ bindTo: 'fooo' })
 
     count.should.equal(1)
   })

@@ -10549,11 +10549,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(147)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(148)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(149)();
+  module.exports = __webpack_require__(150)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -10665,11 +10665,11 @@ module.exports = emptyObject;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(161),
-    listCacheDelete = __webpack_require__(162),
-    listCacheGet = __webpack_require__(163),
-    listCacheHas = __webpack_require__(164),
-    listCacheSet = __webpack_require__(165);
+var listCacheClear = __webpack_require__(162),
+    listCacheDelete = __webpack_require__(163),
+    listCacheGet = __webpack_require__(164),
+    listCacheHas = __webpack_require__(165),
+    listCacheSet = __webpack_require__(166);
 
 /**
  * Creates an list cache object.
@@ -10774,8 +10774,8 @@ module.exports = eq;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(81),
-    getRawTag = __webpack_require__(172),
-    objectToString = __webpack_require__(173);
+    getRawTag = __webpack_require__(173),
+    objectToString = __webpack_require__(174);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -10819,7 +10819,7 @@ module.exports = nativeCreate;
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(187);
+var isKeyable = __webpack_require__(188);
 
 /**
  * Gets the data for `map`.
@@ -11899,8 +11899,8 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(171),
-    getValue = __webpack_require__(177);
+var baseIsNative = __webpack_require__(172),
+    getValue = __webpack_require__(178);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -12142,7 +12142,7 @@ module.exports = (
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(233);
+var _assign = __webpack_require__(234);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -12189,7 +12189,7 @@ module.exports = {};
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(24);
-var dPs = __webpack_require__(242);
+var dPs = __webpack_require__(243);
 var enumBugKeys = __webpack_require__(54);
 var IE_PROTO = __webpack_require__(52)('IE_PROTO');
 var Empty = function () { /* empty */ };
@@ -12204,7 +12204,7 @@ var createDict = function () {
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(243).appendChild(iframe);
+  __webpack_require__(244).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -12433,7 +12433,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(278);
+var	fixUrls = __webpack_require__(279);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -13677,6 +13677,8 @@ var _createReactContext = _interopRequireDefault(__webpack_require__(140));
 
 var _updateIn = _interopRequireDefault(__webpack_require__(76));
 
+var _jsxFileName = "/Users/jason/src/topeka/src/BindingContext.js";
+
 var defaultSetter = function defaultSetter(path, model, val) {
   return (0, _updateIn.default)(model, path, val);
 };
@@ -13739,106 +13741,96 @@ function (_React$Component) {
 
   _proto.render = function render() {
     return _react.default.createElement(Provider, {
-      value: this.bindingContext
+      value: this.bindingContext,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 138
+      },
+      __self: this
     }, this.props.children);
   };
 
   return BindingContext;
 }(_react.default.Component);
 
-Object.defineProperty(BindingContext, "propTypes", {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  value: {
-    /**
-     * BindingContext value object, can be left uncontrolled;
-     * use the `defaultValue` prop to initialize an uncontrolled BindingContext.
-     *
-     * BindingContext assumes that `value` is immutable so you must provide a _new_ value
-     * object to trigger an update. The `<Binding/>` components do this by default.
-     */
-    value: _propTypes.default.object,
+BindingContext.propTypes = {
+  /**
+   * BindingContext value object, can be left uncontrolled;
+   * use the `defaultValue` prop to initialize an uncontrolled BindingContext.
+   *
+   * BindingContext assumes that `value` is immutable so you must provide a _new_ value
+   * object to trigger an update. The `<Binding/>` components do this by default.
+   */
+  value: _propTypes.default.object,
 
-    /**
-     * Callback that is called when the `value` prop changes.
-     *
-     * ```js
-     * function(
-     * 	value: object,
-     * 	updatedPaths: array<string>
-     * )
-     * ```
-     */
-    onChange: _propTypes.default.func,
+  /**
+   * Callback that is called when the `value` prop changes.
+   *
+   * ```js
+   * function(
+   * 	value: object,
+   * 	updatedPaths: array<string>
+   * )
+   * ```
+   */
+  onChange: _propTypes.default.func,
 
-    /**
-     * A function used to extract value paths from the Context value.
-     * `getter` is called with `path` and `value` and should return the value at that path.
-     * `getter()` is used when a `<Binding/>` provides a string `accessor`.
-     *
-     * ```js
-     * function(
-     *  path: string,
-     *  value: any,
-     * ) -> object
-     * ```
-     */
-    getter: _propTypes.default.func,
+  /**
+   * A function used to extract value paths from the Context value.
+   * `getter` is called with `path` and `value` and should return the value at that path.
+   * `getter()` is used when a `<Binding/>` provides a string `accessor`.
+   *
+   * ```js
+   * function(
+   *  path: string,
+   *  value: any,
+   * ) -> object
+   * ```
+   */
+  getter: _propTypes.default.func,
 
-    /**
-     * A value setter function. `setter` is called with `path`, the context `value` and the path `value`.
-     * The `setter` must return updated form `value`, which allows you to leave the original value unmutated.
-     *
-     * ```js
-     * function(
-     *  path: string,
-     *  formValue: object,
-     *  pathValue: any
-     * ) -> object
-     * ```
-     */
-    setter: _propTypes.default.func
-  }
-});
-Object.defineProperty(BindingContext, "defaultProps", {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  value: {
-    getter: function getter(path, model) {
-      return path ? _propertyExpr.default.getter(path, true)(model || {}) : model;
-    },
-    setter: defaultSetter
-  }
-});
+  /**
+   * A value setter function. `setter` is called with `path`, the context `value` and the path `value`.
+   * The `setter` must return updated form `value`, which allows you to leave the original value unmutated.
+   *
+   * ```js
+   * function(
+   *  path: string,
+   *  formValue: object,
+   *  pathValue: any
+   * ) -> object
+   * ```
+   */
+  setter: _propTypes.default.func
+};
+BindingContext.defaultProps = {
+  getter: function getter(path, model) {
+    return path ? _propertyExpr.default.getter(path, true)(model || {}) : model;
+  },
+  setter: defaultSetter
+};
 
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
 
-  Object.defineProperty(this, "updateBindingValue", {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    value: function value(mapValue, args) {
-      var _this2$props = _this2.props,
-          model = _this2$props.value,
-          updater = _this2$props.setter,
-          onChange = _this2$props.onChange;
-      var paths = [];
-      if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater);
-      Object.keys(mapValue).forEach(function (key) {
-        var field = mapValue[key],
-            value;
-        if (typeof field === 'function') value = field.apply(void 0, args);else if (field === '.' || field == null || args[0] == null) value = args[0];else {
-          value = _propertyExpr.default.getter(field, true)(args[0]);
-        }
-        if (paths.indexOf(key) === -1) paths.push(key);
-        model = updater(key, model, value, defaultSetter);
-      });
-      onChange(model, paths);
-    }
-  });
+  this.updateBindingValue = function (mapValue, args) {
+    var _this2$props = _this2.props,
+        model = _this2$props.value,
+        updater = _this2$props.setter,
+        onChange = _this2$props.onChange;
+    var paths = [];
+    if (process.env.NODE_ENV !== 'production') updater = wrapSetter(updater);
+    Object.keys(mapValue).forEach(function (key) {
+      var field = mapValue[key],
+          value;
+      if (typeof field === 'function') value = field.apply(void 0, args);else if (field === '.' || field == null || args[0] == null) value = args[0];else {
+        value = _propertyExpr.default.getter(field, true)(args[0]);
+      }
+      if (paths.indexOf(key) === -1) paths.push(key);
+      model = updater(key, model, value, defaultSetter);
+    });
+    onChange(model, paths);
+  };
 };
 
 var _default = (0, _uncontrollable.default)(BindingContext, {
@@ -14055,7 +14047,7 @@ var _interopRequireDefault = __webpack_require__(7);
 exports.__esModule = true;
 exports.default = update;
 
-var _extends2 = _interopRequireDefault(__webpack_require__(142));
+var _extends2 = _interopRequireDefault(__webpack_require__(143));
 
 var _propertyExpr = _interopRequireDefault(__webpack_require__(75));
 
@@ -15367,7 +15359,7 @@ var _classnames = __webpack_require__(13);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _compile = __webpack_require__(153);
+var _compile = __webpack_require__(154);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15579,7 +15571,7 @@ module.exports = defineProperty;
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(201);
+var overArg = __webpack_require__(202);
 
 /** Built-in value references. */
 var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -15615,7 +15607,7 @@ module.exports = isPrototype;
 /* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsArguments = __webpack_require__(202),
+var baseIsArguments = __webpack_require__(203),
     isObjectLike = __webpack_require__(23);
 
 /** Used for built-in method references. */
@@ -15731,7 +15723,7 @@ module.exports = isLength;
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(15),
-    stubFalse = __webpack_require__(204);
+    stubFalse = __webpack_require__(205);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -15775,9 +15767,9 @@ module.exports = isBuffer;
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsTypedArray = __webpack_require__(206),
-    baseUnary = __webpack_require__(207),
-    nodeUtil = __webpack_require__(208);
+var baseIsTypedArray = __webpack_require__(207),
+    baseUnary = __webpack_require__(208),
+    nodeUtil = __webpack_require__(209);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -15829,8 +15821,8 @@ module.exports = safeGet;
 /* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(212),
-    baseKeysIn = __webpack_require__(214),
+var arrayLikeKeys = __webpack_require__(213),
+    baseKeysIn = __webpack_require__(215),
     isArrayLike = __webpack_require__(48);
 
 /**
@@ -15926,7 +15918,7 @@ module.exports = identity;
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(229);
+var aFunction = __webpack_require__(230);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -15997,7 +15989,7 @@ module.exports = function (isEntries) {
 
 var has = __webpack_require__(11);
 var toIObject = __webpack_require__(12);
-var arrayIndexOf = __webpack_require__(230)(false);
+var arrayIndexOf = __webpack_require__(231)(false);
 var IE_PROTO = __webpack_require__(52)('IE_PROTO');
 
 module.exports = function (object, names) {
@@ -16116,11 +16108,11 @@ exports.default = function (self, call) {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(237);
+var _iterator = __webpack_require__(238);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(249);
+var _symbol = __webpack_require__(250);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -16146,9 +16138,9 @@ var redefine = __webpack_require__(109);
 var hide = __webpack_require__(16);
 var has = __webpack_require__(11);
 var Iterators = __webpack_require__(58);
-var $iterCreate = __webpack_require__(241);
+var $iterCreate = __webpack_require__(242);
 var setToStringTag = __webpack_require__(60);
-var getPrototypeOf = __webpack_require__(244);
+var getPrototypeOf = __webpack_require__(245);
 var ITERATOR = __webpack_require__(20)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -16262,11 +16254,11 @@ exports.f = __webpack_require__(19) ? gOPD : function getOwnPropertyDescriptor(O
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(259);
+var _setPrototypeOf = __webpack_require__(260);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(263);
+var _create = __webpack_require__(264);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -16302,7 +16294,7 @@ exports.default = function (subClass, superClass) {
 exports.__esModule = true;
 exports._curry = exports.bsSizes = exports.bsStyles = exports.bsClass = undefined;
 
-var _entries = __webpack_require__(266);
+var _entries = __webpack_require__(267);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -16316,7 +16308,7 @@ exports.splitBsProps = splitBsProps;
 exports.splitBsPropsAndOmit = splitBsPropsAndOmit;
 exports.addStyle = addStyle;
 
-var _invariant = __webpack_require__(269);
+var _invariant = __webpack_require__(270);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -16542,11 +16534,11 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(270)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(271)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(272)();
+  module.exports = __webpack_require__(273)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -16601,9 +16593,9 @@ var Style = exports.Style = {
 
 var _interopRequireDefault = __webpack_require__(7);
 
-var _inheritsLoose2 = _interopRequireDefault(__webpack_require__(21));
-
 var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(37));
+
+var _inheritsLoose2 = _interopRequireDefault(__webpack_require__(21));
 
 var _react = _interopRequireDefault(__webpack_require__(1));
 
@@ -16613,19 +16605,21 @@ var _util = __webpack_require__(72);
 
 var _topeka = __webpack_require__(133);
 
-var _componentPlayground = _interopRequireDefault(__webpack_require__(146));
+var _componentPlayground = _interopRequireDefault(__webpack_require__(147));
 
-var _PropTable = _interopRequireDefault(__webpack_require__(157));
+var _PropTable = _interopRequireDefault(__webpack_require__(158));
 
-var _Binding = _interopRequireDefault(__webpack_require__(274));
+var _Binding = _interopRequireDefault(__webpack_require__(275));
 
-var _BindingContext = _interopRequireDefault(__webpack_require__(275));
+var _BindingContext = _interopRequireDefault(__webpack_require__(276));
 
-__webpack_require__(276);
+__webpack_require__(277);
 
-__webpack_require__(279);
+__webpack_require__(280);
 
-__webpack_require__(281);
+__webpack_require__(282);
+
+var _jsxFileName = "/Users/jason/src/topeka/docs/client.js";
 
 var App =
 /*#__PURE__*/
@@ -16639,22 +16633,28 @@ function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return (_temp = _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this, Object.defineProperty((0, _assertThisInitialized2.default)(_this), "state", {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: {
-        value: {}
-      }
-    }), _temp) || (0, _assertThisInitialized2.default)(_this);
+    return (_temp = _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this, _this.state = {
+      value: {}
+    }, _temp) || (0, _assertThisInitialized2.default)(_this);
   }
 
   var _proto = App.prototype;
 
   _proto.render = function render() {
     return _react.default.createElement("div", {
-      className: "container"
-    }, _react.default.createElement("h2", null, "Example"), _react.default.createElement(_componentPlayground.default, {
+      className: "container",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 21
+      },
+      __self: this
+    }, _react.default.createElement("h2", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 22
+      },
+      __self: this
+    }, "Example"), _react.default.createElement(_componentPlayground.default, {
       scope: {
         React: _react.default,
         render: _reactDom.render,
@@ -16662,18 +16662,39 @@ function (_React$Component) {
         BindingContext: _topeka.BindingContext,
         inspect: _util.inspect
       },
-      code: __webpack_require__(283),
+      code: __webpack_require__(284),
       className: "overlay-example",
       editorOptions: {
         theme: 'neo',
         viewportMargin: Infinity
-      }
-    }), _react.default.createElement("h2", null, "API"), _react.default.createElement(_PropTable.default, {
+      },
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 23
+      },
+      __self: this
+    }), _react.default.createElement("h2", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 29
+      },
+      __self: this
+    }, "API"), _react.default.createElement(_PropTable.default, {
       component: "BindingContext",
-      metadata: _BindingContext.default
+      metadata: _BindingContext.default,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 30
+      },
+      __self: this
     }), _react.default.createElement(_PropTable.default, {
       component: "Binding",
-      metadata: _Binding.default
+      metadata: _Binding.default,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 34
+      },
+      __self: this
     }));
   };
 
@@ -16682,7 +16703,13 @@ function (_React$Component) {
 
 var mount = document.createElement('div');
 document.body.appendChild(mount);
-(0, _reactDom.render)(_react.default.createElement(App, null), mount);
+(0, _reactDom.render)(_react.default.createElement(App, {
+  __source: {
+    fileName: _jsxFileName,
+    lineNumber: 43
+  },
+  __self: void 0
+}), mount);
 
 /***/ }),
 /* 117 */
@@ -34154,7 +34181,7 @@ var _BindingContext = _interopRequireDefault(__webpack_require__(73));
 
 exports.BindingContext = _BindingContext.default;
 
-var _Binding = _interopRequireDefault(__webpack_require__(143));
+var _Binding = _interopRequireDefault(__webpack_require__(144));
 
 exports.Binding = _Binding.default;
 
@@ -35141,6 +35168,28 @@ module.exports = invariant;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+exports.__esModule = true;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _implementation = __webpack_require__(141);
+
+var _implementation2 = _interopRequireDefault(_implementation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _react2.default.createContext || _implementation2.default;
+module.exports = exports['default'];
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 exports.__esModule = true;
@@ -35153,7 +35202,7 @@ var _propTypes = __webpack_require__(40);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _gud = __webpack_require__(141);
+var _gud = __webpack_require__(142);
 
 var _gud2 = _interopRequireDefault(_gud);
 
@@ -35335,12 +35384,12 @@ function createReactContext(defaultValue, calculateChangedBits) {
   };
 }
 
-exports.default = createReactContext;
+exports.default = _react2.default.createContext || createReactContext;
 module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35356,7 +35405,7 @@ module.exports = function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports) {
 
 function _extends() {
@@ -35380,7 +35429,7 @@ function _extends() {
 module.exports = _extends;
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35401,9 +35450,11 @@ var _propTypes = _interopRequireDefault(__webpack_require__(40));
 
 var _BindingContext = __webpack_require__(73);
 
-var _createChildBridge = _interopRequireDefault(__webpack_require__(144));
+var _createChildBridge = _interopRequireDefault(__webpack_require__(145));
 
-var _StaticContainer = _interopRequireDefault(__webpack_require__(145));
+var _StaticContainer = _interopRequireDefault(__webpack_require__(146));
+
+var _jsxFileName = "/Users/jason/src/topeka/src/Binding.js";
 
 function extractTargetValue(arg) {
   if (arg && arg.target && arg.target.tagName) {
@@ -35440,7 +35491,12 @@ function (_React$PureComponent) {
 
       return _react.default.createElement(_StaticContainer.default, {
         props: props,
-        shouldUpdate: _this.propsUpdated || valueChanged
+        shouldUpdate: _this.propsUpdated || valueChanged,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 156
+        },
+        __self: this
       }, children);
     });
     return _this;
@@ -35460,7 +35516,13 @@ function (_React$PureComponent) {
     var _this2 = this;
 
     var changeProp = this.props.changeProp;
-    return _react.default.createElement(_BindingContext.Consumer, null, function (bindingContext) {
+    return _react.default.createElement(_BindingContext.Consumer, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 189
+      },
+      __self: this
+    }, function (bindingContext) {
       _this2.bindingContext = bindingContext;
       return _this2.renderChild(changeProp);
     });
@@ -35469,159 +35531,144 @@ function (_React$PureComponent) {
   return Binding;
 }(_react.default.PureComponent);
 
-Object.defineProperty(Binding, "propTypes", {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  value: {
-    /**
-     * A callback prop name that the Binding should listen for changes on.
-     *
-     * ```js
-     * <Binding changeProp='onSelect'>
-     *   {props => <MyDropDown {...props} />}
-     * </Binding>
-     * ```
-     */
-    changeProp: _propTypes.default.string.isRequired,
+Binding.propTypes = {
+  /**
+   * A callback prop name that the Binding should listen for changes on.
+   *
+   * ```js
+   * <Binding changeProp='onSelect'>
+   *   {props => <MyDropDown {...props} />}
+   * </Binding>
+   * ```
+   */
+  changeProp: _propTypes.default.string.isRequired,
 
-    /**
-     * A prop name for the Binding to set from the BindingContext.
-     *
-     * ```js
-     * <Binding valueProp='selectedValue'>
-     *   {props => <MyDropDown {...props} />}
-     * </Binding>
-     * ```
-     */
-    valueProp: _propTypes.default.string.isRequired,
+  /**
+   * A prop name for the Binding to set from the BindingContext.
+   *
+   * ```js
+   * <Binding valueProp='selectedValue'>
+   *   {props => <MyDropDown {...props} />}
+   * </Binding>
+   * ```
+   */
+  valueProp: _propTypes.default.string.isRequired,
 
-    /**
-     * An field name or accessor function, extracting the Binding value
-     * from the overall BindingContext value. If a function, it's called
-     * with the form value, and the current Form `getter`.
-     *
-     * ```js
-     * <Binding bindTo='details.name'>
-     *   <input />
-     * </Binding>
-     *
-     * <Binding
-     *   bindTo={(model, getter) => {
-     *     let [first, last] = getter(model, 'details.name').split(' ')
-     *     return { first, last }
-     *   }}
-     * >
-     *  {props => <MyDropDown {...props} />}
-     * </Binding>
-     * ```
-     */
-    bindTo: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func]).isRequired,
+  /**
+   * An field name or accessor function, extracting the Binding value
+   * from the overall BindingContext value. If a function, it's called
+   * with the form value, and the current Form `getter`.
+   *
+   * ```js
+   * <Binding bindTo='details.name'>
+   *   <input />
+   * </Binding>
+   *
+   * <Binding
+   *   bindTo={(model, getter) => {
+   *     let [first, last] = getter(model, 'details.name').split(' ')
+   *     return { first, last }
+   *   }}
+   * >
+   *  {props => <MyDropDown {...props} />}
+   * </Binding>
+   * ```
+   */
+  bindTo: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func]).isRequired,
 
-    /**
-     * Customize how the Binding return value maps to the overall BindingContext `value`.
-     * `mapValue` can be a a string property name or a function that returns a
-     * value to be set to the `bindTo` field.
-     *
-     * **note:** the default value will attempt to extract the value from `target.value`
-     * so that native inputs will just work as expected.
-     *
-     * ```js
-     * <Binding
-     *   bindTo='name'
-     *   mapValue={dropdownValue =>
-     *     dropdownValue.first + ' ' + dropdownValue.last
-     *   }
-     * >
-     *  {props => <MyDropDown {...props} />}
-     * </Binding>
-     * ```
-     *
-     * You can also provide an object hash, mapping paths of the BindingContext `value`
-     * to fields in the Binding value using a string field name, or a function accessor.
-     *
-     * ```js
-     * <Binding
-     *   bindTo={model => {
-     *     let [first, last] = model.name.split(' ')
-     *     return { first, last }
-     *   }}
-     *   mapValue={{
-     *    name: dropdownValue =>
-     *      dropdownValue.first + ' ' + dropdownValue.last
-     *   }}
-     * >
-     *   {props => <MyDropDown {...props} />}
-     * </Binding>
-     * ```
-     *
-     * @type func | string | object
-     */
-    mapValue: function mapValue(props, propName, componentName) {
-      if (typeof props.bindTo === 'function' && typeof props[propName] === 'function') return new Error(propName + " must be an Object or a string, when `bindTo` is a function");
+  /**
+   * Customize how the Binding return value maps to the overall BindingContext `value`.
+   * `mapValue` can be a a string property name or a function that returns a
+   * value to be set to the `bindTo` field.
+   *
+   * **note:** the default value will attempt to extract the value from `target.value`
+   * so that native inputs will just work as expected.
+   *
+   * ```js
+   * <Binding
+   *   bindTo='name'
+   *   mapValue={dropdownValue =>
+   *     dropdownValue.first + ' ' + dropdownValue.last
+   *   }
+   * >
+   *  {props => <MyDropDown {...props} />}
+   * </Binding>
+   * ```
+   *
+   * You can also provide an object hash, mapping paths of the BindingContext `value`
+   * to fields in the Binding value using a string field name, or a function accessor.
+   *
+   * ```js
+   * <Binding
+   *   bindTo={model => {
+   *     let [first, last] = model.name.split(' ')
+   *     return { first, last }
+   *   }}
+   *   mapValue={{
+   *    name: dropdownValue =>
+   *      dropdownValue.first + ' ' + dropdownValue.last
+   *   }}
+   * >
+   *   {props => <MyDropDown {...props} />}
+   * </Binding>
+   * ```
+   *
+   * @type func | string | object
+   */
+  mapValue: function mapValue(props, propName, componentName) {
+    if (typeof props.bindTo === 'function' && typeof props[propName] === 'function') return new Error(propName + " must be an Object or a string, when `bindTo` is a function");
 
-      for (var _len = arguments.length, args = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-        args[_key - 3] = arguments[_key];
-      }
+    for (var _len = arguments.length, args = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
+      args[_key - 3] = arguments[_key];
+    }
 
-      return _propTypes.default.oneOfType([_propTypes.default.object, _propTypes.default.string, _propTypes.default.func]).apply(void 0, [props, propName, componentName].concat(args));
-    },
+    return _propTypes.default.oneOfType([_propTypes.default.object, _propTypes.default.string, _propTypes.default.func]).apply(void 0, [props, propName, componentName].concat(args));
+  },
 
-    /**
-     * A render function that returns a react element and is
-     * passed the binding callbacks and value.
-     *
-     * ```js
-     * let Surround = (props) => <div {...props}>{props.children}</div>
-     *
-     * <Binding>
-     * {(props)=>
-     *   <Surround>
-     *     <input type='text' {...props} />
-     *   </Surround>
-     * }
-     * </Binding>
-     * ```
-     */
-    children: _propTypes.default.func.isRequired
-  }
-});
-Object.defineProperty(Binding, "defaultProps", {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  value: {
-    changeProp: 'onChange',
-    valueProp: 'value'
-  }
-});
+  /**
+   * A render function that returns a react element and is
+   * passed the binding callbacks and value.
+   *
+   * ```js
+   * let Surround = (props) => <div {...props}>{props.children}</div>
+   *
+   * <Binding>
+   * {(props)=>
+   *   <Surround>
+   *     <input type='text' {...props} />
+   *   </Surround>
+   * }
+   * </Binding>
+   * ```
+   */
+  children: _propTypes.default.func.isRequired
+};
+Binding.defaultProps = {
+  changeProp: 'onChange',
+  valueProp: 'value'
+};
 
 var _initialiseProps = function _initialiseProps() {
   var _this3 = this;
 
-  Object.defineProperty(this, "handleEvent", {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    value: function value(event) {
-      var _this3$props = _this3.props,
-          bindTo = _this3$props.bindTo,
-          _this3$props$mapValue = _this3$props.mapValue,
-          mapValue = _this3$props$mapValue === void 0 ? extractTargetValue : _this3$props$mapValue;
+  this.handleEvent = function (event) {
+    var _this3$props = _this3.props,
+        bindTo = _this3$props.bindTo,
+        _this3$props$mapValue = _this3$props.mapValue,
+        mapValue = _this3$props$mapValue === void 0 ? extractTargetValue : _this3$props$mapValue;
 
-      if (typeof bindTo === 'string') {
-        var _mapValue;
+    if (typeof bindTo === 'string') {
+      var _mapValue;
 
-        if (typeof mapValue !== 'object') mapValue = (_mapValue = {}, _mapValue[bindTo] = mapValue, _mapValue);
-      }
-
-      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-
-      if (_this3.bindingContext && mapValue) _this3.bindingContext.updateBindingValue(mapValue, args);
+      if (typeof mapValue !== 'object') mapValue = (_mapValue = {}, _mapValue[bindTo] = mapValue, _mapValue);
     }
-  });
+
+    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      args[_key2 - 1] = arguments[_key2];
+    }
+
+    if (_this3.bindingContext && mapValue) _this3.bindingContext.updateBindingValue(mapValue, args);
+  };
 };
 
 var _default = Binding;
@@ -35629,7 +35676,7 @@ exports.default = _default;
 module.exports = exports["default"];
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35668,7 +35715,7 @@ function createChildBridge(handleEvent, render) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35709,7 +35756,7 @@ exports.default = StaticContainer;
 module.exports = exports["default"];
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35732,7 +35779,7 @@ var _classnames = __webpack_require__(13);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _Editor = __webpack_require__(150);
+var _Editor = __webpack_require__(151);
 
 var _Editor2 = _interopRequireDefault(_Editor);
 
@@ -35740,11 +35787,11 @@ var _Preview = __webpack_require__(79);
 
 var _Preview2 = _interopRequireDefault(_Preview);
 
-var _ConsolePreview = __webpack_require__(155);
+var _ConsolePreview = __webpack_require__(156);
 
 var _ConsolePreview2 = _interopRequireDefault(_ConsolePreview);
 
-var _Toggle = __webpack_require__(156);
+var _Toggle = __webpack_require__(157);
 
 var _Toggle2 = _interopRequireDefault(_Toggle);
 
@@ -35885,7 +35932,7 @@ Playground.Editor = _Editor2.default;
 exports.default = Playground;
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35904,7 +35951,7 @@ var warning = __webpack_require__(4);
 var assign = __webpack_require__(8);
 
 var ReactPropTypesSecret = __webpack_require__(42);
-var checkPropTypes = __webpack_require__(148);
+var checkPropTypes = __webpack_require__(149);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -36435,7 +36482,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36502,7 +36549,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36567,7 +36614,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36628,10 +36675,10 @@ var Editor = function (_React$Component) {
   Editor.prototype.componentDidMount = function componentDidMount() {
     var CodeMirror = __webpack_require__(14);
 
-    __webpack_require__(151);
+    __webpack_require__(152);
     __webpack_require__(78);
     __webpack_require__(43);
-    __webpack_require__(152);
+    __webpack_require__(153);
 
     var _props = this.props,
         code = _props.code,
@@ -36718,7 +36765,7 @@ exports.default = Editor;
 module.exports = exports['default'];
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -36876,7 +36923,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -37030,7 +37077,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37043,7 +37090,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports.execute = execute;
 exports.compile = compile;
 
-var _babelStandalone = __webpack_require__(154);
+var _babelStandalone = __webpack_require__(155);
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -37076,7 +37123,7 @@ function compile(_ref2) {
 }
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -98767,7 +98814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98834,7 +98881,7 @@ ConsolePreview.contextTypes = {
 module.exports = exports['default'];
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98905,7 +98952,7 @@ exports.default = Toggle;
 module.exports = exports['default'];
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98918,13 +98965,15 @@ exports.default = void 0;
 
 var _inheritsLoose2 = _interopRequireDefault(__webpack_require__(21));
 
-var _merge = _interopRequireDefault(__webpack_require__(158));
+var _merge = _interopRequireDefault(__webpack_require__(159));
 
 var _react = _interopRequireDefault(__webpack_require__(1));
 
-var _Label = _interopRequireDefault(__webpack_require__(225));
+var _Label = _interopRequireDefault(__webpack_require__(226));
 
-var _Table = _interopRequireDefault(__webpack_require__(273));
+var _Table = _interopRequireDefault(__webpack_require__(274));
+
+var _jsxFileName = "/Users/jason/src/topeka/docs/PropTable.js";
 
 var cleanDocletValue = function cleanDocletValue(str) {
   return str.trim().replace(/^\{/, '').replace(/\}$/, '');
@@ -98971,16 +99020,111 @@ function (_React$Component) {
     var composes = this.props.metadata[this.props.component].composes || [];
 
     if (!Object.keys(propsData).length) {
-      return _react.default.createElement("span", null);
+      return _react.default.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 43
+        },
+        __self: this
+      });
     }
 
-    return _react.default.createElement("div", null, _react.default.createElement("h3", null, _react.default.createElement("code", null, this.props.component), " props", !!composes.length && [_react.default.createElement("br", null), _react.default.createElement("small", null, 'Also accepts the same props as: ', _react.default.createElement("em", null, composes.reduce(function (arr, name) {
-      return arr.concat(_react.default.createElement("code", null, "<" + name + "/>"), ' ');
+    return _react.default.createElement("div", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 47
+      },
+      __self: this
+    }, _react.default.createElement("h3", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 48
+      },
+      __self: this
+    }, _react.default.createElement("code", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 49
+      },
+      __self: this
+    }, this.props.component), " props", !!composes.length && [_react.default.createElement("br", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 51
+      },
+      __self: this
+    }), _react.default.createElement("small", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 52
+      },
+      __self: this
+    }, 'Also accepts the same props as: ', _react.default.createElement("em", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 54
+      },
+      __self: this
+    }, composes.reduce(function (arr, name) {
+      return arr.concat(_react.default.createElement("code", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 56
+        },
+        __self: this
+      }, "<" + name + "/>"), ' ');
     }, [])))]), _react.default.createElement(_Table.default, {
       bordered: true,
       striped: true,
-      className: "prop-table"
-    }, _react.default.createElement("thead", null, _react.default.createElement("tr", null, _react.default.createElement("th", null, "Name"), _react.default.createElement("th", null, "Type"), _react.default.createElement("th", null, "Default"), _react.default.createElement("th", null, "Description"))), _react.default.createElement("tbody", null, this.renderRows(propsData))));
+      className: "prop-table",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 64
+      },
+      __self: this
+    }, _react.default.createElement("thead", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 65
+      },
+      __self: this
+    }, _react.default.createElement("tr", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 66
+      },
+      __self: this
+    }, _react.default.createElement("th", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 67
+      },
+      __self: this
+    }, "Name"), _react.default.createElement("th", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 68
+      },
+      __self: this
+    }, "Type"), _react.default.createElement("th", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 69
+      },
+      __self: this
+    }, "Default"), _react.default.createElement("th", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 70
+      },
+      __self: this
+    }, "Description"))), _react.default.createElement("tbody", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 73
+      },
+      __self: this
+    }, this.renderRows(propsData))));
   };
 
   _proto.renderRows = function renderRows(propsData) {
@@ -98992,13 +99136,70 @@ function (_React$Component) {
       var propData = propsData[propName];
       return _react.default.createElement("tr", {
         key: propName,
-        className: "prop-table-row"
-      }, _react.default.createElement("td", null, propName, " ", _this.renderRequiredLabel(propData)), _react.default.createElement("td", null, _react.default.createElement("div", null, _this.getType(propData))), _react.default.createElement("td", null, _react.default.createElement("code", null, propData.defaultValue && propData.defaultValue.value)), _react.default.createElement("td", null, propData.doclets.deprecated && _react.default.createElement("div", null, _react.default.createElement("strong", {
-        className: "text-danger"
+        className: "prop-table-row",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 90
+        },
+        __self: this
+      }, _react.default.createElement("td", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91
+        },
+        __self: this
+      }, propName, " ", _this.renderRequiredLabel(propData)), _react.default.createElement("td", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 94
+        },
+        __self: this
+      }, _react.default.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 95
+        },
+        __self: this
+      }, _this.getType(propData))), _react.default.createElement("td", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 97
+        },
+        __self: this
+      }, _react.default.createElement("code", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 98
+        },
+        __self: this
+      }, propData.defaultValue && propData.defaultValue.value)), _react.default.createElement("td", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 103
+        },
+        __self: this
+      }, propData.doclets.deprecated && _react.default.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105
+        },
+        __self: this
+      }, _react.default.createElement("strong", {
+        className: "text-danger",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 106
+        },
+        __self: this
       }, 'Deprecated: ' + propData.doclets.deprecated + ' ')), _react.default.createElement("div", {
         dangerouslySetInnerHTML: {
           __html: propData.descriptionHtml
-        }
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 111
+        },
+        __self: this
       })));
     });
   };
@@ -99008,7 +99209,13 @@ function (_React$Component) {
       return null;
     }
 
-    return _react.default.createElement(_Label.default, null, "required");
+    return _react.default.createElement(_Label.default, {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 125
+      },
+      __self: this
+    }, "required");
   };
 
   _proto.getType = function getType(prop) {
@@ -99043,7 +99250,13 @@ function (_React$Component) {
           var child = this.getType({
             type: type.value
           });
-          return _react.default.createElement("span", null, 'array<', child, '>');
+          return _react.default.createElement("span", {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 150
+            },
+            __self: this
+          }, 'array<', child, '>');
         }
 
       case 'enum':
@@ -99075,15 +99288,31 @@ function (_React$Component) {
 
       if (i > 0) {
         renderedEnumValues.push(_react.default.createElement("span", {
-          key: i + "c"
+          key: i + "c",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 182
+          },
+          __self: this
         }, ", "));
       }
 
       renderedEnumValues.push(_react.default.createElement("code", {
-        key: i
+        key: i,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 185
+        },
+        __self: this
       }, value));
     });
-    return _react.default.createElement("span", null, "one of: ", renderedEnumValues);
+    return _react.default.createElement("span", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 188
+      },
+      __self: this
+    }, "one of: ", renderedEnumValues);
   };
 
   return PropTable;
@@ -99094,11 +99323,11 @@ exports.default = _default;
 module.exports = exports["default"];
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseMerge = __webpack_require__(159),
-    createAssigner = __webpack_require__(216);
+var baseMerge = __webpack_require__(160),
+    createAssigner = __webpack_require__(217);
 
 /**
  * This method is like `_.assign` except that it recursively merges own and
@@ -99139,13 +99368,13 @@ module.exports = merge;
 
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(160),
+var Stack = __webpack_require__(161),
     assignMergeValue = __webpack_require__(83),
-    baseFor = __webpack_require__(191),
-    baseMergeDeep = __webpack_require__(193),
+    baseFor = __webpack_require__(192),
+    baseMergeDeep = __webpack_require__(194),
     isObject = __webpack_require__(9),
     keysIn = __webpack_require__(93),
     safeGet = __webpack_require__(92);
@@ -99187,15 +99416,15 @@ module.exports = baseMerge;
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(29),
-    stackClear = __webpack_require__(166),
-    stackDelete = __webpack_require__(167),
-    stackGet = __webpack_require__(168),
-    stackHas = __webpack_require__(169),
-    stackSet = __webpack_require__(170);
+    stackClear = __webpack_require__(167),
+    stackDelete = __webpack_require__(168),
+    stackGet = __webpack_require__(169),
+    stackHas = __webpack_require__(170),
+    stackSet = __webpack_require__(171);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -99220,7 +99449,7 @@ module.exports = Stack;
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports) {
 
 /**
@@ -99239,7 +99468,7 @@ module.exports = listCacheClear;
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(30);
@@ -99280,7 +99509,7 @@ module.exports = listCacheDelete;
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(30);
@@ -99305,7 +99534,7 @@ module.exports = listCacheGet;
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(30);
@@ -99327,7 +99556,7 @@ module.exports = listCacheHas;
 
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(30);
@@ -99359,7 +99588,7 @@ module.exports = listCacheSet;
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(29);
@@ -99380,7 +99609,7 @@ module.exports = stackClear;
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports) {
 
 /**
@@ -99404,7 +99633,7 @@ module.exports = stackDelete;
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports) {
 
 /**
@@ -99424,7 +99653,7 @@ module.exports = stackGet;
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports) {
 
 /**
@@ -99444,12 +99673,12 @@ module.exports = stackHas;
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(29),
     Map = __webpack_require__(80),
-    MapCache = __webpack_require__(178);
+    MapCache = __webpack_require__(179);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -99484,13 +99713,13 @@ module.exports = stackSet;
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(45),
-    isMasked = __webpack_require__(174),
+    isMasked = __webpack_require__(175),
     isObject = __webpack_require__(9),
-    toSource = __webpack_require__(176);
+    toSource = __webpack_require__(177);
 
 /**
  * Used to match `RegExp`
@@ -99537,7 +99766,7 @@ module.exports = baseIsNative;
 
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(81);
@@ -99589,7 +99818,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -99617,10 +99846,10 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(175);
+var coreJsData = __webpack_require__(176);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -99643,7 +99872,7 @@ module.exports = isMasked;
 
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(15);
@@ -99655,7 +99884,7 @@ module.exports = coreJsData;
 
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -99687,7 +99916,7 @@ module.exports = toSource;
 
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports) {
 
 /**
@@ -99706,14 +99935,14 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(179),
-    mapCacheDelete = __webpack_require__(186),
-    mapCacheGet = __webpack_require__(188),
-    mapCacheHas = __webpack_require__(189),
-    mapCacheSet = __webpack_require__(190);
+var mapCacheClear = __webpack_require__(180),
+    mapCacheDelete = __webpack_require__(187),
+    mapCacheGet = __webpack_require__(189),
+    mapCacheHas = __webpack_require__(190),
+    mapCacheSet = __webpack_require__(191);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -99744,10 +99973,10 @@ module.exports = MapCache;
 
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(180),
+var Hash = __webpack_require__(181),
     ListCache = __webpack_require__(29),
     Map = __webpack_require__(80);
 
@@ -99771,14 +100000,14 @@ module.exports = mapCacheClear;
 
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(181),
-    hashDelete = __webpack_require__(182),
-    hashGet = __webpack_require__(183),
-    hashHas = __webpack_require__(184),
-    hashSet = __webpack_require__(185);
+var hashClear = __webpack_require__(182),
+    hashDelete = __webpack_require__(183),
+    hashGet = __webpack_require__(184),
+    hashHas = __webpack_require__(185),
+    hashSet = __webpack_require__(186);
 
 /**
  * Creates a hash object.
@@ -99809,7 +100038,7 @@ module.exports = Hash;
 
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(33);
@@ -99830,7 +100059,7 @@ module.exports = hashClear;
 
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports) {
 
 /**
@@ -99853,7 +100082,7 @@ module.exports = hashDelete;
 
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(33);
@@ -99889,7 +100118,7 @@ module.exports = hashGet;
 
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(33);
@@ -99918,7 +100147,7 @@ module.exports = hashHas;
 
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(33);
@@ -99947,7 +100176,7 @@ module.exports = hashSet;
 
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(34);
@@ -99971,7 +100200,7 @@ module.exports = mapCacheDelete;
 
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports) {
 
 /**
@@ -99992,7 +100221,7 @@ module.exports = isKeyable;
 
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(34);
@@ -100014,7 +100243,7 @@ module.exports = mapCacheGet;
 
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(34);
@@ -100036,7 +100265,7 @@ module.exports = mapCacheHas;
 
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(34);
@@ -100064,10 +100293,10 @@ module.exports = mapCacheSet;
 
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createBaseFor = __webpack_require__(192);
+var createBaseFor = __webpack_require__(193);
 
 /**
  * The base implementation of `baseForOwn` which iterates over `object`
@@ -100086,7 +100315,7 @@ module.exports = baseFor;
 
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports) {
 
 /**
@@ -100117,24 +100346,24 @@ module.exports = createBaseFor;
 
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assignMergeValue = __webpack_require__(83),
-    cloneBuffer = __webpack_require__(194),
-    cloneTypedArray = __webpack_require__(195),
-    copyArray = __webpack_require__(198),
-    initCloneObject = __webpack_require__(199),
+    cloneBuffer = __webpack_require__(195),
+    cloneTypedArray = __webpack_require__(196),
+    copyArray = __webpack_require__(199),
+    initCloneObject = __webpack_require__(200),
     isArguments = __webpack_require__(87),
     isArray = __webpack_require__(88),
-    isArrayLikeObject = __webpack_require__(203),
+    isArrayLikeObject = __webpack_require__(204),
     isBuffer = __webpack_require__(90),
     isFunction = __webpack_require__(45),
     isObject = __webpack_require__(9),
-    isPlainObject = __webpack_require__(205),
+    isPlainObject = __webpack_require__(206),
     isTypedArray = __webpack_require__(91),
     safeGet = __webpack_require__(92),
-    toPlainObject = __webpack_require__(209);
+    toPlainObject = __webpack_require__(210);
 
 /**
  * A specialized version of `baseMerge` for arrays and objects which performs
@@ -100217,7 +100446,7 @@ module.exports = baseMergeDeep;
 
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(15);
@@ -100259,10 +100488,10 @@ module.exports = cloneBuffer;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)(module)))
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cloneArrayBuffer = __webpack_require__(196);
+var cloneArrayBuffer = __webpack_require__(197);
 
 /**
  * Creates a clone of `typedArray`.
@@ -100281,10 +100510,10 @@ module.exports = cloneTypedArray;
 
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Uint8Array = __webpack_require__(197);
+var Uint8Array = __webpack_require__(198);
 
 /**
  * Creates a clone of `arrayBuffer`.
@@ -100303,7 +100532,7 @@ module.exports = cloneArrayBuffer;
 
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(15);
@@ -100315,7 +100544,7 @@ module.exports = Uint8Array;
 
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports) {
 
 /**
@@ -100341,10 +100570,10 @@ module.exports = copyArray;
 
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseCreate = __webpack_require__(200),
+var baseCreate = __webpack_require__(201),
     getPrototype = __webpack_require__(85),
     isPrototype = __webpack_require__(86);
 
@@ -100365,7 +100594,7 @@ module.exports = initCloneObject;
 
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(9);
@@ -100401,7 +100630,7 @@ module.exports = baseCreate;
 
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports) {
 
 /**
@@ -100422,7 +100651,7 @@ module.exports = overArg;
 
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(32),
@@ -100446,7 +100675,7 @@ module.exports = baseIsArguments;
 
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArrayLike = __webpack_require__(48),
@@ -100485,7 +100714,7 @@ module.exports = isArrayLikeObject;
 
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports) {
 
 /**
@@ -100509,7 +100738,7 @@ module.exports = stubFalse;
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(32),
@@ -100577,7 +100806,7 @@ module.exports = isPlainObject;
 
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(32),
@@ -100643,7 +100872,7 @@ module.exports = baseIsTypedArray;
 
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports) {
 
 /**
@@ -100663,7 +100892,7 @@ module.exports = baseUnary;
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(82);
@@ -100692,10 +100921,10 @@ module.exports = nodeUtil;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)(module)))
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var copyObject = __webpack_require__(210),
+var copyObject = __webpack_require__(211),
     keysIn = __webpack_require__(93);
 
 /**
@@ -100730,10 +100959,10 @@ module.exports = toPlainObject;
 
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(211),
+var assignValue = __webpack_require__(212),
     baseAssignValue = __webpack_require__(46);
 
 /**
@@ -100776,7 +101005,7 @@ module.exports = copyObject;
 
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseAssignValue = __webpack_require__(46),
@@ -100810,10 +101039,10 @@ module.exports = assignValue;
 
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseTimes = __webpack_require__(213),
+var baseTimes = __webpack_require__(214),
     isArguments = __webpack_require__(87),
     isArray = __webpack_require__(88),
     isBuffer = __webpack_require__(90),
@@ -100865,7 +101094,7 @@ module.exports = arrayLikeKeys;
 
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports) {
 
 /**
@@ -100891,12 +101120,12 @@ module.exports = baseTimes;
 
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(9),
     isPrototype = __webpack_require__(86),
-    nativeKeysIn = __webpack_require__(215);
+    nativeKeysIn = __webpack_require__(216);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -100930,7 +101159,7 @@ module.exports = baseKeysIn;
 
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports) {
 
 /**
@@ -100956,11 +101185,11 @@ module.exports = nativeKeysIn;
 
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseRest = __webpack_require__(217),
-    isIterateeCall = __webpack_require__(224);
+var baseRest = __webpack_require__(218),
+    isIterateeCall = __webpack_require__(225);
 
 /**
  * Creates a function like `_.assign`.
@@ -100999,12 +101228,12 @@ module.exports = createAssigner;
 
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var identity = __webpack_require__(95),
-    overRest = __webpack_require__(218),
-    setToString = __webpack_require__(220);
+    overRest = __webpack_require__(219),
+    setToString = __webpack_require__(221);
 
 /**
  * The base implementation of `_.rest` which doesn't validate or coerce arguments.
@@ -101022,10 +101251,10 @@ module.exports = baseRest;
 
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = __webpack_require__(219);
+var apply = __webpack_require__(220);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -101064,7 +101293,7 @@ module.exports = overRest;
 
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports) {
 
 /**
@@ -101091,11 +101320,11 @@ module.exports = apply;
 
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSetToString = __webpack_require__(221),
-    shortOut = __webpack_require__(223);
+var baseSetToString = __webpack_require__(222),
+    shortOut = __webpack_require__(224);
 
 /**
  * Sets the `toString` method of `func` to return `string`.
@@ -101111,10 +101340,10 @@ module.exports = setToString;
 
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var constant = __webpack_require__(222),
+var constant = __webpack_require__(223),
     defineProperty = __webpack_require__(84),
     identity = __webpack_require__(95);
 
@@ -101139,7 +101368,7 @@ module.exports = baseSetToString;
 
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports) {
 
 /**
@@ -101171,7 +101400,7 @@ module.exports = constant;
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports) {
 
 /** Used to detect hot functions by number of calls within a span of milliseconds. */
@@ -101214,7 +101443,7 @@ module.exports = shortOut;
 
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var eq = __webpack_require__(31),
@@ -101250,7 +101479,7 @@ module.exports = isIterateeCall;
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101258,7 +101487,7 @@ module.exports = isIterateeCall;
 
 exports.__esModule = true;
 
-var _values = __webpack_require__(226);
+var _values = __webpack_require__(227);
 
 var _values2 = _interopRequireDefault(_values);
 
@@ -101350,21 +101579,21 @@ exports.default = (0, _bootstrapUtils.bsClass)('label', (0, _bootstrapUtils.bsSt
 module.exports = exports['default'];
 
 /***/ }),
-/* 226 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(227), __esModule: true };
-
-/***/ }),
 /* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(228);
+module.exports = { "default": __webpack_require__(228), __esModule: true };
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(229);
 module.exports = __webpack_require__(6).Object.values;
 
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
@@ -101379,7 +101608,7 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -101389,14 +101618,14 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(12);
-var toLength = __webpack_require__(231);
-var toAbsoluteIndex = __webpack_require__(232);
+var toLength = __webpack_require__(232);
+var toAbsoluteIndex = __webpack_require__(233);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -101418,7 +101647,7 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -101430,7 +101659,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(51);
@@ -101443,31 +101672,31 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 233 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(234), __esModule: true };
-
-/***/ }),
 /* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(235);
-module.exports = __webpack_require__(6).Object.assign;
-
+module.exports = { "default": __webpack_require__(235), __esModule: true };
 
 /***/ }),
 /* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(10);
-
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(236) });
+__webpack_require__(236);
+module.exports = __webpack_require__(6).Object.assign;
 
 
 /***/ }),
 /* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__(10);
+
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(237) });
+
+
+/***/ }),
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101508,27 +101737,27 @@ module.exports = !$assign || __webpack_require__(25)(function () {
 
 
 /***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(238), __esModule: true };
-
-/***/ }),
 /* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(239);
-__webpack_require__(245);
-module.exports = __webpack_require__(61).f('iterator');
-
+module.exports = { "default": __webpack_require__(239), __esModule: true };
 
 /***/ }),
 /* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(240);
+__webpack_require__(246);
+module.exports = __webpack_require__(61).f('iterator');
+
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
-var $at = __webpack_require__(240)(true);
+var $at = __webpack_require__(241)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(108)(String, 'String', function (iterated) {
@@ -101547,7 +101776,7 @@ __webpack_require__(108)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(51);
@@ -101570,7 +101799,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101590,7 +101819,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(17);
@@ -101609,7 +101838,7 @@ module.exports = __webpack_require__(19) ? Object.defineProperties : function de
 
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(5).document;
@@ -101617,7 +101846,7 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -101636,10 +101865,10 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(246);
+__webpack_require__(247);
 var global = __webpack_require__(5);
 var hide = __webpack_require__(16);
 var Iterators = __webpack_require__(58);
@@ -101661,13 +101890,13 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(247);
-var step = __webpack_require__(248);
+var addToUnscopables = __webpack_require__(248);
+var step = __webpack_require__(249);
 var Iterators = __webpack_require__(58);
 var toIObject = __webpack_require__(12);
 
@@ -101702,14 +101931,14 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -101718,24 +101947,24 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(250), __esModule: true };
-
-/***/ }),
 /* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(251);
-__webpack_require__(256);
+module.exports = { "default": __webpack_require__(251), __esModule: true };
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(252);
 __webpack_require__(257);
 __webpack_require__(258);
+__webpack_require__(259);
 module.exports = __webpack_require__(6).Symbol;
 
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101746,7 +101975,7 @@ var has = __webpack_require__(11);
 var DESCRIPTORS = __webpack_require__(19);
 var $export = __webpack_require__(10);
 var redefine = __webpack_require__(109);
-var META = __webpack_require__(252).KEY;
+var META = __webpack_require__(253).KEY;
 var $fails = __webpack_require__(25);
 var shared = __webpack_require__(53);
 var setToStringTag = __webpack_require__(60);
@@ -101754,15 +101983,15 @@ var uid = __webpack_require__(36);
 var wks = __webpack_require__(20);
 var wksExt = __webpack_require__(61);
 var wksDefine = __webpack_require__(62);
-var enumKeys = __webpack_require__(253);
-var isArray = __webpack_require__(254);
+var enumKeys = __webpack_require__(254);
+var isArray = __webpack_require__(255);
 var anObject = __webpack_require__(24);
 var isObject = __webpack_require__(18);
 var toIObject = __webpack_require__(12);
 var toPrimitive = __webpack_require__(49);
 var createDesc = __webpack_require__(35);
 var _create = __webpack_require__(59);
-var gOPNExt = __webpack_require__(255);
+var gOPNExt = __webpack_require__(256);
 var $GOPD = __webpack_require__(111);
 var $DP = __webpack_require__(17);
 var $keys = __webpack_require__(26);
@@ -101976,7 +102205,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var META = __webpack_require__(36)('meta');
@@ -102035,7 +102264,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -102056,7 +102285,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -102067,7 +102296,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -102092,50 +102321,50 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports) {
 
-
-
-/***/ }),
-/* 257 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(62)('asyncIterator');
 
 
 /***/ }),
 /* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62)('observable');
+__webpack_require__(62)('asyncIterator');
 
 
 /***/ }),
 /* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(260), __esModule: true };
+__webpack_require__(62)('observable');
+
 
 /***/ }),
 /* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(261);
-module.exports = __webpack_require__(6).Object.setPrototypeOf;
-
+module.exports = { "default": __webpack_require__(261), __esModule: true };
 
 /***/ }),
 /* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(10);
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(262).set });
+__webpack_require__(262);
+module.exports = __webpack_require__(6).Object.setPrototypeOf;
 
 
 /***/ }),
 /* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(10);
+$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(263).set });
+
+
+/***/ }),
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -102166,16 +102395,16 @@ module.exports = {
 
 
 /***/ }),
-/* 263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(264), __esModule: true };
-
-/***/ }),
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(265);
+module.exports = { "default": __webpack_require__(265), __esModule: true };
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(266);
 var $Object = __webpack_require__(6).Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
@@ -102183,7 +102412,7 @@ module.exports = function create(P, D) {
 
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(10);
@@ -102192,21 +102421,21 @@ $export($export.S, 'Object', { create: __webpack_require__(59) });
 
 
 /***/ }),
-/* 266 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(267), __esModule: true };
-
-/***/ }),
 /* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(268);
+module.exports = { "default": __webpack_require__(268), __esModule: true };
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(269);
 module.exports = __webpack_require__(6).Object.entries;
 
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
@@ -102221,7 +102450,7 @@ $export($export.S, 'Object', {
 
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102280,7 +102509,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102299,7 +102528,7 @@ var warning = __webpack_require__(4);
 var assign = __webpack_require__(8);
 
 var ReactPropTypesSecret = __webpack_require__(63);
-var checkPropTypes = __webpack_require__(271);
+var checkPropTypes = __webpack_require__(272);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -102830,7 +103059,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102897,7 +103126,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -102962,7 +103191,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103071,23 +103300,23 @@ exports.default = (0, _bootstrapUtils.bsClass)('table', Table);
 module.exports = exports['default'];
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports) {
 
 module.exports = {"Binding":{"description":"","displayName":"Binding","methods":[{"name":"handleEvent","docblock":null,"modifiers":[],"params":[{"name":"event","type":null},{"name":"...args","type":null}],"returns":null}],"props":{"changeProp":{"type":{"name":"string"},"required":true,"description":"A callback prop name that the Binding should listen for changes on.\n\n```js\n<Binding changeProp='onSelect'>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```","defaultValue":{"value":"'onChange'","computed":false},"name":"changeProp","docblock":"A callback prop name that the Binding should listen for changes on.\n\n```js\n<Binding changeProp='onSelect'>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```","doclets":{},"descriptionHtml":"<p>A callback prop name that the Binding should listen for changes on.</p>\n<pre><code class=\"lang-js\"><span class=\"token operator\">&lt;</span>Binding changeProp<span class=\"token operator\">=</span><span class=\"token string\">'onSelect'</span><span class=\"token operator\">></span>\n  <span class=\"token punctuation\">{</span>props <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>MyDropDown <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n"},"valueProp":{"type":{"name":"string"},"required":true,"description":"A prop name for the Binding to set from the BindingContext.\n\n```js\n<Binding valueProp='selectedValue'>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```","defaultValue":{"value":"'value'","computed":false},"name":"valueProp","docblock":"A prop name for the Binding to set from the BindingContext.\n\n```js\n<Binding valueProp='selectedValue'>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```","doclets":{},"descriptionHtml":"<p>A prop name for the Binding to set from the BindingContext.</p>\n<pre><code class=\"lang-js\"><span class=\"token operator\">&lt;</span>Binding valueProp<span class=\"token operator\">=</span><span class=\"token string\">'selectedValue'</span><span class=\"token operator\">></span>\n  <span class=\"token punctuation\">{</span>props <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>MyDropDown <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n"},"bindTo":{"type":{"name":"union","value":[{"name":"string"},{"name":"func"}]},"required":true,"description":"An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it's called\nwith the form value, and the current Form `getter`.\n\n```js\n<Binding bindTo='details.name'>\n  <input />\n</Binding>\n\n<Binding\n  bindTo={(model, getter) => {\n    let [first, last] = getter(model, 'details.name').split(' ')\n    return { first, last }\n  }}\n>\n {props => <MyDropDown {...props} />}\n</Binding>\n```","name":"bindTo","docblock":"An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it's called\nwith the form value, and the current Form `getter`.\n\n```js\n<Binding bindTo='details.name'>\n  <input />\n</Binding>\n\n<Binding\n  bindTo={(model, getter) => {\n    let [first, last] = getter(model, 'details.name').split(' ')\n    return { first, last }\n  }}\n>\n {props => <MyDropDown {...props} />}\n</Binding>\n```","doclets":{},"descriptionHtml":"<p>An field name or accessor function, extracting the Binding value\nfrom the overall BindingContext value. If a function, it&#39;s called\nwith the form value, and the current Form <code>getter</code>.</p>\n<pre><code class=\"lang-js\"><span class=\"token operator\">&lt;</span>Binding bindTo<span class=\"token operator\">=</span><span class=\"token string\">'details.name'</span><span class=\"token operator\">></span>\n  <span class=\"token operator\">&lt;</span>input <span class=\"token operator\">/</span><span class=\"token operator\">></span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n\n<span class=\"token operator\">&lt;</span>Binding\n  bindTo<span class=\"token operator\">=</span><span class=\"token punctuation\">{</span><span class=\"token punctuation\">(</span>model<span class=\"token punctuation\">,</span> getter<span class=\"token punctuation\">)</span> <span class=\"token operator\">=></span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword\">let</span> <span class=\"token punctuation\">[</span>first<span class=\"token punctuation\">,</span> last<span class=\"token punctuation\">]</span> <span class=\"token operator\">=</span> <span class=\"token function\">getter</span><span class=\"token punctuation\">(</span>model<span class=\"token punctuation\">,</span> <span class=\"token string\">'details.name'</span><span class=\"token punctuation\">)</span><span class=\"token punctuation\">.</span><span class=\"token function\">split</span><span class=\"token punctuation\">(</span><span class=\"token string\">' '</span><span class=\"token punctuation\">)</span>\n    <span class=\"token keyword\">return</span> <span class=\"token punctuation\">{</span> first<span class=\"token punctuation\">,</span> last <span class=\"token punctuation\">}</span>\n  <span class=\"token punctuation\">}</span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">></span>\n <span class=\"token punctuation\">{</span>props <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>MyDropDown <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n"},"mapValue":{"type":{"name":"func | string | object","raw":"function(props, propName, componentName, ...args) {\n  if (\n    typeof props.bindTo === 'function' &&\n    typeof props[propName] === 'function'\n  )\n    return new Error(\n      `${propName} must be an Object or a string, when \\`bindTo\\` is a function`\n    )\n\n  return PropTypes.oneOfType([\n    PropTypes.object,\n    PropTypes.string,\n    PropTypes.func,\n  ])(props, propName, componentName, ...args)\n}"},"required":false,"description":"Customize how the Binding return value maps to the overall BindingContext `value`.\n`mapValue` can be a a string property name or a function that returns a\nvalue to be set to the `bindTo` field.\n\n**note:** the default value will attempt to extract the value from `target.value`\nso that native inputs will just work as expected.\n\n```js\n<Binding\n  bindTo='name'\n  mapValue={dropdownValue =>\n    dropdownValue.first + ' ' + dropdownValue.last\n  }\n>\n {props => <MyDropDown {...props} />}\n</Binding>\n```\n\nYou can also provide an object hash, mapping paths of the BindingContext `value`\nto fields in the Binding value using a string field name, or a function accessor.\n\n```js\n<Binding\n  bindTo={model => {\n    let [first, last] = model.name.split(' ')\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =>\n     dropdownValue.first + ' ' + dropdownValue.last\n  }}\n>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```","name":"mapValue","docblock":"Customize how the Binding return value maps to the overall BindingContext `value`.\n`mapValue` can be a a string property name or a function that returns a\nvalue to be set to the `bindTo` field.\n\n**note:** the default value will attempt to extract the value from `target.value`\nso that native inputs will just work as expected.\n\n```js\n<Binding\n  bindTo='name'\n  mapValue={dropdownValue =>\n    dropdownValue.first + ' ' + dropdownValue.last\n  }\n>\n {props => <MyDropDown {...props} />}\n</Binding>\n```\n\nYou can also provide an object hash, mapping paths of the BindingContext `value`\nto fields in the Binding value using a string field name, or a function accessor.\n\n```js\n<Binding\n  bindTo={model => {\n    let [first, last] = model.name.split(' ')\n    return { first, last }\n  }}\n  mapValue={{\n   name: dropdownValue =>\n     dropdownValue.first + ' ' + dropdownValue.last\n  }}\n>\n  {props => <MyDropDown {...props} />}\n</Binding>\n```\n\n@type func | string | object","doclets":{"type":"func | string | object"},"descriptionHtml":"<p>Customize how the Binding return value maps to the overall BindingContext <code>value</code>.\n<code>mapValue</code> can be a a string property name or a function that returns a\nvalue to be set to the <code>bindTo</code> field.</p>\n<p><strong>note:</strong> the default value will attempt to extract the value from <code>target.value</code>\nso that native inputs will just work as expected.</p>\n<pre><code class=\"lang-js\"><span class=\"token operator\">&lt;</span>Binding\n  bindTo<span class=\"token operator\">=</span><span class=\"token string\">'name'</span>\n  mapValue<span class=\"token operator\">=</span><span class=\"token punctuation\">{</span>dropdownValue <span class=\"token operator\">=></span>\n    dropdownValue<span class=\"token punctuation\">.</span>first <span class=\"token operator\">+</span> <span class=\"token string\">' '</span> <span class=\"token operator\">+</span> dropdownValue<span class=\"token punctuation\">.</span>last\n  <span class=\"token punctuation\">}</span>\n<span class=\"token operator\">></span>\n <span class=\"token punctuation\">{</span>props <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>MyDropDown <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n<p>You can also provide an object hash, mapping paths of the BindingContext <code>value</code>\nto fields in the Binding value using a string field name, or a function accessor.</p>\n<pre><code class=\"lang-js\"><span class=\"token operator\">&lt;</span>Binding\n  bindTo<span class=\"token operator\">=</span><span class=\"token punctuation\">{</span>model <span class=\"token operator\">=></span> <span class=\"token punctuation\">{</span>\n    <span class=\"token keyword\">let</span> <span class=\"token punctuation\">[</span>first<span class=\"token punctuation\">,</span> last<span class=\"token punctuation\">]</span> <span class=\"token operator\">=</span> model<span class=\"token punctuation\">.</span>name<span class=\"token punctuation\">.</span><span class=\"token function\">split</span><span class=\"token punctuation\">(</span><span class=\"token string\">' '</span><span class=\"token punctuation\">)</span>\n    <span class=\"token keyword\">return</span> <span class=\"token punctuation\">{</span> first<span class=\"token punctuation\">,</span> last <span class=\"token punctuation\">}</span>\n  <span class=\"token punctuation\">}</span><span class=\"token punctuation\">}</span>\n  mapValue<span class=\"token operator\">=</span><span class=\"token punctuation\">{</span><span class=\"token punctuation\">{</span>\n   name<span class=\"token punctuation\">:</span> dropdownValue <span class=\"token operator\">=></span>\n     dropdownValue<span class=\"token punctuation\">.</span>first <span class=\"token operator\">+</span> <span class=\"token string\">' '</span> <span class=\"token operator\">+</span> dropdownValue<span class=\"token punctuation\">.</span>last\n  <span class=\"token punctuation\">}</span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">></span>\n  <span class=\"token punctuation\">{</span>props <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>MyDropDown <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span><span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n"},"children":{"type":{"name":"func"},"required":true,"description":"A render function that returns a react element and is\npassed the binding callbacks and value.\n\n```js\nlet Surround = (props) => <div {...props}>{props.children}</div>\n\n<Binding>\n{(props)=>\n  <Surround>\n    <input type='text' {...props} />\n  </Surround>\n}\n</Binding>\n```","name":"children","docblock":"A render function that returns a react element and is\npassed the binding callbacks and value.\n\n```js\nlet Surround = (props) => <div {...props}>{props.children}</div>\n\n<Binding>\n{(props)=>\n  <Surround>\n    <input type='text' {...props} />\n  </Surround>\n}\n</Binding>\n```","doclets":{},"descriptionHtml":"<p>A render function that returns a react element and is\npassed the binding callbacks and value.</p>\n<pre><code class=\"lang-js\"><span class=\"token keyword\">let</span> <span class=\"token function-variable function\">Surround</span> <span class=\"token operator\">=</span> <span class=\"token punctuation\">(</span>props<span class=\"token punctuation\">)</span> <span class=\"token operator\">=></span> <span class=\"token operator\">&lt;</span>div <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span><span class=\"token operator\">></span><span class=\"token punctuation\">{</span>props<span class=\"token punctuation\">.</span>children<span class=\"token punctuation\">}</span><span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>div<span class=\"token operator\">></span>\n\n<span class=\"token operator\">&lt;</span>Binding<span class=\"token operator\">></span>\n<span class=\"token punctuation\">{</span><span class=\"token punctuation\">(</span>props<span class=\"token punctuation\">)</span><span class=\"token operator\">=></span>\n  <span class=\"token operator\">&lt;</span>Surround<span class=\"token operator\">></span>\n    <span class=\"token operator\">&lt;</span>input type<span class=\"token operator\">=</span><span class=\"token string\">'text'</span> <span class=\"token punctuation\">{</span><span class=\"token operator\">...</span>props<span class=\"token punctuation\">}</span> <span class=\"token operator\">/</span><span class=\"token operator\">></span>\n  <span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Surround<span class=\"token operator\">></span>\n<span class=\"token punctuation\">}</span>\n<span class=\"token operator\">&lt;</span><span class=\"token operator\">/</span>Binding<span class=\"token operator\">></span>\n</code></pre>\n"}},"docblock":"","doclets":{},"descriptionHtml":""}}
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports) {
 
 module.exports = {"BindingContext":{"description":"","displayName":"BindingContext","methods":[{"name":"getBindingContext","docblock":null,"modifiers":[],"params":[{"name":"value","type":null},{"name":"getter","type":null}],"returns":null},{"name":"updateBindingValue","docblock":null,"modifiers":[],"params":[{"name":"mapValue","type":null},{"name":"args","type":null}],"returns":null}],"props":{"value":{"type":{"name":"object"},"required":false,"description":"BindingContext value object, can be left uncontrolled;\nuse the `defaultValue` prop to initialize an uncontrolled BindingContext.\n\nBindingContext assumes that `value` is immutable so you must provide a _new_ value\nobject to trigger an update. The `<Binding/>` components do this by default.","name":"value","docblock":"BindingContext value object, can be left uncontrolled;\nuse the `defaultValue` prop to initialize an uncontrolled BindingContext.\n\nBindingContext assumes that `value` is immutable so you must provide a _new_ value\nobject to trigger an update. The `<Binding/>` components do this by default.","doclets":{},"descriptionHtml":"<p>BindingContext value object, can be left uncontrolled;\nuse the <code>defaultValue</code> prop to initialize an uncontrolled BindingContext.</p>\n<p>BindingContext assumes that <code>value</code> is immutable so you must provide a <em>new</em> value\nobject to trigger an update. The <code>&lt;Binding/&gt;</code> components do this by default.</p>\n"},"onChange":{"type":{"name":"func"},"required":false,"description":"Callback that is called when the `value` prop changes.\n\n```js\nfunction(\n\tvalue: object,\n\tupdatedPaths: array<string>\n)\n```","name":"onChange","docblock":"Callback that is called when the `value` prop changes.\n\n```js\nfunction(\n\tvalue: object,\n\tupdatedPaths: array<string>\n)\n```","doclets":{},"descriptionHtml":"<p>Callback that is called when the <code>value</code> prop changes.</p>\n<pre><code class=\"lang-js\"><span class=\"token keyword\">function</span><span class=\"token punctuation\">(</span>\n    value<span class=\"token punctuation\">:</span> object<span class=\"token punctuation\">,</span>\n    updatedPaths<span class=\"token punctuation\">:</span> array<span class=\"token operator\">&lt;</span>string<span class=\"token operator\">></span>\n<span class=\"token punctuation\">)</span>\n</code></pre>\n"},"getter":{"type":{"name":"func"},"required":false,"description":"A function used to extract value paths from the Context value.\n`getter` is called with `path` and `value` and should return the value at that path.\n`getter()` is used when a `<Binding/>` provides a string `accessor`.\n\n```js\nfunction(\n path: string,\n value: any,\n) -> object\n```","defaultValue":{"value":"(path, model) =>\n  path ? expr.getter(path, true)(model || {}) : model","computed":false},"name":"getter","docblock":"A function used to extract value paths from the Context value.\n`getter` is called with `path` and `value` and should return the value at that path.\n`getter()` is used when a `<Binding/>` provides a string `accessor`.\n\n```js\nfunction(\n path: string,\n value: any,\n) -> object\n```","doclets":{},"descriptionHtml":"<p>A function used to extract value paths from the Context value.\n<code>getter</code> is called with <code>path</code> and <code>value</code> and should return the value at that path.\n<code>getter()</code> is used when a <code>&lt;Binding/&gt;</code> provides a string <code>accessor</code>.</p>\n<pre><code class=\"lang-js\"><span class=\"token keyword\">function</span><span class=\"token punctuation\">(</span>\n path<span class=\"token punctuation\">:</span> string<span class=\"token punctuation\">,</span>\n value<span class=\"token punctuation\">:</span> any<span class=\"token punctuation\">,</span>\n<span class=\"token punctuation\">)</span> <span class=\"token operator\">-</span><span class=\"token operator\">></span> object\n</code></pre>\n"},"setter":{"type":{"name":"func"},"required":false,"description":"A value setter function. `setter` is called with `path`, the context `value` and the path `value`.\nThe `setter` must return updated form `value`, which allows you to leave the original value unmutated.\n\n```js\nfunction(\n path: string,\n formValue: object,\n pathValue: any\n) -> object\n```","defaultValue":{"value":"(path, model, val) => updateIn(model, path, val)","computed":false},"name":"setter","docblock":"A value setter function. `setter` is called with `path`, the context `value` and the path `value`.\nThe `setter` must return updated form `value`, which allows you to leave the original value unmutated.\n\n```js\nfunction(\n path: string,\n formValue: object,\n pathValue: any\n) -> object\n```","doclets":{},"descriptionHtml":"<p>A value setter function. <code>setter</code> is called with <code>path</code>, the context <code>value</code> and the path <code>value</code>.\nThe <code>setter</code> must return updated form <code>value</code>, which allows you to leave the original value unmutated.</p>\n<pre><code class=\"lang-js\"><span class=\"token keyword\">function</span><span class=\"token punctuation\">(</span>\n path<span class=\"token punctuation\">:</span> string<span class=\"token punctuation\">,</span>\n formValue<span class=\"token punctuation\">:</span> object<span class=\"token punctuation\">,</span>\n pathValue<span class=\"token punctuation\">:</span> any\n<span class=\"token punctuation\">)</span> <span class=\"token operator\">-</span><span class=\"token operator\">></span> object\n</code></pre>\n"}},"docblock":"","doclets":{},"descriptionHtml":""}}
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(277);
+var content = __webpack_require__(278);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -103133,7 +103362,7 @@ if(false) {
 }
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(64)(true);
@@ -103147,7 +103376,7 @@ exports.push([module.i, "/* BASICS */\n\n.CodeMirror {\n  /* Set height, width, 
 
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports) {
 
 
@@ -103242,11 +103471,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(280);
+var content = __webpack_require__(281);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -103292,7 +103521,7 @@ if(false) {
 }
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(64)(true);
@@ -103306,11 +103535,11 @@ exports.push([module.i, "/* neo theme for codemirror */\n\n/* Color scheme */\n\
 
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(282);
+var content = __webpack_require__(283);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -103356,7 +103585,7 @@ if(false) {
 }
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(64)(true);
@@ -103370,7 +103599,7 @@ exports.push([module.i, "pre {\n  border-radius: 0;\n  border: none;\n  border-l
 
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports) {
 
 module.exports = "let Names = props => {\n  return (\n    <BindingContext {...props}>\n      <div>\n        <div className=\"form-group\">\n          <Binding bindTo=\"first\">\n            {props => (\n              <input\n                type=\"text\"\n                placeholder=\"first name\"\n                className=\"form-control\"\n                {...props}\n              />\n            )}\n          </Binding>\n        </div>\n        <div className=\"form-group\">\n          <Binding bindTo=\"surname\">\n            {props => (\n              <input\n                type=\"text\"\n                placeholder=\"surname\"\n                className=\"form-control\"\n                {...props}\n              />\n            )}\n          </Binding>\n        </div>\n      </div>\n    </BindingContext>\n  )\n}\n\nlet Surround = props => <div {...props}>{props.children}</div>\n\nlet App = () => {\n  return (\n    <BindingContext defaultValue={{}}>\n      <section>\n        <Binding bindTo=\"name\">{props => <Names {...props} />}</Binding>\n\n        <div className=\"form-group\">\n          <Binding bindTo=\"age\" mapValue={e => parseFloat(e.target.value)}>\n            {props => (\n              <input\n                type=\"number\"\n                placeholder=\"age\"\n                className=\"form-control\"\n                {...props}\n              />\n            )}\n          </Binding>\n        </div>\n        <div className=\"form-group\">\n          <Binding bindTo=\"colors[0].name\">\n            {props => (\n              <Surround>\n                <select {...props} className=\"form-control\">\n                  <option>Red</option>\n                  <option>Blue</option>\n                  <option>Yellow</option>\n                </select>\n              </Surround>\n            )}\n          </Binding>\n        </div>\n        <div className=\"form-group\">\n          <Binding bindTo=\"colors[1].name\">\n            {props => (\n              <select {...props} className=\"form-control\">\n                <option>Red</option>\n                <option>Blue</option>\n                <option>Yellow</option>\n              </select>\n            )}\n          </Binding>\n        </div>\n        <div>\n          <h5>current value: </h5>\n          <Binding bindTo={model => JSON.stringify(model, null, 2)}>\n            {({ value }) => <pre>{value}</pre>}\n          </Binding>\n        </div>\n      </section>\n    </BindingContext>\n  )\n}\n\nrender(<App />, mountNode)\n"

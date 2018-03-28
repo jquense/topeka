@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import polyfill from 'react-lifecycles-compat'
 
 import { Consumer } from './BindingContext'
 import createBridge from './createChildBridge'
@@ -137,6 +138,12 @@ class Binding extends React.PureComponent {
     valueProp: 'value',
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const propsChanged = prevState && nextProps !== prevState.__lastProps
+
+    return { propsChanged, __lastProps: nextProps }
+  }
+
   constructor(props, context) {
     super(props, context)
 
@@ -151,24 +158,16 @@ class Binding extends React.PureComponent {
         )
         valueChanged = lastValue !== this.bindingValue
       }
-
+      const { propsChanged } = this.state
       return (
         <StaticContainer
           props={props}
-          shouldUpdate={this.propsUpdated || valueChanged}
+          shouldUpdate={propsChanged || valueChanged}
         >
           {children}
         </StaticContainer>
       )
     })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.propsUpdated = nextProps !== this.props
-  }
-
-  componentDidUpdate() {
-    this.propsUpdated = false
   }
 
   handleEvent = (event, ...args) => {
@@ -196,4 +195,4 @@ class Binding extends React.PureComponent {
   }
 }
 
-export default Binding
+export default polyfill(Binding)
