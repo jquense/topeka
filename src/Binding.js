@@ -147,27 +147,7 @@ class Binding extends React.PureComponent {
   constructor(props, context) {
     super(props, context)
 
-    this.renderChild = createBridge(this.handleEvent, props => {
-      let { valueProp, children, bindTo } = this.props
-      let valueChanged = true
-
-      if (this.bindingContext) {
-        let lastValue = this.bindingValue
-        props[valueProp] = this.bindingValue = this.bindingContext.getValue(
-          bindTo
-        )
-        valueChanged = lastValue !== this.bindingValue
-      }
-      const { propsChanged } = this.state
-      return (
-        <StaticContainer
-          props={props}
-          shouldUpdate={propsChanged || valueChanged}
-        >
-          {children}
-        </StaticContainer>
-      )
-    })
+    this.getBridgeProps = createBridge(this.handleEvent)
   }
 
   handleEvent = (event, ...args) => {
@@ -177,18 +157,35 @@ class Binding extends React.PureComponent {
       if (typeof mapValue !== 'object') mapValue = { [bindTo]: mapValue }
     }
 
-    if (this.bindingContext && mapValue)
-      this.bindingContext.updateBindingValue(mapValue, args)
+    if (this.updateBindingValue && mapValue)
+      this.updateBindingValue(mapValue, args)
   }
 
   render() {
-    let { changeProp } = this.props
-
     return (
       <Consumer>
-        {bindingContext => {
-          this.bindingContext = bindingContext
-          return this.renderChild(changeProp)
+        {context => {
+          this.updateBindingValue = context && context.updateBindingValue
+
+          let { changeProp, valueProp, children, bindTo } = this.props
+          let childProps = this.getBridgeProps(changeProp)
+
+          let valueChanged = true
+          if (context) {
+            let lastValue = this._value
+            childProps[valueProp] = this._value = context.getValue(bindTo)
+            valueChanged = lastValue !== this._value
+          }
+
+          const { propsChanged } = this.state
+          return (
+            <StaticContainer
+              props={childProps}
+              shouldUpdate={propsChanged || valueChanged}
+            >
+              {children}
+            </StaticContainer>
+          )
         }}
       </Consumer>
     )

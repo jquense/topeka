@@ -1,4 +1,4 @@
-export default function createChildBridge(handleEvent, render) {
+export default function createChildBridge(handleEvent, deprecatedRender) {
   let eventMap = {}
 
   const getEvents = events => {
@@ -15,5 +15,7 @@ export default function createChildBridge(handleEvent, render) {
     return result
   }
 
-  return events => render(getEvents(events))
+  return deprecatedRender
+    ? event => deprecatedRender(getEvents(event))
+    : getEvents
 }
