@@ -73,11 +73,11 @@ describe('Bindings', () => {
 
     wrapper.setProps({ value: { ...value, eyes: 'brown' } })
 
-    count.should.equal(0)
+    count.should.equal(1)
 
     wrapper.setProps({ value: { ...value, name: 'Sallie' } })
 
-    count.should.equal(1)
+    count.should.equal(2)
   })
 
   it.only('should update if props change', function() {
