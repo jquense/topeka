@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "2.1.2",
+  "version": "0.0.0-development",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
   "modules": "es/index.js",
@@ -12,11 +12,13 @@
     "build:docs": "webpack --config docs/webpack.config.js",
     "build:esm": "BABEL_ENV=esm babel src --out-dir lib/es",
     "build": "npm run test && npm run build:docs && babel src --out-dir lib && npm run build:esm",
-    "release": "release"
+    "release": "release",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jquense/topeka.git"
+    "url": "https://github.com/jquense/topeka.git"
   },
   "keywords": [
     "react",
@@ -72,12 +74,15 @@
     "sinon-chai": "^2.8.0",
     "webpack": "^3.10.0",
     "webpack-atoms": "^5.1.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "travis-deploy-once": "^4.4.1",
+    "semantic-release": "^15.1.5"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0"
   },
   "dependencies": {
+    "@4c/semantic-release-config": "^1.0.1",
     "@babel/runtime": "^7.0.0-beta.42",
     "classnames": "^2.2.5",
     "create-react-context": "^0.2.1",
