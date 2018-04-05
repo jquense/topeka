@@ -147,6 +147,7 @@ class Binding extends React.PureComponent {
   constructor(props, context) {
     super(props, context)
 
+    this.state = {}
     this.getBridgeProps = createBridge(this.handleEvent)
   }
 
