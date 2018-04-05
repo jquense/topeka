@@ -35558,30 +35558,7 @@ function (_React$PureComponent) {
 
     _initialiseProps.call((0, _assertThisInitialized2.default)(_this));
 
-    _this.renderChild = (0, _createChildBridge.default)(_this.handleEvent, function (props) {
-      var _this$props = _this.props,
-          valueProp = _this$props.valueProp,
-          children = _this$props.children,
-          bindTo = _this$props.bindTo;
-      var valueChanged = true;
-
-      if (_this.bindingContext) {
-        var lastValue = _this.bindingValue;
-        props[valueProp] = _this.bindingValue = _this.bindingContext.getValue(bindTo);
-        valueChanged = lastValue !== _this.bindingValue;
-      }
-
-      var propsChanged = _this.state.propsChanged;
-      return _react.default.createElement(_StaticContainer.default, {
-        props: props,
-        shouldUpdate: propsChanged || valueChanged,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 163
-        },
-        __self: this
-      }, children);
-    });
+    _this.getBridgeProps = (0, _createChildBridge.default)(_this.handleEvent);
     return _this;
   }
 
@@ -35590,16 +35567,40 @@ function (_React$PureComponent) {
   _proto.render = function render() {
     var _this2 = this;
 
-    var changeProp = this.props.changeProp;
     return _react.default.createElement(_BindingContext.Consumer, {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 188
+        lineNumber: 166
       },
       __self: this
-    }, function (bindingContext) {
-      _this2.bindingContext = bindingContext;
-      return _this2.renderChild(changeProp);
+    }, function (context) {
+      _this2.updateBindingValue = context && context.updateBindingValue;
+      var _this2$props = _this2.props,
+          changeProp = _this2$props.changeProp,
+          valueProp = _this2$props.valueProp,
+          children = _this2$props.children,
+          bindTo = _this2$props.bindTo;
+
+      var childProps = _this2.getBridgeProps(changeProp);
+
+      var valueChanged = true;
+
+      if (context) {
+        var lastValue = _this2._value;
+        childProps[valueProp] = _this2._value = context.getValue(bindTo);
+        valueChanged = lastValue !== _this2._value;
+      }
+
+      var propsChanged = _this2.state.propsChanged;
+      return _react.default.createElement(_StaticContainer.default, {
+        props: childProps,
+        shouldUpdate: propsChanged || valueChanged,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 182
+        },
+        __self: this
+      }, children);
     });
   };
 
@@ -35742,7 +35743,7 @@ var _initialiseProps = function _initialiseProps() {
       args[_key2 - 1] = arguments[_key2];
     }
 
-    if (_this3.bindingContext && mapValue) _this3.bindingContext.updateBindingValue(mapValue, args);
+    if (_this3.updateBindingValue && mapValue) _this3.updateBindingValue(mapValue, args);
   };
 };
 
@@ -35761,7 +35762,7 @@ module.exports = exports["default"];
 exports.__esModule = true;
 exports.default = createChildBridge;
 
-function createChildBridge(handleEvent, render) {
+function createChildBridge(handleEvent, deprecatedRender) {
   var eventMap = {};
 
   var getEvents = function getEvents(events) {
@@ -35783,9 +35784,9 @@ function createChildBridge(handleEvent, render) {
     return result;
   };
 
-  return function (events) {
-    return render(getEvents(events));
-  };
+  return deprecatedRender ? function (event) {
+    return deprecatedRender(getEvents(event));
+  } : getEvents;
 }
 
 module.exports = exports["default"];
