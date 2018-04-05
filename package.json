@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "0.0.0-development",
+  "version": "2.1.2",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
   "modules": "es/index.js",
@@ -8,25 +8,18 @@
     "test": "jest",
     "tdd": "jest --watch",
     "lint": "eslint test src",
-    "docs": "rimraf ./docs/bundle.js && webpack-dev-server --config docs/webpack.config.js",
+    "docs":
+      "rimraf ./docs/bundle.js && webpack-dev-server --config docs/webpack.config.js",
     "build:docs": "webpack --config docs/webpack.config.js",
     "build:esm": "BABEL_ENV=esm babel src --out-dir lib/es",
-    "build": "npm run test && npm run build:docs && babel src --out-dir lib && npm run build:esm",
-    "release": "release",
-    "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release"
+    "build":
+      "npm run test && npm run build:docs && babel src --out-dir lib && npm run build:esm"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jquense/topeka.git"
   },
-  "keywords": [
-    "react",
-    "binding",
-    "input",
-    "form",
-    "valueLink"
-  ],
+  "keywords": ["react", "binding", "input", "form", "valueLink"],
   "author": "Jason Quense <monastic.panic@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -34,12 +27,11 @@
   },
   "homepage": "https://github.com/jquense/topeka#readme",
   "jest": {
-    "roots": [
-      "test"
-    ],
+    "roots": ["test"],
     "setupTestFrameworkScriptFile": "./test/setup.js"
   },
   "devDependencies": {
+    "@4c/semantic-release-config": "^1.0.1",
     "@babel/cli": "^7.0.0-beta.42",
     "@babel/core": "^7.0.0-beta.42",
     "@monastic.panic/component-playground": "^3.0.0",
@@ -68,7 +60,6 @@
     "react-component-metadata": "^3.1.0",
     "react-dom": "^16.2.0",
     "react-overlays": "^0.8.3",
-    "release-script": "^1.0.2",
     "rimraf": "^2.4.3",
     "sinon": "^4.4.10",
     "sinon-chai": "^2.8.0",
@@ -82,7 +73,6 @@
     "react": "^0.14.9 || >=15.3.0"
   },
   "dependencies": {
-    "@4c/semantic-release-config": "^1.0.1",
     "@babel/runtime": "^7.0.0-beta.42",
     "classnames": "^2.2.5",
     "create-react-context": "^0.2.1",
@@ -91,8 +81,8 @@
     "react-lifecycles-compat": "^1.0.2",
     "uncontrollable": "^5.0.0"
   },
-  "release-script": {
-    "defaultDryRun": "false",
-    "altPkgRootFolder": "lib"
+  "release": {
+    "pkgRoot": "lib",
+    "extends": ["@4c/semantic-release-config"]
   }
 }
