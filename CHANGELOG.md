@@ -1,3 +1,11 @@
+<a name="2.1.5"></a>
+## [2.1.5](https://github.com/jquense/topeka/compare/v2.1.4...v2.1.5) (2018-04-09)
+
+
+### Bug Fixes
+
+* include the code in the pubplished package…again ([564e7f2](https://github.com/jquense/topeka/commit/564e7f2))
+
 <a name="2.1.4"></a>
 ## [2.1.4](https://github.com/jquense/topeka/compare/v2.1.3...v2.1.4) (2018-04-09)
 
