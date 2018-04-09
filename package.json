@@ -11,7 +11,8 @@
     "docs": "rimraf ./docs/bundle.js && webpack-dev-server --config docs/webpack.config.js",
     "build:docs": "webpack --config docs/webpack.config.js",
     "build:esm": "BABEL_ENV=esm babel src --out-dir lib/es",
-    "build": "npm run test && npm run build:docs && babel src --out-dir lib && npm run build:esm"
+    "build": "npm run test && npm run build:docs && babel src --out-dir lib && npm run build:esm",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
