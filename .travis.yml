@@ -5,6 +5,7 @@ notifications:
 node_js: 'stable'
 
 after_success:
+  - yarn run build
   - yarn travis-deploy-once "yarn semantic-release"
 branches:
   except:
