@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import uncontrollable from 'uncontrollable'
 import invariant from 'invariant'
 import expr from 'property-expr'
-import polyfill from 'react-lifecycles-compat'
-import createContext from 'create-react-context'
+import { polyfill } from 'react-lifecycles-compat'
 
 import updateIn from './updateIn'
 
@@ -21,7 +20,7 @@ function wrapSetter(setter) {
   }
 }
 
-export const { Provider, Consumer } = createContext({
+export const { Provider, Consumer } = React.createContext({
   getValue() {},
   updateBindingValue() {},
 })
