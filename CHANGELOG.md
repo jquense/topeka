@@ -1,3 +1,16 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/jquense/topeka/compare/v2.1.5...v3.0.0) (2018-05-07)
+
+
+### Features
+
+* use modern context API ([874c2a9](https://github.com/jquense/topeka/commit/874c2a9))
+
+
+### BREAKING CHANGES
+
+* requires react 16.3+
+
 <a name="2.1.5"></a>
 ## [2.1.5](https://github.com/jquense/topeka/compare/v2.1.4...v2.1.5) (2018-04-09)
 
