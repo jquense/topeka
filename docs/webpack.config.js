@@ -18,5 +18,5 @@ module.exports = {
   module: {
     rules: [rules.js(), rules.css(), rules.less()],
   },
-  plugins: [plugins.extractText()],
+  plugins: [plugins.extractCss()],
 }
