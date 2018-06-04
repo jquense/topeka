@@ -3,15 +3,15 @@
   "version": "3.0.1",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "index.js",
-  "modules": "index.mjs",
+  "modules": "es/index.js",
   "scripts": {
     "test": "jest",
     "tdd": "jest --watch",
     "lint": "eslint test src",
     "docs": "rimraf ./docs/bundle.js && webpack-dev-server --config docs/webpack.config.js --mode production",
     "build:docs": "webpack --config docs/webpack.config.js",
-    "build:esm": " babel src --out-dir lib --delete-dir-on-start --env-name esm && file-butler mjs lib -d lib && rimraf lib/*.js",
-    "build": "npm run build:esm && babel src --out-dir lib",
+    "build:esm": " babel src --out-dir lib/es --delete-dir-on-start --env-name esm",
+    "build": "babel src --out-dir lib --delete-dir-on-start && npm run build:esm",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -38,7 +38,6 @@
     "setupTestFrameworkScriptFile": "./test/setup.js"
   },
   "devDependencies": {
-    "@4c/file-butler": "^1.0.2",
     "@4c/semantic-release-config": "^1.0.2",
     "@babel/cli": "^7.0.0-beta.49",
     "@babel/core": "^7.0.0-beta.49",
