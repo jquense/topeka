@@ -1,3 +1,12 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/jquense/topeka/compare/v3.0.0...v3.0.1) (2018-06-04)
+
+
+### Bug Fixes
+
+* library build ([12c2ffb](https://github.com/jquense/topeka/commit/12c2ffb))
+* run on node 10 ([e91300c](https://github.com/jquense/topeka/commit/e91300c))
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/jquense/topeka/compare/v2.1.5...v3.0.0) (2018-05-07)
 
