@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/jquense/topeka/compare/v3.0.2...v3.1.0) (2018-09-07)
+
+
+### Features
+
+* bump babel to v7 ([6b6353a](https://github.com/jquense/topeka/commit/6b6353a))
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/jquense/topeka/compare/v3.0.1...v3.0.2) (2018-06-04)
 
