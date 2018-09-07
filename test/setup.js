@@ -1,5 +1,5 @@
 const Enzyme = require('enzyme')
-const Adapter = require('@monastic.panic/enzyme-adapter-react-16')
+const Adapter = require('enzyme-adapter-react-16')
 
 const chai = require('chai')
 const sinonChai = require('sinon-chai')
