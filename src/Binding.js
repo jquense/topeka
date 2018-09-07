@@ -13,6 +13,9 @@ function extractTargetValue(arg) {
   return arg
 }
 
+/**
+ * Hello
+ */
 class Binding extends React.PureComponent {
   static propTypes = {
     /**
