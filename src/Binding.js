@@ -7,7 +7,7 @@ import StaticContainer from './StaticContainer'
 
 function extractTargetValue(eventOrValue) {
   if (!eventOrValue || !eventOrValue.target) return eventOrValue
-  const { type, value, checked } = eventOrValue
+  const { type, value, checked } = eventOrValue.target
 
   if (/number|range/.test(type)) {
     let parsed = parseFloat(value)
