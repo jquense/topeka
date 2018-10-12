@@ -1,3 +1,15 @@
+# [3.2.0](https://github.com/jquense/topeka/compare/v3.1.0...v3.2.0) (2018-10-12)
+
+
+### Bug Fixes
+
+* remove unused polyfill and touched ([19f9918](https://github.com/jquense/topeka/commit/19f9918))
+
+
+### Features
+
+* parse number and range values to numbers ([4b16b5b](https://github.com/jquense/topeka/commit/4b16b5b))
+
 # [3.1.0](https://github.com/jquense/topeka/compare/v3.0.2...v3.1.0) (2018-09-07)
 
 
