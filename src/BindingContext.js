@@ -82,12 +82,8 @@ class BindingContext extends React.Component {
     setter: defaultSetter,
   }
 
-  static getDerivedStateFromProps({ value, getter, touched }, prevState) {
-    if (
-      value === prevState.value &&
-      getter === prevState.getter &&
-      touched === prevState.touched
-    ) {
+  static getDerivedStateFromProps({ value, getter }, prevState) {
+    if (value === prevState.value && getter === prevState.getter) {
       return null
     }
 

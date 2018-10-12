@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { polyfill } from 'react-lifecycles-compat'
 
 import { Consumer } from './BindingContext'
 import createBridge from './createChildBridge'
@@ -201,4 +200,4 @@ class Binding extends React.PureComponent {
   }
 }
 
-export default polyfill(Binding)
+export default Binding
