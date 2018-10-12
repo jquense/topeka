@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/jquense/topeka/compare/v3.2.0...v3.2.1) (2018-10-12)
+
+
+### Bug Fixes
+
+* use target on event ([45a4666](https://github.com/jquense/topeka/commit/45a4666))
+
 # [3.2.0](https://github.com/jquense/topeka/compare/v3.1.0...v3.2.0) (2018-10-12)
 
 
