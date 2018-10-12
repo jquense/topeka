@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import uncontrollable from 'uncontrollable'
 import invariant from 'invariant'
 import expr from 'property-expr'
-import { polyfill } from 'react-lifecycles-compat'
 
 import updateIn from './updateIn'
 
@@ -83,8 +82,12 @@ class BindingContext extends React.Component {
     setter: defaultSetter,
   }
 
-  static getDerivedStateFromProps({ value, getter }, prevState) {
-    if (value === prevState.value && getter === prevState.getter) {
+  static getDerivedStateFromProps({ value, getter, touched }, prevState) {
+    if (
+      value === prevState.value &&
+      getter === prevState.getter &&
+      touched === prevState.touched
+    ) {
       return null
     }
 
@@ -145,4 +148,7 @@ class BindingContext extends React.Component {
   }
 }
 
-export default uncontrollable(polyfill(BindingContext), { value: 'onChange' })
+export default uncontrollable(BindingContext, {
+  value: 'onChange',
+  touched: 'onTouch',
+})

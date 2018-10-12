@@ -6,11 +6,16 @@ import { Consumer } from './BindingContext'
 import createBridge from './createChildBridge'
 import StaticContainer from './StaticContainer'
 
-function extractTargetValue(arg) {
-  if (arg && arg.target && arg.target.tagName) {
-    return arg.target.value
+function extractTargetValue(eventOrValue) {
+  if (!eventOrValue || !eventOrValue.target) return eventOrValue
+  const { type, value, checked } = eventOrValue
+
+  if (/number|range/.test(type)) {
+    let parsed = parseFloat(value)
+    return isNaN(parsed) ? null : parsed
   }
-  return arg
+
+  return /checkbox|radio/.test(type) ? checked : value
 }
 
 /**
