@@ -7,8 +7,9 @@ import StaticContainer from './StaticContainer'
 
 function extractTargetValue(eventOrValue) {
   if (!eventOrValue || !eventOrValue.target) return eventOrValue
-  const { type, value, checked } = eventOrValue.target
+  const { type, value, checked, multiple, files } = eventOrValue.target
 
+  if (type === 'file') return multiple ? files : files[0]
   if (/number|range/.test(type)) {
     let parsed = parseFloat(value)
     return isNaN(parsed) ? null : parsed
