@@ -1,5 +1,6 @@
 module.exports = api => ({
   presets: [
+    '@babel/typescript',
     [
       'jason',
       {
