@@ -3,10 +3,6 @@ cache: "yarn"
 notifications:
   email: false
 node_js: "10"
-
-after_success:
-  - yarn run build
-  - yarn travis-deploy-once "yarn semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
