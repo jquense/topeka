@@ -1,3 +1,14 @@
+## [4.0.3](https://github.com/jquense/topeka/compare/v4.0.1...v4.0.3) (2019-03-09)
+
+
+### Bug Fixes
+
+* build ([c381b75](https://github.com/jquense/topeka/commit/c381b75))
+
+
+
+
+
 # [3.3.0](https://github.com/jquense/topeka/compare/v3.2.1...v3.3.0) (2018-10-12)
 
 
