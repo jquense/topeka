@@ -1,3 +1,14 @@
+# [4.2.0](https://github.com/jquense/topeka/compare/v4.0.3...v4.2.0) (2019-03-11)
+
+
+### Features
+
+* fixup ts types ([8c6b1a7](https://github.com/jquense/topeka/commit/8c6b1a7))
+
+
+
+
+
 ## [4.0.3](https://github.com/jquense/topeka/compare/v4.0.1...v4.0.3) (2019-03-09)
 
 
