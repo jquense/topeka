@@ -20,7 +20,7 @@ function extractTargetValue<TIn = any>(eventOrValue: SyntheticEvent | TIn) {
     files,
   } = eventOrValue.target as HTMLInputElement
 
-  if (type === 'file') return multiple ? files : files[0]
+  if (type === 'file') return multiple ? files : files && files[0]
   if (/number|range/.test(type)) {
     let parsed = parseFloat(value)
     return isNaN(parsed) ? null : parsed

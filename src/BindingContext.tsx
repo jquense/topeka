@@ -7,10 +7,21 @@ import expr from 'property-expr'
 import updateIn from './updateIn'
 import { MapToValue, Mapper } from './useBinding'
 
-let defaultSetter = (path, model, val) => updateIn(model, path, val)
+type PropsSetter<TValue> = Props<TValue>['setter']
 
-function wrapSetter(setter: any) {
+type BindingValue = {} | unknown[]
+
+function defaultSetter<TValue extends BindingValue>(
+  path: string,
+  value: TValue | undefined,
+  fieldValue: unknown
+) {
+  return updateIn(value, path, fieldValue)
+}
+
+function wrapSetter<TValue>(setter: PropsSetter<TValue>): PropsSetter<TValue> {
   return (...args: any[]) => {
+    // @ts-ignore
     var result = setter(...args)
     invariant(
       result && typeof result === 'object',
@@ -20,35 +31,39 @@ function wrapSetter(setter: any) {
   }
 }
 
-type ReactBindingContext<T> = {
+type ReactBindingContext = {
   getValue<T>(path: Mapper<T> | keyof T): T
   updateBindingValue<T>(path: MapToValue<T>, args: any[]): void
 }
 
-export const Context = React.createContext<ReactBindingContext<any>>({
-  getValue<T>(_path: Mapper<T> | keyof T): T {
-    return
-  },
-  updateBindingValue<T>(_path: MapToValue<T>, _args: any[]) {},
-})
+export const Context = React.createContext<ReactBindingContext>({
+  getValue() {},
+  updateBindingValue() {},
+} as any)
 
-type Setter = <TValue>(path: string, value: TValue, fieldValue: any) => TValue
+type Setter<TValue extends BindingValue> = (
+  path: string,
+  value: TValue | undefined,
+  fieldValue: unknown
+) => TValue
 
-type Props<TValue> = {
+type Props<TValue extends BindingValue> = {
   value?: TValue
   defaultValue?: TValue
   onChange(value: TValue, paths: string[]): void
-  getter?: (path: string, value: TValue) => any
+  getter?: (path: string, value?: TValue) => any
   setter?: (
     path: string,
-    value: TValue,
-    fieldValue: any,
-    defaultSetter: Setter
+    value: TValue | undefined,
+    fieldValue: unknown,
+    defaultSetter: Setter<TValue>
   ) => TValue
   children?: React.ReactNode
 }
 
-function BindingContext<TValue>(uncontrolledProps: Props<TValue>) {
+function BindingContext<TValue extends BindingValue>(
+  uncontrolledProps: Props<TValue>
+) {
   let {
     value: model,
     onChange,
@@ -58,12 +73,12 @@ function BindingContext<TValue>(uncontrolledProps: Props<TValue>) {
   }: Props<TValue> = useUncontrolled(uncontrolledProps, { value: 'onChange' })
 
   if (process.env.NODE_ENV !== 'production') {
-    setter = wrapSetter(setter)
+    setter = wrapSetter(setter!)
   }
 
   const updateBindingValue = useCallback(
     (mapValue, args) => {
-      let paths = []
+      let paths: string[] = []
 
       Object.keys(mapValue).forEach(key => {
         let field = mapValue[key]
@@ -78,9 +93,9 @@ function BindingContext<TValue>(uncontrolledProps: Props<TValue>) {
 
         if (paths.indexOf(key) === -1) paths.push(key)
 
-        model = setter(key, model, value, defaultSetter)
+        model = setter!(key, model, value, defaultSetter)
       })
-      onChange(model, paths)
+      onChange(model!, paths)
     },
     [model, onChange, setter]
   )
@@ -89,7 +104,7 @@ function BindingContext<TValue>(uncontrolledProps: Props<TValue>) {
     pathOrAccessor =>
       typeof pathOrAccessor === 'function'
         ? pathOrAccessor(model, getter)
-        : getter(pathOrAccessor, model),
+        : getter!(pathOrAccessor, model),
     [getter, model]
   )
 
