@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import invariant from 'invariant'
 import PropTypes from 'prop-types'
 import expr from 'property-expr'
@@ -21,7 +22,7 @@ function defaultSetter<TValue extends BindingValue>(
 function wrapSetter<TValue>(setter: PropsSetter<TValue>): PropsSetter<TValue> {
   return (...args: any[]) => {
     // @ts-ignore
-    var result = setter(...args)
+    const result = setter(...args)
     invariant(
       result && typeof result === 'object',
       '`setter(..)` props must return the form value object after updating a value.',

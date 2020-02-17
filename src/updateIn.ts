@@ -27,7 +27,7 @@ function clean(part: string) {
 export default function update<T>(
   model: T | undefined,
   path: string,
-  value: any
+  value: any,
 ): T {
   let parts = prop.split(path)
   let newModel: any = copy(model)
@@ -36,9 +36,9 @@ export default function update<T>(
 
   if (newModel == null) newModel = IS_ARRAY.test(parts[0]) ? [] : {}
 
-  var current = newModel
+  let current = newModel
 
-  for (var idx = 0; idx < parts.length; idx++) {
+  for (let idx = 0; idx < parts.length; idx++) {
     islast = idx === parts.length - 1
     part = clean(parts[idx])
 

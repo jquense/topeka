@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-
+import { useMemo } from 'react'
 import useBinding from './useBinding'
 
 const propTypes = {
@@ -65,20 +64,20 @@ const propTypes = {
    *
    * @type func | string | object
    */
-  mapValue(props, propName, componentName, ...args) {
+  mapValue(props, propName, componentName, loc, secret) {
     if (
       typeof props.bindTo === 'function' &&
       typeof props[propName] === 'function'
     )
       return new Error(
-        `${propName} must be an Object or a string, when \`bindTo\` is a function`
+        `${propName} must be an Object or a string, when \`bindTo\` is a function`,
       )
     // @ts-ignore
     return PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
       PropTypes.func,
-    ])(props, propName, componentName, ...args)
+    ])(props, propName, componentName, loc, secret)
   },
 
   /**

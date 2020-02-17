@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "lib/index.js",
   "module": "lib/es/index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "tdd": "jest --watch",
-    "lint": "eslint test src --ext .ts, .tsx, .js",
+    "lint": "eslint test src --ext .ts --ext .tsx --ext .js",
     "docs": "rimraf ./docs/bundle.js && webpack-dev-server --config docs/webpack.config.js --mode production",
     "build:docs": "webpack --config docs/webpack.config.js",
     "build": "4c build src -d lib",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jquense/topeka.git"
+    "url": "git+https://github.com/jquense/topeka.git"
   },
   "keywords": [
     "react",
@@ -26,7 +26,10 @@
     "form",
     "valueLink"
   ],
-  "author": "Jason Quense <monastic.panic@gmail.com>",
+  "author": {
+    "name": "Jason Quense",
+    "email": "monastic.panic@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jquense/topeka/issues"
@@ -50,7 +53,7 @@
     "@monastic.panic/component-playground": "^3.0.0",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.19",
-    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^25.1.0",
@@ -66,6 +69,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.4.0",
+    "eslint-config-4catalyzer-typescript": "^1.1.6",
     "jest": "^25.1.0",
     "lodash": "^4.17.15",
     "marked": "^0.8.0",
@@ -99,5 +103,7 @@
   "release": {
     "publishDir": "lib",
     "conventionalCommits": true
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "topeka@4.2.0"
 }

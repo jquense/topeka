@@ -1,3 +1,14 @@
+## [4.2.1](https://github.com/jquense/topeka/compare/v4.2.0...v4.2.1) (2020-02-17)
+
+
+### Bug Fixes
+
+* bad use of in operator ([a73fedf](https://github.com/jquense/topeka/commit/a73fedf9c83018937823d736f2d86b2c278a2832))
+
+
+
+
+
 # [4.2.0](https://github.com/jquense/topeka/compare/v4.0.3...v4.2.0) (2019-03-11)
 
 
