@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import useUncontrolled from 'uncontrollable/hook'
 import invariant from 'invariant'
+import PropTypes from 'prop-types'
 import expr from 'property-expr'
-
+import React, { useCallback, useMemo } from 'react'
+import { useUncontrolledProp } from 'uncontrollable'
 import updateIn from './updateIn'
 import { MapToValue, Mapper } from './useBinding'
 
@@ -14,7 +13,7 @@ type BindingValue = {} | unknown[]
 function defaultSetter<TValue extends BindingValue>(
   path: string,
   value: TValue | undefined,
-  fieldValue: unknown
+  fieldValue: unknown,
 ) {
   return updateIn(value, path, fieldValue)
 }
@@ -25,7 +24,7 @@ function wrapSetter<TValue>(setter: PropsSetter<TValue>): PropsSetter<TValue> {
     var result = setter(...args)
     invariant(
       result && typeof result === 'object',
-      '`setter(..)` props must return the form value object after updating a value.'
+      '`setter(..)` props must return the form value object after updating a value.',
     )
     return result
   }
@@ -44,7 +43,7 @@ export const Context = React.createContext<ReactBindingContext>({
 type Setter<TValue extends BindingValue> = (
   path: string,
   value: TValue | undefined,
-  fieldValue: unknown
+  fieldValue: unknown,
 ) => TValue
 
 type Props<TValue extends BindingValue> = {
@@ -56,21 +55,24 @@ type Props<TValue extends BindingValue> = {
     path: string,
     value: TValue | undefined,
     fieldValue: unknown,
-    defaultSetter: Setter<TValue>
+    defaultSetter: Setter<TValue>,
   ) => TValue
   children?: React.ReactNode
 }
 
-function BindingContext<TValue extends BindingValue>(
-  uncontrolledProps: Props<TValue>
-) {
-  let {
-    value: model,
-    onChange,
-    getter,
-    setter,
-    children,
-  }: Props<TValue> = useUncontrolled(uncontrolledProps, { value: 'onChange' })
+function BindingContext<TValue extends BindingValue>({
+  value: propsValue,
+  defaultValue,
+  onChange: propsOnChange,
+  getter,
+  setter,
+  children,
+}: Props<TValue>) {
+  let [model, onChange] = useUncontrolledProp(
+    propsValue,
+    defaultValue,
+    propsOnChange,
+  )
 
   if (process.env.NODE_ENV !== 'production') {
     setter = wrapSetter(setter!)
@@ -97,7 +99,7 @@ function BindingContext<TValue extends BindingValue>(
       })
       onChange(model!, paths)
     },
-    [model, onChange, setter]
+    [model, onChange, setter],
   )
 
   const getValue = useCallback(
@@ -105,7 +107,7 @@ function BindingContext<TValue extends BindingValue>(
       typeof pathOrAccessor === 'function'
         ? pathOrAccessor(model, getter)
         : getter!(pathOrAccessor, model),
-    [getter, model]
+    [getter, model],
   )
 
   const contextValue = useMemo(() => ({ getValue, updateBindingValue }), [

@@ -1,8 +1,7 @@
+import { mount } from 'enzyme'
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
 import sinon from 'sinon'
-import { mount } from 'enzyme'
-
 import { Binding, BindingContext, useBinding } from '../src'
 
 describe('Bindings', () => {
@@ -26,13 +25,41 @@ describe('Bindings', () => {
     let inst = mount(
       <BindingContext onChange={change}>
         <BoundInput name="name" />
-      </BindingContext>
+      </BindingContext>,
     )
 
     inst
       .find('input')
       .first()
-      .simulate('change', { target: { value: 'Jill', tagName: 'DIV' } })
+      .simulate('change', { target: { value: 'Jill' } })
+
+    change.should.have.been.calledOnce.and.calledWith({ name: 'Jill' })
+  })
+
+  it.only('should accept primitive values', function() {
+    let change = sinon.spy()
+
+    const BoundInput = ({ name }) => {
+      const [value = '', handleChange] = useBinding(name)
+      return (
+        <input
+          type="text"
+          value={value}
+          onChange={e => handleChange(e.target.value)}
+        />
+      )
+    }
+
+    let inst = mount(
+      <BindingContext onChange={change}>
+        <BoundInput name="name" />
+      </BindingContext>,
+    )
+
+    inst
+      .find('input')
+      .first()
+      .simulate('change', { target: { value: 'Jill' } })
 
     change.should.have.been.calledOnce.and.calledWith({ name: 'Jill' })
   })
@@ -47,13 +74,13 @@ describe('Bindings', () => {
             <input value={value || ''} onChange={onChange} {...this.props} />
           )}
         </Binding>
-      </BindingContext>
+      </BindingContext>,
     )
 
     inst
       .find('input')
       .first()
-      .simulate('change', { target: { value: 'Jill', tagName: 'DIV' } })
+      .simulate('change', { target: { value: 'Jill' } })
 
     change.should.have.been.calledOnce.and.calledWith({ name: 'Jill' })
   })
@@ -76,7 +103,7 @@ describe('Bindings', () => {
         <StaticContainer shouldUpdate={false}>
           <CountRenders name="name" />
         </StaticContainer>
-      </BindingContext>
+      </BindingContext>,
     )
 
     count.should.equal(0)

@@ -1,5 +1,4 @@
-import { useContext, useCallback, SyntheticEvent } from 'react'
-
+import { SyntheticEvent, useCallback, useContext } from 'react'
 import { Context } from './BindingContext'
 
 export type Mapper<TOut, TIn = any> = (input: TIn) => TOut
@@ -10,7 +9,12 @@ export type MapToValue<TValue, TIn = any> =
   | { [P in keyof TValue]?: string | Mapper<TValue[P]> }
 
 function extractTargetValue<TIn = any>(eventOrValue: SyntheticEvent | TIn) {
-  if (!eventOrValue || !('target' in eventOrValue)) return eventOrValue
+  if (
+    !eventOrValue ||
+    typeof eventOrValue !== 'object' ||
+    !('target' in eventOrValue)
+  )
+    return eventOrValue
 
   const {
     type,
@@ -31,7 +35,7 @@ function extractTargetValue<TIn = any>(eventOrValue: SyntheticEvent | TIn) {
 
 function useBinding<TValue, TIn = any>(
   bindTo: Mapper<TValue> | keyof TValue,
-  mapValue: MapToValue<TValue, TIn> = extractTargetValue as any
+  mapValue: MapToValue<TValue, TIn> = extractTargetValue as any,
 ) {
   const { getValue, updateBindingValue } = useContext(Context)
 
@@ -46,7 +50,7 @@ function useBinding<TValue, TIn = any>(
         updateBindingValue(mapper, args)
       }
     },
-    [bindTo, mapValue, updateBindingValue]
+    [bindTo, mapValue, updateBindingValue],
   )
 
   const value = getValue(bindTo)
