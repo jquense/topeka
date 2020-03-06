@@ -2,10 +2,11 @@
 import invariant from 'invariant'
 import PropTypes from 'prop-types'
 import expr from 'property-expr'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useContext } from 'react'
 import { useUncontrolledProp } from 'uncontrollable'
 import updateIn from './updateIn'
-import { MapToValue, Mapper } from './useBinding'
+import { MapToValue } from './useBinding'
+import { Mapper } from './useValue'
 
 type PropsSetter<TValue> = Props<TValue>['setter']
 
@@ -40,6 +41,10 @@ export const Context = React.createContext<ReactBindingContext>({
   getValue() {},
   updateBindingValue() {},
 } as any)
+
+export const useBindingContext = () => {
+  return useContext(Context)
+}
 
 type Setter<TValue extends BindingValue> = (
   path: string,
