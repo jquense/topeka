@@ -1,3 +1,14 @@
+## [4.4.1](https://github.com/jquense/topeka/compare/v4.4.0...v4.4.1) (2020-03-06)
+
+
+### Bug Fixes
+
+* update mapper ([b2e0eca](https://github.com/jquense/topeka/commit/b2e0eca))
+
+
+
+
+
 # [4.4.0](https://github.com/jquense/topeka/compare/v4.3.0...v4.4.0) (2020-03-06)
 
 

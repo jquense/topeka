@@ -1,6 +1,6 @@
 {
   "name": "topeka",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "Idiomatic, two-way bindings, in React",
   "main": "lib/index.js",
   "module": "lib/es/index.js",
@@ -107,5 +107,5 @@
     "conventionalCommits": true
   },
   "readme": "ERROR: No README data found!",
-  "_id": "topeka@4.3.0"
+  "_id": "topeka@4.4.0"
 }
