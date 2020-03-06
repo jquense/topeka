@@ -90,7 +90,7 @@ function BindingContext<TValue extends BindingValue>({
       let nextModel = model
       Object.keys(mapValue).forEach(key => {
         let field = mapValue[key]
-        let value
+        let value: any
 
         if (typeof field === 'function') value = field(...args)
         else if (field === '.' || field == null || args[0] == null)
@@ -101,7 +101,7 @@ function BindingContext<TValue extends BindingValue>({
 
         if (paths.indexOf(key) === -1) paths.push(key)
 
-        nextModel = setter!(key, model, value, defaultSetter)
+        nextModel = setter!(key, nextModel, value, defaultSetter)
       })
       onChange(nextModel!, paths)
     },
