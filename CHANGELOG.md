@@ -1,3 +1,14 @@
+# [4.3.0](https://github.com/jquense/topeka/compare/v4.2.2...v4.3.0) (2020-03-06)
+
+
+### Features
+
+* use more focused compilation browser support to ESM support ([d290787](https://github.com/jquense/topeka/commit/d290787))
+
+
+
+
+
 ## [4.2.2](https://github.com/jquense/topeka/compare/v4.2.0...v4.2.2) (2020-02-17)
 
 
