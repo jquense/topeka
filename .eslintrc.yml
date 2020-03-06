@@ -7,9 +7,3 @@ rules:
   prefer-const: "off"
   func-call-spacing: "off"
   "@typescript-eslint/member-delimiter-style": off
-  no-unused-vars:
-    - error
-    - vars: all
-      args: after-used
-      varsIgnorePattern: ^_
-      argsIgnorePattern: ^_

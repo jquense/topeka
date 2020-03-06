@@ -2,9 +2,9 @@ module.exports = api => ({
   presets: [
     '@babel/typescript',
     [
-      'jason',
+      'babel-preset-jason/esm',
       {
-        modules: api.env() === 'esm' ? false : 'commonjs',
+        modules: api.env() !== 'esm',
       },
     ],
   ],

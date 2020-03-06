@@ -82,7 +82,7 @@ function BindingContext<TValue extends BindingValue>({
   const updateBindingValue = useCallback(
     (mapValue, args) => {
       let paths: string[] = []
-
+      let nextModel = model
       Object.keys(mapValue).forEach(key => {
         let field = mapValue[key]
         let value
@@ -96,9 +96,9 @@ function BindingContext<TValue extends BindingValue>({
 
         if (paths.indexOf(key) === -1) paths.push(key)
 
-        model = setter!(key, model, value, defaultSetter)
+        nextModel = setter!(key, model, value, defaultSetter)
       })
-      onChange(model!, paths)
+      onChange(nextModel!, paths)
     },
     [model, onChange, setter],
   )

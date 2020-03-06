@@ -2,7 +2,6 @@
   "extends": "@4c/tsconfig/web.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "*": ["types/*"] },
     "noImplicitAny": false
   }
 }
