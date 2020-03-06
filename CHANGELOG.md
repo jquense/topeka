@@ -1,3 +1,14 @@
+# [4.4.0](https://github.com/jquense/topeka/compare/v4.3.0...v4.4.0) (2020-03-06)
+
+
+### Features
+
+* add more exports ([cb1edcd](https://github.com/jquense/topeka/commit/cb1edcd))
+
+
+
+
+
 # [4.3.0](https://github.com/jquense/topeka/compare/v4.2.2...v4.3.0) (2020-03-06)
 
 
