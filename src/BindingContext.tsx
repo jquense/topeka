@@ -2,6 +2,7 @@
 import invariant from 'invariant'
 import PropTypes from 'prop-types'
 import expr from 'property-expr'
+import useUpdatedRef from '@restart/hooks/useUpdatedRef'
 import React, { useCallback, useMemo, useContext } from 'react'
 import { useUncontrolledProp } from 'uncontrollable'
 import updateIn from './updateIn'
@@ -83,11 +84,14 @@ function BindingContext<TValue extends BindingValue>({
   if (process.env.NODE_ENV !== 'production') {
     setter = wrapSetter(setter!)
   }
+  const modelRef = useUpdatedRef(model)
 
   const updateBindingValue = useCallback(
     (mapValue, args) => {
       let paths: string[] = []
-      let nextModel = model
+      // XXX: Concurrent mode YOLO
+      let nextModel = modelRef.current
+
       Object.keys(mapValue).forEach(key => {
         let field = mapValue[key]
         let value: any
@@ -105,7 +109,7 @@ function BindingContext<TValue extends BindingValue>({
       })
       onChange(nextModel!, paths)
     },
-    [model, onChange, setter],
+    [modelRef, onChange, setter],
   )
 
   const getValue = useCallback(
