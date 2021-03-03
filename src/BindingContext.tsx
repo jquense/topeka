@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import invariant from 'invariant'
 import PropTypes from 'prop-types'
 import expr from 'property-expr'
 import useUpdatedRef from '@restart/hooks/useUpdatedRef'
@@ -9,9 +8,7 @@ import updateIn from './updateIn'
 import { MapToValue } from './useBinding'
 import { Mapper } from './useValue'
 
-type PropsSetter<TValue> = Props<TValue>['setter']
-
-type BindingValue = {} | unknown[]
+type BindingValue = Record<PropertyKey, any> | unknown[]
 
 function defaultSetter<TValue extends BindingValue>(
   path: string,
@@ -19,18 +16,6 @@ function defaultSetter<TValue extends BindingValue>(
   fieldValue: unknown,
 ) {
   return updateIn(value, path, fieldValue)
-}
-
-function wrapSetter<TValue>(setter: PropsSetter<TValue>): PropsSetter<TValue> {
-  return (...args: any[]) => {
-    // @ts-ignore
-    const result = setter(...args)
-    invariant(
-      result && typeof result === 'object',
-      '`setter(..)` props must return the form value object after updating a value.',
-    )
-    return result
-  }
 }
 
 type ReactBindingContext = {
@@ -81,9 +66,6 @@ function BindingContext<TValue extends BindingValue>({
     propsOnChange,
   )
 
-  if (process.env.NODE_ENV !== 'production') {
-    setter = wrapSetter(setter!)
-  }
   const modelRef = useUpdatedRef(model)
 
   const updateBindingValue = useCallback(
@@ -92,7 +74,7 @@ function BindingContext<TValue extends BindingValue>({
       // XXX: Concurrent mode YOLO
       let nextModel = modelRef.current
 
-      Object.keys(mapValue).forEach(key => {
+      Object.keys(mapValue).forEach((key) => {
         let field = mapValue[key]
         let value: any
 
@@ -113,7 +95,7 @@ function BindingContext<TValue extends BindingValue>({
   )
 
   const getValue = useCallback(
-    pathOrAccessor =>
+    (pathOrAccessor) =>
       typeof pathOrAccessor === 'function'
         ? pathOrAccessor(model, getter)
         : getter!(pathOrAccessor, model),
