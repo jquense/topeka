@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
-import { useMemo } from 'react'
-import useBinding from './useBinding'
+import PropTypes from 'prop-types';
+import { useMemo } from 'react';
+import useBinding from './useBinding';
 
 const propTypes = {
   /**
@@ -8,7 +8,7 @@ const propTypes = {
    * from the overall BindingContext value. If a function, it's called
    * with the form value, and the current Form `getter`.
    *
-   * ```js
+   * ```jsx
    * <Binding bindTo='details.name'>
    *   <input />
    * </Binding>
@@ -33,7 +33,7 @@ const propTypes = {
    * **note:** the default value will attempt to extract the value from `target.value`
    * so that native inputs will just work as expected.
    *
-   * ```js
+   * ```jsx
    * <Binding
    *   bindTo='name'
    *   mapValue={dropdownValue =>
@@ -64,27 +64,28 @@ const propTypes = {
    *
    * @type func | string | object
    */
-  mapValue(props, propName, componentName, loc, secret) {
+  mapValue(props, propName, ...args) {
     if (
       typeof props.bindTo === 'function' &&
       typeof props[propName] === 'function'
     )
       return new Error(
-        `${propName} must be an Object or a string, when \`bindTo\` is a function`,
-      )
+        `${propName} must be an Object or a string, when \`bindTo\` is a function`
+      );
     // @ts-ignore
     return PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
       PropTypes.func,
-    ])(props, propName, componentName, loc, secret)
+      // @ts-ignore
+    ])(props, propName, ...args);
   },
 
   /**
    * A render function that returns a react element and is
    * passed the binding callbacks and value.
    *
-   * ```js
+   * ```jsx
    * let Surround = (onChange) => <div value={value}>{props.children}</div>
    *
    * <Binding>
@@ -97,26 +98,26 @@ const propTypes = {
    * ```
    */
   children: PropTypes.func.isRequired,
-}
+};
 
 const defaultProps = {
   changeProp: 'onChange',
   valueProp: 'value',
-}
+};
 
 function Binding<TValue>({ bindTo, mapValue, children }) {
-  const [value, handleEvent] = useBinding<TValue>(bindTo, mapValue)
+  const [value, handleEvent] = useBinding<TValue>(bindTo, mapValue);
 
   const element = useMemo(() => children(value, handleEvent), [
     value,
     handleEvent,
     children,
-  ])
+  ]);
 
-  return element
+  return element;
 }
 
-Binding.defaultProps = defaultProps
-Binding.propTypes = propTypes
+Binding.defaultProps = defaultProps;
+Binding.propTypes = propTypes;
 
-export default Binding
+export default Binding;
