@@ -1,3 +1,14 @@
+## [4.4.3](https://github.com/jquense/topeka/compare/v4.4.2...v4.4.3) (2021-04-02)
+
+
+### Bug Fixes
+
+* change batching ([18c8158](https://github.com/jquense/topeka/commit/18c8158a87d57696ba4e27cc3c5608f5f75c36d6))
+
+
+
+
+
 ## [4.4.1](https://github.com/jquense/topeka/compare/v4.4.0...v4.4.1) (2020-03-06)
 
 
